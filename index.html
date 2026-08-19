@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_55.html -->
+<!-- saved from url=(0045)file:///C:/Users/Usuario/Downloads/index.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,7 +243,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <div class="topbar-meta">
       COTIZADOR INTERNO<br>
-      <span id="fechaHoy">18 de agosto de 2026</span>
+      <span id="fechaHoy">19 de agosto de 2026</span>
     </div>
   </div>
 </div>
@@ -585,6 +585,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div class="field" id="oc-venc-wrap" style="display:none;"><label>Fecha de vencimiento</label><input type="date" id="oc-vencimiento"></div>
         <div class="field" id="oc-anticipo-wrap" style="display:none;"><label>Valor del anticipo</label><input type="number" id="oc-anticipo" step="1000" placeholder="Cuánto abonas ahora"></div>
       </div>
+      <div class="grid grid-3" style="margin-bottom:14px;align-items:end;background:#F4F5FA;padding:12px 14px;border-radius:6px;">
+        <div class="field"><label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="oc-aplica-iva" onchange="calcularCompra()" style="width:16px;height:16px;"> Esta compra tiene IVA</label></div>
+        <div class="field"><label>IVA (%)</label><input type="number" id="oc-iva-pct" step="0.5" value="19" oninput="calcularCompra()"></div>
+        <div class="field"><p class="helptext" style="margin:0;">El valor que escribas abajo es <strong>sin IVA</strong>; si marcas la casilla, la herramienta calcula el IVA aparte y lo suma al total a pagar. Revísalo <strong>en cada compra</strong> — hay proveedores que venden con IVA y otros sin IVA, y este campo no queda marcado de una compra a la siguiente.</p></div>
+      </div>
 
       <div id="oc-form-insumo">
         <div class="field" style="margin-bottom:14px;">
@@ -635,32 +640,45 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         </div>
         <div class="grid grid-4" style="margin-top:14px;">
           <div class="field"><label>Equivale a (para kárdex)</label><input type="text" id="oc-equivale" readonly="" style="background:#F7F6F2;"></div>
-          <div class="field"><label>Costo por m² / unidad</label><input type="text" id="oc-costo-unitario" readonly="" style="background:#F7F6F2;"></div>
-          <div class="field"><label>Total compra</label><input type="text" id="oc-total" readonly="" style="background:#F7F6F2;font-weight:700;"></div>
+          <div class="field"><label>Costo por m² / unidad <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="text" id="oc-costo-unitario" readonly="" style="background:#F7F6F2;"></div>
+          <div class="field"><label>Subtotal <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="text" id="oc-subtotal" readonly="" style="background:#F7F6F2;"></div>
+          <div class="field"><label>IVA</label><input type="text" id="oc-iva-valor" readonly="" style="background:#F7F6F2;"></div>
         </div>
-        <p class="helptext">Si compras un rollo por metro lineal, indica el ancho y la herramienta convierte a m² para el kárdex (metros × ancho). Así el inventario y el costo quedan por m², no por metro lineal.</p>
+        <div class="grid grid-4" style="margin-top:14px;">
+          <div class="field"><label>Total a pagar <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
+        </div>
+        <p class="helptext">Si compras un rollo por metro lineal, indica el ancho y la herramienta convierte a m² para el kárdex (metros × ancho). Así el inventario y el costo quedan por m², no por metro lineal. El costo del inventario se valora sin IVA; el IVA queda registrado aparte para tu contabilidad.</p>
         <div class="btn-row"><button class="btn btn-azul" onclick="registrarCompra()">+ Registrar compra de insumo</button></div>
       </div>
 
       <div id="oc-form-gasto" style="display:none;">
         <div class="grid grid-4">
           <div class="field"><label>Categoría</label><select id="oc-gasto-cat"></select></div>
-          <div class="field"><label>Valor</label><input type="number" id="oc-gasto-valor" step="1" min="0" oninput="calcularCompra()"></div>
-          <div class="field"><label>Total</label><input type="text" id="oc-gasto-total" readonly="" style="background:#F7F6F2;font-weight:700;"></div>
-          <div class="field"><label>Código de proyecto</label><input type="text" id="oc-gasto-proyecto" placeholder="Amarrar a un proyecto"></div>
+          <div class="field"><label>Valor <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="number" id="oc-gasto-valor" step="1" min="0" oninput="calcularCompra()"></div>
+          <div class="field"><label>IVA</label><input type="text" id="oc-gasto-iva" readonly="" style="background:#F7F6F2;"></div>
+          <div class="field"><label>Total <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-gasto-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
         </div>
-        <div class="field" style="margin-top:14px;"><label>Descripción (opcional)</label><input type="text" id="oc-gasto-desc" placeholder="Ej: Turno sábado, flete a Medellín, recibo julio"></div>
+        <div class="grid grid-2" style="margin-top:14px;">
+          <div class="field"><label>Código de proyecto</label><input type="text" id="oc-gasto-proyecto" placeholder="Amarrar a un proyecto"></div>
+          <div class="field"><label>Descripción (opcional)</label><input type="text" id="oc-gasto-desc" placeholder="Ej: Turno sábado, flete a Medellín, recibo julio"></div>
+        </div>
         <div class="btn-row"><button class="btn btn-marron" onclick="registrarCompra()">+ Registrar gasto</button></div>
       </div>
 
       <div id="oc-form-oficina" style="display:none;">
         <div class="grid grid-4">
-          <div class="field"><label>Categoría de operación</label><select id="oc-oficina-cat"></select></div>
-          <div class="field"><label>Valor</label><input type="number" id="oc-oficina-valor" step="1" min="0" oninput="calcularCompra()"></div>
-          <div class="field"><label>Total</label><input type="text" id="oc-oficina-total" readonly="" style="background:#F7F6F2;font-weight:700;"></div>
-          <div class="field"><label>Descripción</label><input type="text" id="oc-oficina-desc" placeholder="Ej: Plotter Epson, recibo luz, arriendo local"></div>
+          <div class="field"><label>Categoría de operación</label><select id="oc-oficina-cat" onchange="alCambiarCategoriaOficina()"></select></div>
+          <div class="field"><label>Valor <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="number" id="oc-oficina-valor" step="1" min="0" oninput="calcularCompra()"></div>
+          <div class="field"><label>IVA</label><input type="text" id="oc-oficina-iva" readonly="" style="background:#F7F6F2;"></div>
+          <div class="field"><label>Total <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-oficina-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
         </div>
-        <p class="helptext">Los costos de oficina/operación NO entran al kárdex ni se ligan a un proyecto. Son gastos de la operación como tal (equipos, instalación, servicios, arriendo, insumos de oficina, pago de crédito de equipos).</p>
+        <div class="field" style="margin-top:14px;"><label>Descripción</label><input type="text" id="oc-oficina-desc" placeholder="Ej: Plotter Epson, recibo luz, arriendo local"></div>
+        <div id="oc-oficina-depreciacion-wrap" style="display:none;margin-top:14px;padding:14px;background:#F8F1EA;border-radius:6px;">
+          <p class="helptext" style="margin-top:0;font-weight:700;color:var(--marron);">📉 Este equipo se registrará como activo fijo, para depreciarlo mes a mes en vez de cargarlo todo de una vez como gasto.</p>
+          <div class="field" style="max-width:260px;"><label>Vida útil (años)</label><input type="number" id="oc-oficina-vidautil" step="1" min="1" value="5"></div>
+          <p class="helptext">Por defecto 5 años en línea recta — ajustable aquí o después en Contabilidad. Confírmalo con tu contador.</p>
+        </div>
+        <p class="helptext">Los costos de oficina/operación NO entran al kárdex ni se ligan a un proyecto. Son gastos de la operación como tal (instalación, servicios, arriendo, insumos de oficina, pago de crédito de equipos).</p>
         <div class="btn-row"><button class="btn btn-negro" onclick="registrarCompra()">+ Registrar costo de oficina</button></div>
       </div>
     </div>
@@ -727,8 +745,14 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--verde)"></span>Estado de resultados (P&amp;G) por mes</h2>
-      <p class="helptext">Ingresos = cobros reales. Costos por categoría: materiales/insumos consumidos, mano de obra, mantenimientos, transportes, servicios públicos, arriendo y otros.</p>
+      <p class="helptext">Ingresos = cobros reales. Costos por categoría: materiales/insumos consumidos, mano de obra, mantenimientos, transportes, servicios públicos, arriendo, oficina, depreciación de equipos y otros.</p>
       <div style="overflow-x:auto;"><div id="cont-pyg"></div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot" style="background:var(--marron)"></span>📉 Activos fijos y depreciación</h2>
+      <p class="helptext">Cuando registras una compra de "Compra de equipos" en Compras → Oficina, se crea aquí como activo fijo. En vez de cargarse todo de una vez como gasto, su valor se reconoce poco a poco (depreciación en línea recta) y ya alimenta el estado de resultados mes a mes. La vida útil es editable — confírmala con tu contador.</p>
+      <div id="cont-activos"></div>
     </div>
 
     <div class="card">
@@ -868,7 +892,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--negro);">
       <h2><span class="dot" style="background:var(--negro)"></span>💾 Copia de seguridad — muy importante</h2>
       <p class="helptext">Toda la información de KLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>únicamente en la memoria de este navegador</strong> (localStorage). No se guarda en internet ni en ningún servidor. Si subes el archivo a GitHub, ahí solo queda guardado el <strong>programa</strong> — tus datos del día a día siguen viviendo en el navegador donde lo uses, y cada navegador/computador tiene su propia copia independiente. <strong>Por eso, cada vez que alguien abre la herramienta, se descarga sola una copia de seguridad automática</strong> (verás un aviso abajo a la derecha). Aun así, mueve de vez en cuando esos archivos descargados a un lugar aparte como Google Drive, un USB o el correo — así nunca dependes de un solo navegador ni de la carpeta de Descargas.</p>
-      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>18 de agosto de 2026</strong> (hace hoy).</p></div>
+      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>19 de agosto de 2026</strong> (hace hoy).</p></div>
       <div class="btn-row">
         <button class="btn btn-negro" onclick="exportarBackup()">⬇ Descargar copia de seguridad ahora</button>
         <label class="btn" style="cursor:pointer;">⬆ Restaurar copia
@@ -1085,7 +1109,8 @@ function estadoPorDefecto(){
     asignaciones:[],
     cuentasCobro:[],
     remisiones:[],
-    borrador:null
+    borrador:null,
+    activosFijos:[]
   };
 }
 
@@ -1121,7 +1146,8 @@ function fusionarConEstadoBase(parsed){
     asignaciones: parsed.asignaciones || [],
     cuentasCobro: parsed.cuentasCobro || [],
     remisiones: parsed.remisiones || [],
-    borrador: parsed.borrador || null
+    borrador: parsed.borrador || null,
+    activosFijos: parsed.activosFijos || []
   });
 }
 function cargarEstado(){
@@ -2451,6 +2477,7 @@ function poblarSelectsCompra(){
   const selO = document.getElementById('oc-oficina-cat');
   if(selO) selO.innerHTML = (state.categoriasOficina||[]).map(o=>`<option value="${o.id}">${o.nombre}</option>`).join('');
   alCambiarInsumoCompra();
+  alCambiarCategoriaOficina();
   calcularCompra();
 }
 function tipoInsumoLabel(i){
@@ -2501,7 +2528,17 @@ function convertirCompraAM2(){
   }
   return {modo, cant, precio, ancho, cantidadKardex, unidadKardex, total, costoUnit, equivaleTxt};
 }
+function datosIvaCompra(){
+  const aplica = document.getElementById('oc-aplica-iva').checked;
+  const pct = parseFloat(document.getElementById('oc-iva-pct').value)||0;
+  return {aplica, pct: aplica? pct : 0};
+}
+function reiniciarIvaCompra(){
+  document.getElementById('oc-aplica-iva').checked = false;
+  document.getElementById('oc-iva-pct').value = state.config.iva||19;
+}
 function calcularCompra(){
+  const iva = datosIvaCompra();
   if(tipoCompraActivo==='insumo'){
     const modo = document.getElementById('oc-modo-cantidad').value;
     document.getElementById('oc-ancho-wrap').style.display = (modo==='lineal')? 'block':'none';
@@ -2512,16 +2549,30 @@ function calcularCompra(){
     else if(modo==='lineal'){ lblCant.textContent='Metros lineales'; lblPrecio.textContent='Precio por metro lineal'; }
     else { lblCant.textContent='Cantidad (unidades)'; lblPrecio.textContent='Precio por unidad'; }
     const r = convertirCompraAM2();
+    const ivaValor = r.total*iva.pct/100;
     document.getElementById('oc-equivale').value = r.equivaleTxt;
     document.getElementById('oc-costo-unitario').value = moneda(r.costoUnit)+' /'+r.unidadKardex;
-    document.getElementById('oc-total').value = moneda(r.total);
+    document.getElementById('oc-subtotal').value = moneda(r.total);
+    document.getElementById('oc-iva-valor').value = moneda(ivaValor);
+    document.getElementById('oc-total').value = moneda(r.total+ivaValor);
   }else if(tipoCompraActivo==='gasto'){
     const valor = parseFloat(document.getElementById('oc-gasto-valor').value)||0;
-    document.getElementById('oc-gasto-total').value = moneda(valor);
+    const ivaValor = valor*iva.pct/100;
+    document.getElementById('oc-gasto-iva').value = moneda(ivaValor);
+    document.getElementById('oc-gasto-total').value = moneda(valor+ivaValor);
   }else if(tipoCompraActivo==='oficina'){
     const valor = parseFloat(document.getElementById('oc-oficina-valor').value)||0;
-    document.getElementById('oc-oficina-total').value = moneda(valor);
+    const ivaValor = valor*iva.pct/100;
+    document.getElementById('oc-oficina-iva').value = moneda(ivaValor);
+    document.getElementById('oc-oficina-total').value = moneda(valor+ivaValor);
   }
+}
+function alCambiarCategoriaOficina(){
+  const sel = document.getElementById('oc-oficina-cat');
+  const cat = (state.categoriasOficina||[]).find(c=>c.id===sel.value);
+  const wrap = document.getElementById('oc-oficina-depreciacion-wrap');
+  const esEquipo = cat && cat.nombre==='Compra de equipos';
+  wrap.style.display = esEquipo? 'block':'none';
 }
 function cambiarFormaPago(){
   const fp = document.getElementById('oc-forma-pago').value;
@@ -2566,34 +2617,48 @@ function registrarCompra(){
   const proveedor = datosProveedor.nombre;
   const formaPago = document.getElementById('oc-forma-pago').value;
   const vencimiento = document.getElementById('oc-vencimiento').value || '';
+  const iva = datosIvaCompra();
   guardarOActualizarProveedor(datosProveedor);
 
   if(tipoCompraActivo==='oficina'){
     const selO = document.getElementById('oc-oficina-cat');
     const cat = (state.categoriasOficina||[]).find(o=>o.id===selO.value);
     if(!cat){ mostrarToast('Selecciona una categoría de operación.'); return; }
-    const valor = parseFloat(document.getElementById('oc-oficina-valor').value)||0;
-    if(valor<=0){ mostrarToast('Ingresa el valor.'); return; }
+    const valorBase = parseFloat(document.getElementById('oc-oficina-valor').value)||0;
+    if(valorBase<=0){ mostrarToast('Ingresa el valor.'); return; }
+    const ivaValor = valorBase*iva.pct/100;
+    const total = valorBase+ivaValor;
     const desc = document.getElementById('oc-oficina-desc').value.trim();
     const codigoOC = generarCodigoOC();
+    const esEquipo = cat.nombre==='Compra de equipos';
     state.comprasOficina.unshift({
       proveedorDatos: datosProveedor,
       codigo: codigoOC, tipo:'oficina', fecha, proveedor,
       formaPago, vencimiento, pagada: formaPago==='Contado',
-      categoriaId: cat.id, categoriaNombre: cat.nombre, descripcion: desc, total: valor
+      categoriaId: cat.id, categoriaNombre: cat.nombre, descripcion: desc,
+      baseGravable: valorBase, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total
     });
     if(formaPago==='Contado'){
-      state.pagos.unshift({tipo:'egreso', fecha, concepto:'Oficina '+codigoOC+' · '+cat.nombre, referencia:codigoOC, monto:valor});
+      state.pagos.unshift({tipo:'egreso', fecha, concepto:'Oficina '+codigoOC+' · '+cat.nombre, referencia:codigoOC, monto:total});
     }else if(formaPago==='Anticipo'){
       const antic = parseFloat(document.getElementById('oc-anticipo').value)||0;
       if(antic>0){ state.pagos.unshift({tipo:'egreso', fecha, concepto:'Anticipo oficina '+codigoOC, referencia:codigoOC, monto:antic}); state.comprasOficina[0].anticipo=antic; }
+    }
+    // si es compra de equipos, se registra como activo fijo para depreciarlo en vez de cargarlo todo de una vez
+    if(esEquipo){
+      const vidaUtil = parseFloat(document.getElementById('oc-oficina-vidautil').value)||5;
+      state.activosFijos.unshift({
+        id:'af'+Date.now(), nombre: desc||('Equipo '+codigoOC), fecha,
+        ordenCompraCodigo: codigoOC, valorBase, vidaUtilAnios: vidaUtil
+      });
     }
     state.config.siguienteNumeroOC += 1;
     document.getElementById('oc-oficina-valor').value='';
     document.getElementById('oc-oficina-desc').value='';
     limpiarCamposProveedor();
+    reiniciarIvaCompra();
     guardarEstado(); calcularCompra(); renderCompras(); if(typeof renderContabilidad==='function') renderContabilidad();
-    mostrarToast('Costo de oficina '+codigoOC+' registrado.');
+    mostrarToast('Costo de oficina '+codigoOC+' registrado'+(iva.aplica? ' (con IVA '+numFmt(iva.pct,1)+'%)':' (sin IVA)')+'.'+(esEquipo? ' Se creó como activo fijo para depreciar.':''));
     return;
   }
 
@@ -2604,15 +2669,18 @@ function registrarCompra(){
     if(!insumo){ mostrarToast('Selecciona un insumo.'); return; }
     const r = convertirCompraAM2();
     if(r.cant<=0){ mostrarToast('Ingresa la cantidad comprada.'); return; }
+    const ivaValor = r.total*iva.pct/100;
     const compra = {
       codigo: codigoOC, tipo:'insumo', fecha, proveedor, proveedorDatos: datosProveedor,
       formaPago, vencimiento, pagada: formaPago==='Contado',
       insumoId: insumo.id, insumoNombre: insumo.nombre, unidad: r.unidadKardex,
       modoCompra: r.modo, anchoRollo: r.ancho,
-      cantidad: r.cantidadKardex, precioUnit: r.costoUnit, total: r.total,
+      cantidad: r.cantidadKardex, precioUnit: r.costoUnit,
+      baseGravable: r.total, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total: r.total+ivaValor,
       detalleCompra: r.equivaleTxt
     };
     state.compras.unshift(compra);
+    // el kárdex se valora sin IVA (el costo del inventario no incluye el IVA pagado)
     state.movimientos.unshift({
       fecha, insumoId: insumo.id, insumoNombre: insumo.nombre, unidad: r.unidadKardex,
       tipo:'entrada', cantidad: r.cantidadKardex, precioUnit: r.costoUnit, referencia: codigoOC, nota:'Compra'+(proveedor?' · '+proveedor:'')+' ('+r.equivaleTxt+')'
@@ -2623,15 +2691,16 @@ function registrarCompra(){
     const selG = document.getElementById('oc-gasto-cat');
     const cat = state.categoriasGasto.find(g=>g.id===selG.value);
     if(!cat){ mostrarToast('Selecciona una categoría de gasto.'); return; }
-    const valor = parseFloat(document.getElementById('oc-gasto-valor').value)||0;
-    if(valor<=0){ mostrarToast('Ingresa el valor del gasto.'); return; }
+    const valorBase = parseFloat(document.getElementById('oc-gasto-valor').value)||0;
+    if(valorBase<=0){ mostrarToast('Ingresa el valor del gasto.'); return; }
+    const ivaValor = valorBase*iva.pct/100;
     const desc = document.getElementById('oc-gasto-desc').value.trim();
     const proyecto = document.getElementById('oc-gasto-proyecto').value.trim();
     state.compras.unshift({
       codigo: codigoOC, tipo:'gasto', fecha, proveedor, proveedorDatos: datosProveedor,
       formaPago, vencimiento, pagada: formaPago==='Contado',
       categoriaId: cat.id, categoriaNombre: cat.nombre, descripcion: desc, proyecto,
-      total: valor
+      baseGravable: valorBase, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total: valorBase+ivaValor
     });
     document.getElementById('oc-gasto-valor').value='';
     document.getElementById('oc-gasto-desc').value='';
@@ -2649,6 +2718,7 @@ function registrarCompra(){
   }
   state.config.siguienteNumeroOC += 1;
   limpiarCamposProveedor();
+  reiniciarIvaCompra();
   document.getElementById('oc-vencimiento').value='';
   if(document.getElementById('oc-anticipo')) document.getElementById('oc-anticipo').value='';
   guardarEstado();
@@ -2656,7 +2726,7 @@ function registrarCompra(){
   renderCompras();
   renderInventario();
   if(typeof renderContabilidad==='function') renderContabilidad();
-  mostrarToast('Compra '+codigoOC+' registrada.');
+  mostrarToast('Compra '+codigoOC+' registrada'+(iva.aplica? ' (con IVA '+numFmt(iva.pct,1)+'%).':' (sin IVA).'));
 }
 function renderCompras(){
   const cont = document.getElementById('compras-list');
@@ -2711,7 +2781,7 @@ function renderCompras(){
       <td>${detalle}</td>
       <td>${c.proveedor||''}</td>
       <td>${fp}${(c.anticipo? ' · anticipo '+moneda(c.anticipo):'')}<br>${pagoTag}</td>
-      <td class="num">${moneda(c.total)}</td>
+      <td class="num">${moneda(c.total)}${c.ivaValor>0? '<br><small style="color:#6B6A63;">incl. IVA '+moneda(c.ivaValor)+'</small>':''}</td>
       <td>${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor('+origenArg+')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${c.pagada? '' : '<button class="btn btn-sm btn-verde" onclick="marcarCompraPagada('+origenArg+')">Pagar</button>'}<button class="btn btn-sm" onclick="eliminarCompra('+origenArg+')">✕</button></td>
     </tr>`;
   }).join('');
@@ -2781,11 +2851,14 @@ function generarOCProveedor(origen, idx){
   const c = _listaPorOrigen(origen)[idx];
   if(!c){ mostrarToast('Compra no encontrada.'); return; }
   const logoSrc = document.querySelector('.brand img').src;
-  const base = c.total||0;
-  // retenciones activas aplicadas sobre la compra (referencia; el proveedor puede o no aplicarlas)
+  // compatibilidad: compras antiguas sin desglose de IVA no tenían baseGravable/ivaValor
+  const base = (typeof c.baseGravable==='number') ? c.baseGravable : (c.total||0);
+  const ivaValor = c.ivaValor||0;
+  const totalConIva = base+ivaValor;
+  // retenciones activas aplicadas sobre la BASE sin IVA (referencia; el proveedor puede o no aplicarlas)
   const rets = (state.retenciones||[]).filter(r=>r.activa && r.porcentaje>0).map(r=>({nombre:r.nombre, pct:r.porcentaje, monto:base*r.porcentaje/100}));
   const totalRet = rets.reduce((s,r)=>s+r.monto,0);
-  const neto = base - totalRet;
+  const neto = totalConIva - totalRet;
   let detalle;
   if(c.tipo==='insumo'){
     detalle = `${c.insumoNombre} — ${c.detalleCompra||(numFmt(c.cantidad,2)+' '+c.unidad)}`;
@@ -2827,7 +2900,7 @@ function generarOCProveedor(origen, idx){
         <thead><tr style="background:#F7F6F2;">
           <th style="text-align:left;padding:8px;border-bottom:2px solid #17171C;">Descripción</th>
           <th style="text-align:right;padding:8px;border-bottom:2px solid #17171C;">Forma de pago</th>
-          <th style="text-align:right;padding:8px;border-bottom:2px solid #17171C;">Valor</th>
+          <th style="text-align:right;padding:8px;border-bottom:2px solid #17171C;">Valor (sin IVA)</th>
         </tr></thead>
         <tbody>
           <tr><td style="padding:8px;border-bottom:1px solid #eee;">${detalle}</td><td style="padding:8px;text-align:right;border-bottom:1px solid #eee;">${c.formaPago||'Contado'}${c.vencimiento? ' · vence '+c.vencimiento:''}</td><td style="padding:8px;text-align:right;border-bottom:1px solid #eee;">${moneda(base)}</td></tr>
@@ -2835,12 +2908,14 @@ function generarOCProveedor(origen, idx){
       </table>
       <div style="display:flex;justify-content:flex-end;">
         <table style="font-size:12px;min-width:280px;">
-          <tr><td style="padding:4px 8px;">Subtotal</td><td style="padding:4px 8px;text-align:right;">${moneda(base)}</td></tr>
+          <tr><td style="padding:4px 8px;">Subtotal (sin IVA)</td><td style="padding:4px 8px;text-align:right;">${moneda(base)}</td></tr>
+          ${ivaValor>0? `<tr><td style="padding:4px 8px;">IVA${c.ivaPct? ' ('+numFmt(c.ivaPct,1)+'%)':''}</td><td style="padding:4px 8px;text-align:right;">${moneda(ivaValor)}</td></tr>`:''}
+          <tr style="font-weight:700;"><td style="padding:4px 8px;">Total con IVA</td><td style="padding:4px 8px;text-align:right;">${moneda(totalConIva)}</td></tr>
           ${rets.map(r=>`<tr><td style="padding:4px 8px;color:#B23B3B;">(−) ${r.nombre} (${numFmt(r.pct,2)}%)</td><td style="padding:4px 8px;text-align:right;color:#B23B3B;">-${moneda(r.monto)}</td></tr>`).join('')}
           <tr style="font-weight:700;border-top:2px solid #17171C;"><td style="padding:6px 8px;">Neto a pagar</td><td style="padding:6px 8px;text-align:right;">${moneda(neto)}</td></tr>
         </table>
       </div>
-      <p style="font-size:10px;color:#6B6A63;margin-top:24px;">Documento de control interno KLEE. Las retenciones mostradas son de referencia y deben validarse según la normativa y el régimen del proveedor.</p>
+      <p style="font-size:10px;color:#6B6A63;margin-top:24px;">Documento de control interno KLEE. El IVA y las retenciones mostradas son de referencia y deben validarse según la normativa, el régimen del proveedor y el tuyo propio.</p>
     </div>`;
   const tituloOriginal = document.title;
   document.title = 'OC_'+c.codigo+(c.proveedor? '_'+c.proveedor.replace(/[^a-zA-Z0-9]+/g,'_') : '');
@@ -2860,14 +2935,20 @@ function generarOCProveedor(origen, idx){
   }
 }
 function exportarComprasExcel(){
-  if(state.compras.length===0){ mostrarToast('No hay compras para exportar.'); return; }
-  let filas = [['OC','Fecha','Mes','Tipo','Insumo/Categoría','Detalle','Proyecto','Proveedor','Cantidad','Unidad','Precio unit.','Total']];
+  const hayCompras = state.compras.length>0 || (state.comprasOficina||[]).length>0;
+  if(!hayCompras){ mostrarToast('No hay compras para exportar.'); return; }
+  let filas = [['OC','Fecha','Mes','Tipo','Insumo/Categoría','Detalle','Proyecto','Proveedor','Cantidad','Unidad','Precio unit.','Subtotal (sin IVA)','IVA','Total (con IVA)']];
   state.compras.forEach(c=>{
+    const base = (typeof c.baseGravable==='number')? c.baseGravable : c.total;
     if(c.tipo==='insumo'){
-      filas.push([c.codigo, c.fecha, mesDeFecha(c.fecha), 'Insumo', c.insumoNombre, '', '', c.proveedor||'', c.cantidad, c.unidad, c.precioUnit, c.total]);
+      filas.push([c.codigo, c.fecha, mesDeFecha(c.fecha), 'Insumo', c.insumoNombre, '', '', c.proveedor||'', c.cantidad, c.unidad, c.precioUnit, base, c.ivaValor||0, c.total]);
     }else{
-      filas.push([c.codigo, c.fecha, mesDeFecha(c.fecha), 'Gasto', c.categoriaNombre, c.descripcion||'', c.proyecto||'', c.proveedor||'', '', '', '', c.total]);
+      filas.push([c.codigo, c.fecha, mesDeFecha(c.fecha), 'Gasto', c.categoriaNombre, c.descripcion||'', c.proyecto||'', c.proveedor||'', '', '', '', base, c.ivaValor||0, c.total]);
     }
+  });
+  (state.comprasOficina||[]).forEach(c=>{
+    const base = (typeof c.baseGravable==='number')? c.baseGravable : c.total;
+    filas.push([c.codigo, c.fecha, mesDeFecha(c.fecha), 'Oficina', c.categoriaNombre, c.descripcion||'', '', c.proveedor||'', '', '', '', base, c.ivaValor||0, c.total]);
   });
   descargarCSV(filas, `KLEE_compras_${new Date().toISOString().slice(0,10)}.csv`);
 }
@@ -3584,10 +3665,92 @@ function registrarMovimientoCaja(){
 }
 
 // --- P&G: ingresos y costos por categoría, por mes y total ---
+/* ============ ACTIVOS FIJOS Y DEPRECIACIÓN ============ */
+// Depreciación en línea recta: valor base (sin IVA) ÷ (vida útil en años × 12 meses)
+function depreciacionMensualActivo(activo){
+  const meses = (activo.vidaUtilAnios||5)*12;
+  return meses>0 ? (activo.valorBase||0)/meses : 0;
+}
+function mesANumero(mesStr){
+  const om = {'enero':1,'febrero':2,'marzo':3,'abril':4,'mayo':5,'junio':6,'julio':7,'agosto':8,'septiembre':9,'octubre':10,'noviembre':11,'diciembre':12};
+  const partes = (mesStr||'').split(' ');
+  const anio = parseInt(partes[1])||0;
+  return anio*12 + (om[partes[0]]||0);
+}
+// Genera la secuencia de meses ("agosto 2026", "septiembre 2026"...) durante los que un activo se deprecia
+function mesesDeVidaUtil(activo){
+  if(!activo.fecha) return [];
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const [anioIni, mesIni] = activo.fecha.split('-').map(Number);
+  const totalMeses = Math.round((activo.vidaUtilAnios||5)*12);
+  const out = [];
+  for(let i=0;i<totalMeses;i++){
+    const idx = (mesIni-1+i);
+    const anio = anioIni + Math.floor(idx/12);
+    const mes = meses[idx%12];
+    out.push(mes+' '+anio);
+  }
+  return out;
+}
+// Depreciación acumulada de un activo hasta hoy (o hasta una fecha de referencia)
+function depreciacionAcumulada(activo, fechaRef){
+  const ref = fechaRef ? new Date(fechaRef) : new Date();
+  const refNum = (ref.getFullYear())*12 + (ref.getMonth()+1);
+  const [anioIni, mesIni] = (activo.fecha||'2000-01-01').split('-').map(Number);
+  const inicioNum = anioIni*12+mesIni;
+  const totalMeses = Math.round((activo.vidaUtilAnios||5)*12);
+  let mesesTranscurridos = refNum - inicioNum + 1;
+  if(mesesTranscurridos<0) mesesTranscurridos = 0;
+  if(mesesTranscurridos>totalMeses) mesesTranscurridos = totalMeses;
+  return depreciacionMensualActivo(activo)*mesesTranscurridos;
+}
+function valorEnLibros(activo){
+  const v = (activo.valorBase||0) - depreciacionAcumulada(activo);
+  return v>0? v : 0;
+}
+function renderActivosFijos(){
+  const cont = document.getElementById('cont-activos');
+  if(!cont) return;
+  const activos = state.activosFijos||[];
+  if(activos.length===0){ cont.innerHTML = '<p class="helptext">Todavía no tienes equipos registrados como activo fijo. Se crean solos al registrar una compra de "Compra de equipos" en Compras → Oficina.</p>'; return; }
+  const totalValor = activos.reduce((s,a)=>s+(a.valorBase||0),0);
+  const totalAcum = activos.reduce((s,a)=>s+depreciacionAcumulada(a),0);
+  const totalLibros = activos.reduce((s,a)=>s+valorEnLibros(a),0);
+  cont.innerHTML = `
+    <table>
+      <thead><tr><th>Activo</th><th>Fecha compra</th><th class="num">Valor (sin IVA)</th><th class="num">Vida útil</th><th class="num">Depreciación mensual</th><th class="num">Acumulada</th><th class="num">Valor en libros</th><th></th></tr></thead>
+      <tbody>${activos.map((a,idx)=>`
+        <tr>
+          <td>${a.nombre}${a.ordenCompraCodigo? ' <small style="color:var(--gris-texto);">('+a.ordenCompraCodigo+')</small>':''}</td>
+          <td>${a.fecha}</td>
+          <td class="num">${moneda(a.valorBase)}</td>
+          <td class="num"><input type="number" step="0.5" min="1" value="${a.vidaUtilAnios}" style="width:60px;text-align:right;" onchange="editarVidaUtilActivo(${idx}, this.value)"> años</td>
+          <td class="num">${moneda(depreciacionMensualActivo(a))}</td>
+          <td class="num">${moneda(depreciacionAcumulada(a))}</td>
+          <td class="num" style="font-weight:700;">${moneda(valorEnLibros(a))}</td>
+          <td><button class="btn btn-sm" onclick="eliminarActivoFijo(${idx})">✕</button></td>
+        </tr>`).join('')}</tbody>
+      <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td colspan="2">TOTAL</td><td class="num">${moneda(totalValor)}</td><td></td><td></td><td class="num">${moneda(totalAcum)}</td><td class="num">${moneda(totalLibros)}</td><td></td></tr></tfoot>
+    </table>`;
+}
+function editarVidaUtilActivo(idx, valor){
+  state.activosFijos[idx].vidaUtilAnios = parseFloat(valor)||5;
+  guardarEstado();
+  renderActivosFijos();
+  mostrarToast('Vida útil actualizada — se recalculó la depreciación.');
+}
+function eliminarActivoFijo(idx){
+  if(!confirm('¿Eliminar este activo fijo? Esto no elimina la compra ya registrada, solo deja de depreciarse.')) return;
+  state.activosFijos.splice(idx,1);
+  guardarEstado();
+  renderActivosFijos();
+  mostrarToast('Activo fijo eliminado.');
+}
+
 function calcularPyG(){
   // Ingresos reales cobrados agrupados por mes
   const meses = {};
-  function m(mes){ if(!meses[mes]) meses[mes]={mes, ingreso:0, materiales:0, manoObra:0, produccion:0, mantenimiento:0, transporte:0, servicios:0, arriendo:0, oficina:0, otros:0}; return meses[mes]; }
+  function m(mes){ if(!meses[mes]) meses[mes]={mes, ingreso:0, materiales:0, manoObra:0, produccion:0, mantenimiento:0, transporte:0, servicios:0, arriendo:0, oficina:0, depreciacion:0, otros:0}; return meses[mes]; }
 
   // Ingresos = cobros reales (caja tipo ingreso con referencia de cotización) por mes
   state.ingresos.forEach(i=>{ m(mesDeFecha(i.fecha)).ingreso += i.monto; });
@@ -3620,13 +3783,20 @@ function calcularPyG(){
     else if(nom.includes('arriend')) m(mes).arriendo += g.total||0;
     else m(mes).otros += g.total||0;
   });
-  // Costos de oficina/operación por mes
+  // Costos de oficina/operación por mes — la "Compra de equipos" NO entra aquí de una sola vez:
+  // se capitaliza como activo fijo y se reconoce como gasto poco a poco vía depreciación (más abajo).
   (state.comprasOficina||[]).forEach(o=>{
+    if(o.categoriaNombre==='Compra de equipos') return;
     m(mesDeFecha(o.fecha)).oficina += o.total||0;
+  });
+  // Depreciación mensual de los activos fijos (equipos), durante su vida útil
+  (state.activosFijos||[]).forEach(activo=>{
+    const cuota = depreciacionMensualActivo(activo);
+    mesesDeVidaUtil(activo).forEach(mes=>{ m(mes).depreciacion += cuota; });
   });
 
   return Object.values(meses).map(x=>{
-    x.costoTotal = x.materiales+x.manoObra+x.produccion+x.mantenimiento+x.transporte+x.servicios+x.arriendo+x.oficina+x.otros;
+    x.costoTotal = x.materiales+x.manoObra+x.produccion+x.mantenimiento+x.transporte+x.servicios+x.arriendo+x.oficina+x.depreciacion+x.otros;
     x.utilidad = x.ingreso - x.costoTotal;
     x.margen = x.ingreso>0? x.utilidad/x.ingreso*100 : 0;
     return x;
@@ -3646,6 +3816,7 @@ function ordenarMeses(arr, campo){
 function renderContabilidad(){
   renderPresupuestoReal();
   renderSociosConfig();
+  renderActivosFijos();
   // --- Resumen de caja ---
   const saldo = saldoCaja();
   const ingresos = state.pagos.filter(p=>p.tipo==='ingreso').reduce((s,p)=>s+p.monto,0);
@@ -3670,15 +3841,15 @@ function renderContabilidad(){
   if(contPyG){
     if(pyg.length===0){ contPyG.innerHTML='<p class="helptext">Aún no hay movimientos para el estado de resultados.</p>'; }
     else{
-      const tot = pyg.reduce((a,m)=>({ingreso:a.ingreso+m.ingreso, materiales:a.materiales+m.materiales, manoObra:a.manoObra+m.manoObra, produccion:a.produccion+m.produccion, mantenimiento:a.mantenimiento+m.mantenimiento, transporte:a.transporte+m.transporte, servicios:a.servicios+m.servicios, arriendo:a.arriendo+m.arriendo, oficina:a.oficina+m.oficina, otros:a.otros+m.otros, costoTotal:a.costoTotal+m.costoTotal, utilidad:a.utilidad+m.utilidad}), {ingreso:0,materiales:0,manoObra:0,produccion:0,mantenimiento:0,transporte:0,servicios:0,arriendo:0,oficina:0,otros:0,costoTotal:0,utilidad:0});
+      const tot = pyg.reduce((a,m)=>({ingreso:a.ingreso+m.ingreso, materiales:a.materiales+m.materiales, manoObra:a.manoObra+m.manoObra, produccion:a.produccion+m.produccion, mantenimiento:a.mantenimiento+m.mantenimiento, transporte:a.transporte+m.transporte, servicios:a.servicios+m.servicios, arriendo:a.arriendo+m.arriendo, oficina:a.oficina+m.oficina, depreciacion:a.depreciacion+(m.depreciacion||0), otros:a.otros+m.otros, costoTotal:a.costoTotal+m.costoTotal, utilidad:a.utilidad+m.utilidad}), {ingreso:0,materiales:0,manoObra:0,produccion:0,mantenimiento:0,transporte:0,servicios:0,arriendo:0,oficina:0,depreciacion:0,otros:0,costoTotal:0,utilidad:0});
       contPyG.innerHTML = `
       <table>
-        <thead><tr><th>Mes</th><th class="num">Ingresos</th><th class="num">Materiales</th><th class="num">Mano obra</th><th class="num">Producción</th><th class="num">Mantenim.</th><th class="num">Transporte</th><th class="num">Serv. públ.</th><th class="num">Arriendo</th><th class="num">Oficina</th><th class="num">Otros</th><th class="num">Costo total</th><th class="num">Utilidad</th></tr></thead>
+        <thead><tr><th>Mes</th><th class="num">Ingresos</th><th class="num">Materiales</th><th class="num">Mano obra</th><th class="num">Producción</th><th class="num">Mantenim.</th><th class="num">Transporte</th><th class="num">Serv. públ.</th><th class="num">Arriendo</th><th class="num">Oficina</th><th class="num">Depreciación</th><th class="num">Otros</th><th class="num">Costo total</th><th class="num">Utilidad</th></tr></thead>
         <tbody>${pyg.map(m=>{
           const uc = m.utilidad<0?'color:#B23B3B;':'color:#2E7D4F;';
-          return `<tr><td style="text-transform:capitalize;">${m.mes}</td><td class="num">${moneda(m.ingreso)}</td><td class="num">${moneda(m.materiales)}</td><td class="num">${moneda(m.manoObra)}</td><td class="num">${moneda(m.produccion)}</td><td class="num">${moneda(m.mantenimiento)}</td><td class="num">${moneda(m.transporte)}</td><td class="num">${moneda(m.servicios)}</td><td class="num">${moneda(m.arriendo)}</td><td class="num">${moneda(m.oficina)}</td><td class="num">${moneda(m.otros)}</td><td class="num">${moneda(m.costoTotal)}</td><td class="num" style="${uc}font-weight:700;">${moneda(m.utilidad)}</td></tr>`;
+          return `<tr><td style="text-transform:capitalize;">${m.mes}</td><td class="num">${moneda(m.ingreso)}</td><td class="num">${moneda(m.materiales)}</td><td class="num">${moneda(m.manoObra)}</td><td class="num">${moneda(m.produccion)}</td><td class="num">${moneda(m.mantenimiento)}</td><td class="num">${moneda(m.transporte)}</td><td class="num">${moneda(m.servicios)}</td><td class="num">${moneda(m.arriendo)}</td><td class="num">${moneda(m.oficina)}</td><td class="num">${moneda(m.depreciacion||0)}</td><td class="num">${moneda(m.otros)}</td><td class="num">${moneda(m.costoTotal)}</td><td class="num" style="${uc}font-weight:700;">${moneda(m.utilidad)}</td></tr>`;
         }).join('')}</tbody>
-        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL</td><td class="num">${moneda(tot.ingreso)}</td><td class="num">${moneda(tot.materiales)}</td><td class="num">${moneda(tot.manoObra)}</td><td class="num">${moneda(tot.produccion)}</td><td class="num">${moneda(tot.mantenimiento)}</td><td class="num">${moneda(tot.transporte)}</td><td class="num">${moneda(tot.servicios)}</td><td class="num">${moneda(tot.arriendo)}</td><td class="num">${moneda(tot.oficina)}</td><td class="num">${moneda(tot.otros)}</td><td class="num">${moneda(tot.costoTotal)}</td><td class="num" style="${tot.utilidad<0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(tot.utilidad)}</td></tr></tfoot>
+        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL</td><td class="num">${moneda(tot.ingreso)}</td><td class="num">${moneda(tot.materiales)}</td><td class="num">${moneda(tot.manoObra)}</td><td class="num">${moneda(tot.produccion)}</td><td class="num">${moneda(tot.mantenimiento)}</td><td class="num">${moneda(tot.transporte)}</td><td class="num">${moneda(tot.servicios)}</td><td class="num">${moneda(tot.arriendo)}</td><td class="num">${moneda(tot.oficina)}</td><td class="num">${moneda(tot.depreciacion)}</td><td class="num">${moneda(tot.otros)}</td><td class="num">${moneda(tot.costoTotal)}</td><td class="num" style="${tot.utilidad<0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(tot.utilidad)}</td></tr></tfoot>
       </table>`;
     }
   }
@@ -3893,7 +4064,7 @@ function exportarContabilidadExcel(){
   }
 
   // ---------- Hoja RESUMEN ----------
-  const totPyG = pyg.reduce((a,m)=>({ingreso:a.ingreso+m.ingreso, materiales:a.materiales+m.materiales, manoObra:a.manoObra+m.manoObra, mantenimiento:a.mantenimiento+m.mantenimiento, transporte:a.transporte+m.transporte, servicios:a.servicios+m.servicios, arriendo:a.arriendo+m.arriendo, otros:a.otros+m.otros, costoTotal:a.costoTotal+m.costoTotal, utilidad:a.utilidad+m.utilidad}), {ingreso:0,materiales:0,manoObra:0,mantenimiento:0,transporte:0,servicios:0,arriendo:0,otros:0,costoTotal:0,utilidad:0});
+  const totPyG = pyg.reduce((a,m)=>({ingreso:a.ingreso+m.ingreso, materiales:a.materiales+m.materiales, manoObra:a.manoObra+m.manoObra, produccion:a.produccion+(m.produccion||0), mantenimiento:a.mantenimiento+m.mantenimiento, transporte:a.transporte+m.transporte, servicios:a.servicios+m.servicios, arriendo:a.arriendo+m.arriendo, oficina:a.oficina+(m.oficina||0), depreciacion:a.depreciacion+(m.depreciacion||0), otros:a.otros+m.otros, costoTotal:a.costoTotal+m.costoTotal, utilidad:a.utilidad+m.utilidad}), {ingreso:0,materiales:0,manoObra:0,produccion:0,mantenimiento:0,transporte:0,servicios:0,arriendo:0,oficina:0,depreciacion:0,otros:0,costoTotal:0,utilidad:0});
   const resumen = [
     ['KLEE — REPORTE CONTABLE'],
     ['Generado', new Date().toISOString().slice(0,10)],
@@ -3904,10 +4075,13 @@ function exportarContabilidadExcel(){
     ['Ingresos (cobros)', totPyG.ingreso],
     ['(−) Materiales / insumos', totPyG.materiales],
     ['(−) Mano de obra', totPyG.manoObra],
+    ['(−) Producción (tinta/mantenim./cabezal/crédito)', totPyG.produccion],
     ['(−) Mantenimiento', totPyG.mantenimiento],
     ['(−) Transporte', totPyG.transporte],
     ['(−) Servicios públicos', totPyG.servicios],
     ['(−) Arriendo', totPyG.arriendo],
+    ['(−) Oficina / operación', totPyG.oficina],
+    ['(−) Depreciación de equipos', totPyG.depreciacion],
     ['(−) Otros', totPyG.otros],
     ['Costo total', totPyG.costoTotal],
     ['UTILIDAD', totPyG.utilidad],
@@ -3919,24 +4093,34 @@ function exportarContabilidadExcel(){
     ['Total por pagar', cxp.reduce((s,c)=>s+c.saldo,0)],
   ];
   const wsR = XLSX.utils.aoa_to_sheet(resumen);
-  wsR['!cols'] = [{wch:32},{wch:22}];
+  wsR['!cols'] = [{wch:38},{wch:22}];
   // formato moneda col B (índice 1) en filas de valores
-  [6,7,8,9,10,11,12,13,14,15,18,19,20].forEach(R=>{
+  [6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,23,24].forEach(R=>{
     const addr = XLSX.utils.encode_cell({r:R,c:1});
     if(wsR[addr] && typeof wsR[addr].v==='number') wsR[addr].z = fmtCop;
   });
-  const addrMargen = XLSX.utils.encode_cell({r:16,c:1});
+  const addrMargen = XLSX.utils.encode_cell({r:19,c:1});
   if(wsR[addrMargen]) wsR[addrMargen].z = fmtPct;
   XLSX.utils.book_append_sheet(wb, wsR, 'Resumen');
 
   // ---------- Hoja P&G POR MES ----------
-  const pygAoa = [['Mes','Ingresos','Materiales','Mano de obra','Mantenimiento','Transporte','Servicios públicos','Arriendo','Otros','Costo total','Utilidad','Margen']];
-  pyg.forEach(m=>pygAoa.push([m.mes, m.ingreso, m.materiales, m.manoObra, m.mantenimiento, m.transporte, m.servicios, m.arriendo, m.otros, m.costoTotal, m.utilidad, m.ingreso>0? m.utilidad/m.ingreso : 0]));
-  pygAoa.push(['TOTAL', totPyG.ingreso, totPyG.materiales, totPyG.manoObra, totPyG.mantenimiento, totPyG.transporte, totPyG.servicios, totPyG.arriendo, totPyG.otros, totPyG.costoTotal, totPyG.utilidad, totPyG.ingreso>0? totPyG.utilidad/totPyG.ingreso : 0]);
+  const pygAoa = [['Mes','Ingresos','Materiales','Mano de obra','Producción','Mantenimiento','Transporte','Servicios públicos','Arriendo','Oficina','Depreciación','Otros','Costo total','Utilidad','Margen']];
+  pyg.forEach(m=>pygAoa.push([m.mes, m.ingreso, m.materiales, m.manoObra, m.produccion||0, m.mantenimiento, m.transporte, m.servicios, m.arriendo, m.oficina||0, m.depreciacion||0, m.otros, m.costoTotal, m.utilidad, m.ingreso>0? m.utilidad/m.ingreso : 0]));
+  pygAoa.push(['TOTAL', totPyG.ingreso, totPyG.materiales, totPyG.manoObra, totPyG.produccion, totPyG.mantenimiento, totPyG.transporte, totPyG.servicios, totPyG.arriendo, totPyG.oficina, totPyG.depreciacion, totPyG.otros, totPyG.costoTotal, totPyG.utilidad, totPyG.ingreso>0? totPyG.utilidad/totPyG.ingreso : 0]);
   const wsP = XLSX.utils.aoa_to_sheet(pygAoa);
-  wsP['!cols'] = [{wch:16},{wch:14},{wch:14},{wch:14},{wch:14},{wch:13},{wch:16},{wch:13},{wch:12},{wch:14},{wch:14},{wch:10}];
-  aplicarFormatos(wsP, pygAoa, [1,2,3,4,5,6,7,8,9,10], [11], 1);
+  wsP['!cols'] = [{wch:16},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:13},{wch:16},{wch:13},{wch:14},{wch:14},{wch:12},{wch:14},{wch:14},{wch:10}];
+  aplicarFormatos(wsP, pygAoa, [1,2,3,4,5,6,7,8,9,10,11,12], [13], 1);
   XLSX.utils.book_append_sheet(wb, wsP, 'P&G por mes');
+
+  // ---------- Hoja ACTIVOS FIJOS ----------
+  const activosAoa = [['Activo','OC origen','Fecha compra','Valor (sin IVA)','Vida útil (años)','Depreciación mensual','Depreciación acumulada','Valor en libros']];
+  (state.activosFijos||[]).forEach(a=>{
+    activosAoa.push([a.nombre, a.ordenCompraCodigo||'', a.fecha, a.valorBase, a.vidaUtilAnios, depreciacionMensualActivo(a), depreciacionAcumulada(a), valorEnLibros(a)]);
+  });
+  const wsAct = XLSX.utils.aoa_to_sheet(activosAoa);
+  wsAct['!cols'] = [{wch:24},{wch:14},{wch:13},{wch:15},{wch:12},{wch:16},{wch:18},{wch:15}];
+  aplicarFormatos(wsAct, activosAoa, [3,5,6,7], [], 1);
+  XLSX.utils.book_append_sheet(wb, wsAct, 'Activos fijos');
 
   // ---------- Hoja RENTABILIDAD ----------
   const rentAoa = [['Cód. proyecto','Nombre','Cliente','Ingreso','Costo material','Mano de obra','Gastos','Costo total','Utilidad','Margen']];
