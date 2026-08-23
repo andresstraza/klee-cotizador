@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0047)file:///C:/Users/Usuario/Downloads/index_6.html -->
+<!-- saved from url=(0047)file:///C:/Users/Usuario/Downloads/index_7.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,7 +243,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <div class="topbar-meta">
       COTIZADOR INTERNO<br>
-      <span id="fechaHoy">19 de agosto de 2026</span>
+      <span id="fechaHoy">23 de agosto de 2026</span>
     </div>
   </div>
 </div>
@@ -491,31 +491,21 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
       <div id="mat-insumos-list"></div>
       <div class="section-divider"></div>
       <p class="helptext" style="margin-bottom:8px;"><strong>Agregar nuevo insumo</strong></p>
+      <p class="helptext" style="margin-top:0;">Tú decides el nombre — escríbelo tal como quieras verlo en el inventario. El formato y el largo son para identificarlo bien (ej. dos vinilos del mismo nombre pero distinto ancho o rollo).</p>
       <div class="grid grid-4" style="align-items:end;">
-        <div class="field"><label>Nombre</label><input type="text" id="nuevo-ins-nombre" placeholder="Ej: Tinta cyan, Cabezal DX5"></div>
-        <div class="field"><label>Tipo</label>
-          <select id="nuevo-ins-tipo" onchange="alCambiarTipoInsumoNuevo()">
-            <option value="material">Material</option>
-            <option value="tinta">Tinta</option>
-            <option value="cabezal">Cabezal</option>
-            <option value="insumo">Insumo</option>
-            <option value="repuesto">Repuesto</option>
-          </select>
-        </div>
-        <div class="field" id="nuevo-ins-color-wrap" style="display:none;"><label>Color</label>
-          <select id="nuevo-ins-color"><option>Amarillo</option><option>Cyan</option><option>Magenta</option><option>Negro</option></select>
-        </div>
+        <div class="field" style="grid-column:span 2;"><label>Nombre del material / insumo</label><input type="text" id="nuevo-ins-nombre" placeholder="Ej: Vinilo adhesivo blanco, Tinta cyan, Cabezal DX5"></div>
+        <div class="field"><label>Color (si aplica)</label><input type="text" id="nuevo-ins-color" placeholder="Ej: Cyan, Blanco"></div>
         <div class="field"><label>Unidad</label>
           <select id="nuevo-ins-unidad"><option value="m²">m²</option><option value="L">Litro</option><option value="unidad">unidad</option></select>
         </div>
       </div>
       <div class="grid grid-4" style="align-items:end;margin-top:12px;">
         <div class="field"><label>Formato / presentación</label><input type="text" id="nuevo-ins-formato" placeholder="Ej: 106, 122, 137, 152 cm"></div>
+        <div class="field"><label>Largo del material</label><input type="text" id="nuevo-ins-largo" placeholder="Ej: rollo x 50m"></div>
         <div class="field"><label>Ancho de rollo (m)</label><input type="number" id="nuevo-ins-ancho" step="0.01" placeholder="Ej: 1.52"></div>
-        <div></div>
         <div><button class="btn btn-azul btn-sm" onclick="agregarInsumo()">+ Agregar insumo</button></div>
       </div>
-      <p class="helptext">Aquí defines los insumos que entran al inventario. Para tintas, elige el color (amarillo, cyan, magenta, negro). El ancho de rollo se usa para convertir compras por metro lineal a m² en el kárdex.</p>
+      <p class="helptext">El ancho de rollo (en metros) se usa para convertir compras por metro lineal a m² en el kárdex — es distinto del campo "Largo", que es solo descriptivo.</p>
     </div>
   </div>
 
@@ -599,29 +589,18 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
             <button type="button" class="btn btn-sm btn-azul" onclick="toggleNuevoInsumoInline()">+ Nuevo insumo</button>
           </div>
           <div id="oc-nuevo-insumo-form" style="display:none;margin-top:12px;padding:14px;background:#F7F6F2;border-radius:6px;">
-            <p class="helptext" style="margin-top:0;">El inventario se construye solo: crea aquí cada insumo la primera vez que lo compres.</p>
+            <p class="helptext" style="margin-top:0;">El inventario se construye solo: crea aquí cada insumo la primera vez que lo compres. Tú decides el nombre — el formato y el largo son para identificarlo bien.</p>
             <div class="grid grid-4" style="align-items:end;">
-              <div class="field"><label>Nombre</label><input type="text" id="oci-nombre" placeholder="Ej: Tinta cyan, Cabezal DX5"></div>
-              <div class="field"><label>Tipo</label>
-                <select id="oci-tipo" onchange="alCambiarTipoInsumoInline()">
-                  <option value="material">Material</option>
-                  <option value="tinta">Tinta</option>
-                  <option value="cabezal">Cabezal</option>
-                  <option value="insumo">Insumo</option>
-                  <option value="repuesto">Repuesto</option>
-                </select>
-              </div>
-              <div class="field" id="oci-color-wrap" style="display:none;"><label>Color</label>
-                <select id="oci-color"><option>Amarillo</option><option>Cyan</option><option>Magenta</option><option>Negro</option></select>
-              </div>
+              <div class="field" style="grid-column:span 2;"><label>Nombre del material / insumo</label><input type="text" id="oci-nombre" placeholder="Ej: Vinilo adhesivo blanco, Tinta cyan, Cabezal DX5"></div>
+              <div class="field"><label>Color (si aplica)</label><input type="text" id="oci-color" placeholder="Ej: Cyan, Blanco"></div>
               <div class="field"><label>Unidad</label>
                 <select id="oci-unidad"><option value="m²">m²</option><option value="L">Litro</option><option value="unidad">unidad</option></select>
               </div>
             </div>
             <div class="grid grid-4" style="align-items:end;margin-top:12px;">
               <div class="field"><label>Formato / presentación</label><input type="text" id="oci-formato" placeholder="Ej: 106, 122, 137, 152 cm"></div>
+              <div class="field"><label>Largo del material</label><input type="text" id="oci-largo" placeholder="Ej: rollo x 50m"></div>
               <div class="field"><label>Ancho de rollo (m)</label><input type="number" id="oci-ancho" step="0.01" placeholder="Ej: 1.52"></div>
-              <div></div>
               <div><button class="btn btn-verde btn-sm" onclick="crearInsumoInlineYSeleccionar()">+ Crear y usar</button></div>
             </div>
           </div>
@@ -892,7 +871,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--negro);">
       <h2><span class="dot" style="background:var(--negro)"></span>💾 Copia de seguridad — muy importante</h2>
       <p class="helptext">Toda la información de KHLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>únicamente en la memoria de este navegador</strong> (localStorage). No se guarda en internet ni en ningún servidor. Si subes el archivo a GitHub, ahí solo queda guardado el <strong>programa</strong> — tus datos del día a día siguen viviendo en el navegador donde lo uses, y cada navegador/computador tiene su propia copia independiente. <strong>Por eso, cada vez que alguien abre la herramienta, se descarga sola una copia de seguridad automática</strong> (verás un aviso abajo a la derecha). Aun así, mueve de vez en cuando esos archivos descargados a un lugar aparte como Google Drive, un USB o el correo — así nunca dependes de un solo navegador ni de la carpeta de Descargas.</p>
-      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>19 de agosto de 2026</strong> (hace hoy).</p></div>
+      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>23 de agosto de 2026</strong> (hace hoy).</p></div>
       <div class="btn-row">
         <button class="btn btn-negro" onclick="exportarBackup()">⬇ Descargar copia de seguridad ahora</button>
         <label class="btn" style="cursor:pointer;">⬆ Restaurar copia
@@ -2281,28 +2260,25 @@ function agregarActividad(){
 }
 
 /* ---- Insumos ---- */
+// Etiqueta legible de un insumo para mostrar en listas/desplegables: nombre + formato + largo,
+// SIN ningún prefijo genérico — el nombre siempre queda tal como lo escribió el usuario.
+function etiquetaInsumo(i){
+  const detalle = [i.formato, i.largo].filter(Boolean).join(' · ');
+  return detalle ? `${i.nombre} (${detalle})` : i.nombre;
+}
 function renderInsumos(){
   const cont = document.getElementById('mat-insumos-list');
   if(!cont) return;
-  cont.innerHTML = `<table><thead><tr><th>Nombre</th><th>Tipo</th><th>Color</th><th>Unidad</th><th>Formato</th><th>Ancho rollo</th><th></th></tr></thead><tbody>`+
+  cont.innerHTML = `<table><thead><tr><th>Nombre</th><th>Color</th><th>Unidad</th><th>Formato</th><th>Largo</th><th>Ancho rollo</th><th></th></tr></thead><tbody>`+
     state.insumos.map((i,idx)=>`<tr>
       <td>${i.nombre}</td>
-      <td>${tipoInsumoLabel(i).replace(' '+(i.color||''),'')}</td>
       <td>${i.color||'—'}</td>
       <td>${i.unidad}</td>
       <td>${i.formato||'—'}</td>
+      <td>${i.largo||'—'}</td>
       <td>${i.anchoRollo>0? numFmt(i.anchoRollo,2)+' m':'—'}</td>
       <td><button class="btn btn-sm" onclick="eliminarInsumo(${idx})">✕</button></td>
     </tr>`).join('')+`</tbody></table>`;
-}
-function alCambiarTipoInsumoNuevo(){
-  const tipo = document.getElementById('nuevo-ins-tipo').value;
-  document.getElementById('nuevo-ins-color-wrap').style.display = (tipo==='tinta')? 'block':'none';
-  // sugerir unidad
-  const selU = document.getElementById('nuevo-ins-unidad');
-  if(tipo==='tinta') selU.value='L';
-  else if(tipo==='material') selU.value='m²';
-  else selU.value='unidad';
 }
 function eliminarInsumo(idx){
   const ins = state.insumos[idx];
@@ -2319,18 +2295,20 @@ function _crearInsumo(datos){
 }
 function agregarInsumo(){
   const nombre = document.getElementById('nuevo-ins-nombre').value.trim();
-  const tipo = document.getElementById('nuevo-ins-tipo').value;
-  const color = tipo==='tinta'? document.getElementById('nuevo-ins-color').value : '';
+  const color = document.getElementById('nuevo-ins-color').value.trim();
   const unidad = document.getElementById('nuevo-ins-unidad').value;
   const formato = document.getElementById('nuevo-ins-formato').value.trim();
+  const largo = document.getElementById('nuevo-ins-largo').value.trim();
   const ancho = parseFloat(document.getElementById('nuevo-ins-ancho').value)||0;
   if(!nombre){ mostrarToast('Escribe un nombre para el insumo.'); return; }
-  _crearInsumo({nombre, tipo, color, unidad, formato, anchoRollo:ancho});
+  _crearInsumo({nombre, color, unidad, formato, largo, anchoRollo:ancho});
   document.getElementById('nuevo-ins-nombre').value='';
+  document.getElementById('nuevo-ins-color').value='';
   document.getElementById('nuevo-ins-formato').value='';
+  document.getElementById('nuevo-ins-largo').value='';
   document.getElementById('nuevo-ins-ancho').value='';
   renderInsumos(); poblarSelectsCompra();
-  mostrarToast('Insumo agregado.');
+  mostrarToast('Insumo "'+nombre+'" agregado.');
 }
 
 /* ---- Crear insumo en línea desde Compras (así el inventario se construye solo con cada compra) ---- */
@@ -2338,25 +2316,23 @@ function toggleNuevoInsumoInline(){
   const f = document.getElementById('oc-nuevo-insumo-form');
   const visible = f.style.display==='block';
   f.style.display = visible? 'none':'block';
-  if(!visible){ document.getElementById('oci-nombre').value=''; document.getElementById('oci-formato').value=''; document.getElementById('oci-ancho').value=''; alCambiarTipoInsumoInline(); }
-}
-function alCambiarTipoInsumoInline(){
-  const tipo = document.getElementById('oci-tipo').value;
-  document.getElementById('oci-color-wrap').style.display = (tipo==='tinta')? 'block':'none';
-  const selU = document.getElementById('oci-unidad');
-  if(tipo==='tinta') selU.value='L';
-  else if(tipo==='material') selU.value='m²';
-  else selU.value='unidad';
+  if(!visible){
+    document.getElementById('oci-nombre').value='';
+    document.getElementById('oci-color').value='';
+    document.getElementById('oci-formato').value='';
+    document.getElementById('oci-largo').value='';
+    document.getElementById('oci-ancho').value='';
+  }
 }
 function crearInsumoInlineYSeleccionar(){
   const nombre = document.getElementById('oci-nombre').value.trim();
-  const tipo = document.getElementById('oci-tipo').value;
-  const color = tipo==='tinta'? document.getElementById('oci-color').value : '';
+  const color = document.getElementById('oci-color').value.trim();
   const unidad = document.getElementById('oci-unidad').value;
   const formato = document.getElementById('oci-formato').value.trim();
+  const largo = document.getElementById('oci-largo').value.trim();
   const ancho = parseFloat(document.getElementById('oci-ancho').value)||0;
   if(!nombre){ mostrarToast('Escribe un nombre para el insumo.'); return; }
-  const insumo = _crearInsumo({nombre, tipo, color, unidad, formato, anchoRollo:ancho});
+  const insumo = _crearInsumo({nombre, color, unidad, formato, largo, anchoRollo:ancho});
   poblarSelectsCompra();
   document.getElementById('oc-insumo').value = insumo.id;
   alCambiarInsumoCompra();
@@ -2468,10 +2444,7 @@ function initComprasUI(){
 }
 function poblarSelectsCompra(){
   const selI = document.getElementById('oc-insumo');
-  if(selI) selI.innerHTML = state.insumos.map(i=>{
-    const etiq = i.tipo? tipoInsumoLabel(i)+' · ' : '';
-    return `<option value="${i.id}">${etiq}${i.nombre} (${i.unidad})</option>`;
-  }).join('');
+  if(selI) selI.innerHTML = state.insumos.map(i=>`<option value="${i.id}">${etiquetaInsumo(i)} — ${i.unidad}</option>`).join('');
   const selG = document.getElementById('oc-gasto-cat');
   if(selG) selG.innerHTML = state.categoriasGasto.map(g=>`<option value="${g.id}">${g.nombre}</option>`).join('');
   const selO = document.getElementById('oc-oficina-cat');
@@ -2479,12 +2452,6 @@ function poblarSelectsCompra(){
   alCambiarInsumoCompra();
   alCambiarCategoriaOficina();
   calcularCompra();
-}
-function tipoInsumoLabel(i){
-  const map = {tinta:'Tinta', cabezal:'Cabezal', insumo:'Insumo', repuesto:'Repuesto', material:'Material'};
-  let t = map[i.tipo]||i.tipo;
-  if(i.tipo==='tinta' && i.color) t += ' '+i.color;
-  return t;
 }
 function alCambiarInsumoCompra(){
   const selI = document.getElementById('oc-insumo');
@@ -2782,7 +2749,7 @@ function renderCompras(){
       <td>${c.proveedor||''}</td>
       <td>${fp}${(c.anticipo? ' · anticipo '+moneda(c.anticipo):'')}<br>${pagoTag}</td>
       <td class="num">${moneda(c.total)}${c.ivaValor>0? '<br><small style="color:#6B6A63;">incl. IVA '+moneda(c.ivaValor)+'</small>':''}</td>
-      <td>${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor('+origenArg+')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${c.pagada? '' : '<button class="btn btn-sm btn-verde" onclick="marcarCompraPagada('+origenArg+')">Pagar</button>'}<button class="btn btn-sm" onclick="eliminarCompra('+origenArg+')">✕</button></td>
+      <td>${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor('+origenArg+')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${c.pagada? '' : '<button class="btn btn-sm btn-verde" onclick="marcarCompraPagada('+origenArg+')">Pagar</button>'}<button class="btn btn-sm" onclick="eliminarCompra(${origenArg})">✕</button></td>
     </tr>`;
   }).join('');
 
@@ -2833,7 +2800,13 @@ function eliminarCompra(origen, idx){
   const c = lista[idx];
   if(!c) return;
   if(c.tipo==='insumo'){
-    if(!confirm('Al eliminar esta compra de insumo también se revierte su entrada al inventario. ¿Continuar?')) return;
+    const saldoActual = saldoInsumo(c.insumoId);
+    const saldoTrasEliminar = saldoActual - (c.cantidad||0);
+    let mensaje = 'Al eliminar esta compra de insumo también se revierte su entrada al inventario. ¿Continuar?';
+    if(saldoTrasEliminar<0){
+      mensaje = '⚠ Ya se consumió parte de esta compra en alguna orden de producción. Si la eliminas, el saldo de "'+(c.insumoNombre||'este insumo')+'" quedaría en '+numFmt(saldoTrasEliminar,2)+' '+c.unidad+' (negativo). ¿Eliminar de todas formas?';
+    }
+    if(!confirm(mensaje)) return;
     const mIdx = state.movimientos.findIndex(m=>m.referencia===c.codigo && m.tipo==='entrada');
     if(mIdx>=0) state.movimientos.splice(mIdx,1);
   }else{
@@ -2844,6 +2817,7 @@ function eliminarCompra(origen, idx){
   renderCompras();
   renderInventario();
   if(typeof renderContabilidad==='function') renderContabilidad();
+  mostrarToast('Compra '+c.codigo+' eliminada.');
 }
 
 function generarOCProveedor(origen, idx){
@@ -2969,7 +2943,9 @@ function renderInventario(){
     const costoProm = totalEntrada>0 ? valorTotal/totalEntrada : 0;
     const saldoColor = saldo<=0 ? 'color:#B23B3B;' : '';
     return `<tr>
-      <td>${ins.nombre}</td>
+      <td>${ins.nombre}${ins.color? ' <small style="color:var(--gris-texto);">('+ins.color+')</small>':''}</td>
+      <td>${ins.formato||'—'}</td>
+      <td>${ins.largo||'—'}</td>
       <td class="num">${numFmt(saldo,2)}</td>
       <td>${ins.unidad}</td>
       <td class="num">${moneda(costoProm)}</td>
@@ -2979,7 +2955,7 @@ function renderInventario(){
   }).join('');
   cont.innerHTML = `
     <table>
-      <thead><tr><th>Insumo</th><th class="num">Saldo</th><th>Unidad</th><th class="num">Costo prom.</th><th class="num">Valor inventario</th><th></th></tr></thead>
+      <thead><tr><th>Insumo</th><th>Formato</th><th>Largo</th><th class="num">Saldo</th><th>Unidad</th><th class="num">Costo prom.</th><th class="num">Valor inventario</th><th></th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <div id="kardex-detalle" style="margin-top:20px;"></div>`;
@@ -3011,14 +2987,14 @@ function verKardex(insumoId){
   document.getElementById('kardex-detalle').scrollIntoView && document.getElementById('kardex-detalle').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function exportarInventarioExcel(){
-  let filas = [['Insumo','Saldo','Unidad','Costo promedio','Valor inventario']];
+  let filas = [['Insumo','Formato','Largo','Saldo','Unidad','Costo promedio','Valor inventario']];
   state.insumos.forEach(ins=>{
     const saldo = saldoInsumo(ins.id);
     const entradas = state.movimientos.filter(m=>m.insumoId===ins.id && m.tipo==='entrada');
     const totalEntrada = entradas.reduce((s,m)=>s+m.cantidad,0);
     const valorTotal = entradas.reduce((s,m)=>s+m.cantidad*(m.precioUnit||0),0);
     const costoProm = totalEntrada>0 ? valorTotal/totalEntrada : 0;
-    filas.push([ins.nombre, saldo, ins.unidad, costoProm, saldo*costoProm]);
+    filas.push([ins.nombre, ins.formato||'', ins.largo||'', saldo, ins.unidad, costoProm, saldo*costoProm]);
   });
   filas.push([]);
   filas.push(['MOVIMIENTOS (KÁRDEX)']);
@@ -3035,7 +3011,7 @@ function abrirConsumoOrden(idxOrden){
   ordenConsumoActual = idxOrden;
   const o = state.ordenes[idxOrden];
   const selIns = document.getElementById('consumo-insumo');
-  selIns.innerHTML = '<option value="">— Selecciona un insumo —</option>' + state.insumos.map(i=>`<option value="${i.id}">${i.nombre} (saldo: ${numFmt(saldoInsumo(i.id),2)} ${i.unidad})</option>`).join('');
+  selIns.innerHTML = '<option value="">— Selecciona un insumo —</option>' + state.insumos.map(i=>`<option value="${i.id}">${etiquetaInsumo(i)} — saldo: ${numFmt(saldoInsumo(i.id),2)} ${i.unidad}</option>`).join('');
   document.getElementById('consumo-op-codigo').textContent = o.codigo + (o.proyecto? ' · '+o.proyecto : '');
   document.getElementById('consumo-cantidad').value='';
   renderConsumosOrden(idxOrden);
@@ -3078,7 +3054,7 @@ function registrarConsumo(){
   guardarEstado();
   document.getElementById('consumo-cantidad').value='';
   // refrescar el select con saldos nuevos y volver al placeholder, listo para el siguiente insumo
-  document.getElementById('consumo-insumo').innerHTML = '<option value="">— Selecciona un insumo —</option>' + state.insumos.map(i=>`<option value="${i.id}">${i.nombre} (saldo: ${numFmt(saldoInsumo(i.id),2)} ${i.unidad})</option>`).join('');
+  document.getElementById('consumo-insumo').innerHTML = '<option value="">— Selecciona un insumo —</option>' + state.insumos.map(i=>`<option value="${i.id}">${etiquetaInsumo(i)} — saldo: ${numFmt(saldoInsumo(i.id),2)} ${i.unidad}</option>`).join('');
   renderConsumosOrden(ordenConsumoActual);
   renderInventario();
   document.getElementById('consumo-insumo').focus();
