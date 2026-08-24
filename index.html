@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_16.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_19.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -253,11 +253,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 <div class="wrap">
 
   <div class="tabs">
-    <button class="tab-btn" data-tab="cotizacion">Cotización</button>
+    <button class="tab-btn active" data-tab="cotizacion">Cotización</button>
     <button class="tab-btn" data-tab="materiales">Materiales</button>
     <button class="tab-btn" data-tab="historial">Historial</button>
     <button class="tab-btn" data-tab="ordenes">Órdenes de producción</button>
-    <button class="tab-btn active" data-tab="compras">Compras</button>
+    <button class="tab-btn" data-tab="compras">Compras</button>
     <button class="tab-btn" data-tab="inventario">Inventario</button>
     <button class="tab-btn" data-tab="rentabilidad">Rentabilidad</button>
     <button class="tab-btn" data-tab="contabilidad">Contabilidad</button>
@@ -265,7 +265,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
   </div>
 
   <!-- ================= TAB: COTIZACION ================= -->
-  <div class="tab-panel" id="panel-cotizacion">
+  <div class="tab-panel active" id="panel-cotizacion">
     <div id="recordatorio-backup-global"></div>
 
     <div class="card">
@@ -538,7 +538,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
   </div>
 
   <!-- ================= TAB: COMPRAS ================= -->
-  <div class="tab-panel active" id="panel-compras">
+  <div class="tab-panel" id="panel-compras">
     <div class="card">
       <h2><span class="dot" style="background:var(--azul)"></span>Registrar orden de compra</h2>
       <div class="cat-selector" style="margin-bottom:16px;">
@@ -578,7 +578,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div class="field" style="margin-bottom:14px;">
           <label>Insumo</label>
           <div style="display:flex;gap:8px;align-items:center;">
-            <select id="oc-insumo" onchange="alCambiarInsumoCompra()" style="flex:1;"><option value="i1787572999048381">TINTA AMARILLA (LITRO) — L</option><option value="i1787573024672983">TINTA CYAN (LITRO) — L</option><option value="i1787573040363580">TINTA MAGENTA (LITRO) — L</option><option value="i1787573054455944">TINTA NEGRA (LITRO) — L</option><option value="i1787573084436820">VINILO BLANCO BRILLANTE (ROLLO · 152 cm) — m²</option><option value="i1787573103020179">VINILO BLANCO MATTE (ROLLO · 152 cm) — m²</option><option value="i1787573128877228">VINILO LAMINADO MATTE (ROLLO · 152 cm) — m²</option><option value="i1787573151328879">VINILO LAMINADO BRILLANTE (ROLLO · 152 cm) — m²</option><option value="i178757316798644">PET BACKLIT (ROLLO · 106 cm) — m²</option><option value="i1787573190609199">BANNER RESPALDO GRIS (ROLLO · 180 cm) — m²</option></select>
+            <select id="oc-insumo" onchange="alCambiarInsumoCompra()" style="flex:1;"></select>
             <button type="button" class="btn btn-sm btn-azul" onclick="toggleNuevoInsumoInline()">+ Nuevo insumo</button>
             <button type="button" class="btn btn-sm" onclick="eliminarInsumoSeleccionadoEnCompra()" title="Eliminar el insumo seleccionado (solo si no tiene compras/consumos todavía)">✕ Eliminar este</button>
           </div>
@@ -609,8 +609,8 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
             </select>
           </div>
           <div class="field" id="oc-ancho-wrap" style="display:none;"><label>Ancho del rollo (cm)</label><input type="number" id="oc-ancho" step="1" min="0" list="anchos-comunes" placeholder="Ej: 106, 122, 137, 152, 180" oninput="calcularCompra()"></div>
-          <div class="field"><label id="oc-cantidad-label">Litros comprados</label><input type="number" id="oc-cantidad" step="0.01" min="0" oninput="calcularCompra()"></div>
-          <div class="field"><label id="oc-precio-label">Precio por litro</label><input type="number" id="oc-precio-unit" step="1" min="0" oninput="calcularCompra()"></div>
+          <div class="field"><label id="oc-cantidad-label">Cantidad</label><input type="number" id="oc-cantidad" step="0.01" min="0" oninput="calcularCompra()"></div>
+          <div class="field"><label id="oc-precio-label">Precio unitario</label><input type="number" id="oc-precio-unit" step="1" min="0" oninput="calcularCompra()"></div>
         </div>
         <div class="grid grid-4" style="margin-top:14px;">
           <div class="field"><label>Equivale a (para kárdex)</label><input type="text" id="oc-equivale" readonly="" style="background:#F7F6F2;"></div>
@@ -622,12 +622,25 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
           <div class="field"><label>Total a pagar <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
         </div>
         <p class="helptext">Si compras un rollo por metro lineal, indica el ancho y la herramienta convierte a m² para el kárdex (metros × ancho). Así el inventario y el costo quedan por m², no por metro lineal. El costo del inventario se valora sin IVA; el IVA queda registrado aparte para tu contabilidad.</p>
-        <div class="btn-row"><button class="btn btn-azul" onclick="registrarCompra()">+ Registrar compra de insumo</button></div>
+        <div class="btn-row">
+          <button class="btn btn-azul" onclick="agregarItemCarritoOC()">+ Agregar este insumo a la orden</button>
+          <button class="btn" onclick="registrarCompra()" title="Si es el único insumo que vas a comprar en esta orden, regístralo de una vez sin pasar por el carrito">Registrar solo este (compra rápida)</button>
+        </div>
+        <p class="helptext" style="margin-top:6px;">¿Vas a comprar <strong>varios insumos</strong> del mismo proveedor? Usa "+ Agregar a la orden" con cada uno y regístralos todos juntos bajo un solo número de OC. Si es solo este, usa "Registrar solo este".</p>
+
+        <div id="carrito-oc-wrap" style="display:none;margin-top:18px;padding:14px;background:#F4F5FA;border-radius:6px;">
+          <p class="helptext" style="margin:0 0 8px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.05em;color:var(--azul);">🛒 Insumos en esta orden de compra</p>
+          <div id="carrito-oc-lista"></div>
+          <div class="btn-row" style="margin-top:12px;">
+            <button class="btn btn-verde" onclick="registrarCarritoOC()">✓ Registrar orden de compra completa</button>
+            <button class="btn btn-sm" onclick="vaciarCarritoOC()">Vaciar y empezar de nuevo</button>
+          </div>
+        </div>
       </div>
 
       <div id="oc-form-gasto" style="display:none;">
         <div class="grid grid-4">
-          <div class="field"><label>Categoría</label><select id="oc-gasto-cat"><option value="g1">Mantenimiento</option><option value="g2">Transporte</option><option value="g3">Servicios públicos</option><option value="g4">Arriendo</option><option value="g5">Otros</option></select></div>
+          <div class="field"><label>Categoría</label><select id="oc-gasto-cat"></select></div>
           <div class="field"><label>Valor <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="number" id="oc-gasto-valor" step="1" min="0" oninput="calcularCompra()"></div>
           <div class="field"><label>IVA</label><input type="text" id="oc-gasto-iva" readonly="" style="background:#F7F6F2;"></div>
           <div class="field"><label>Total <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-gasto-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
@@ -641,13 +654,13 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
       <div id="oc-form-oficina" style="display:none;">
         <div class="grid grid-4">
-          <div class="field"><label>Categoría de operación</label><select id="oc-oficina-cat" onchange="alCambiarCategoriaOficina()"><option value="o1">Compra de equipos</option><option value="o2">Instalación de equipos</option><option value="o3">Servicios públicos</option><option value="o4">Arriendo</option><option value="o5">Insumos de oficina (bisturís, trapos, etc.)</option><option value="o6">Pago crédito equipos</option><option value="o7">Otros de operación</option></select></div>
+          <div class="field"><label>Categoría de operación</label><select id="oc-oficina-cat" onchange="alCambiarCategoriaOficina()"></select></div>
           <div class="field"><label>Valor <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="number" id="oc-oficina-valor" step="1" min="0" oninput="calcularCompra()"></div>
           <div class="field"><label>IVA</label><input type="text" id="oc-oficina-iva" readonly="" style="background:#F7F6F2;"></div>
           <div class="field"><label>Total <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-oficina-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
         </div>
         <div class="field" style="margin-top:14px;"><label>Descripción</label><input type="text" id="oc-oficina-desc" placeholder="Ej: Plotter Epson, recibo luz, arriendo local"></div>
-        <div id="oc-oficina-depreciacion-wrap" style="display: block; margin-top: 14px; padding: 14px; background: rgb(248, 241, 234); border-radius: 6px;">
+        <div id="oc-oficina-depreciacion-wrap" style="display:none;margin-top:14px;padding:14px;background:#F8F1EA;border-radius:6px;">
           <p class="helptext" style="margin-top:0;font-weight:700;color:var(--marron);">📉 Este equipo se registrará como activo fijo, para depreciarlo mes a mes en vez de cargarlo todo de una vez como gasto.</p>
           <div class="field" style="max-width:260px;"><label>Vida útil (años)</label><input type="number" id="oc-oficina-vidautil" step="1" min="1" value="5"></div>
           <p class="helptext">Por defecto 5 años en línea recta — ajustable aquí o después en Contabilidad. Confírmalo con tu contador.</p>
@@ -667,110 +680,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
             <option value="gasto">Gastos</option>
           </select>
         </div>
-        <div class="field"><label>Mes</label><select id="filtro-oc-mes" onchange="renderCompras()"><option value="">Todos los meses</option><option>agosto 2026</option></select></div>
+        <div class="field"><label>Mes</label><select id="filtro-oc-mes" onchange="renderCompras()"></select></div>
         <div class="field"><label>Proveedor</label><input type="text" id="filtro-oc-proveedor" placeholder="Buscar proveedor" oninput="renderCompras()"></div>
         <div class="field" style="align-self:end;"><button class="btn btn-sm" onclick="limpiarFiltrosCompras()">Limpiar</button></div>
       </div>
-      <div id="compras-list">
-    <table>
-      <thead><tr><th>OC</th><th>Fecha</th><th>Tipo</th><th>Detalle</th><th>Proveedor</th><th>Pago</th><th class="num">Total</th><th></th></tr></thead>
-      <tbody><tr>
-      <td>KHLEE-OC-2026-004</td>
-      <td>2026-08-20</td>
-      <td><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td>
-      <td>Compra de equipos · Computador Portátil HP 8040 16 gb memoria 1 tera disco duro Procesador Icore7</td>
-      <td>PABLO FORERO</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$1.500.000</td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,0)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,0)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-003</td>
-      <td>2026-08-20</td>
-      <td><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td>
-      <td>Insumos de oficina (bisturís, trapos, etc.) · Tomas dobles de sobreponer</td>
-      <td>HOMECENTER</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$18.000<br><small style="color:#6B6A63;">incl. IVA $2.874</small></td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,1)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,1)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-002</td>
-      <td>2026-08-20</td>
-      <td><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td>
-      <td>Compra de equipos · Laminadora Neumática 1700-T1</td>
-      <td>SUMINISTROS DIGITALES SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$7.735.000<br><small style="color:#6B6A63;">incl. IVA $1.235.000</small></td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,2)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,2)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-021</td>
-      <td>2026-08-16</td>
-      <td><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td>
-      <td>BANNER RESPALDO GRIS — 10,00 m lin × 180 cm = 18,00 m² × $4.933/m²</td>
-      <td>SKYCOLORS COLOMBIA SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$88.800</td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,0)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,0)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-020</td>
-      <td>2026-08-16</td>
-      <td><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td>
-      <td>PET BACKLIT — 50,00 m lin × 106 cm = 53,00 m² × $10.200/m²</td>
-      <td>SKYCOLORS COLOMBIA SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$540.600</td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,1)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,1)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-019</td>
-      <td>2026-08-16</td>
-      <td><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td>
-      <td>VINILO LAMINADO BRILLANTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td>
-      <td>SKYCOLORS COLOMBIA SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$433.200</td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,2)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,2)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-018</td>
-      <td>2026-08-16</td>
-      <td><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td>
-      <td>VINILO LAMINADO MATTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td>
-      <td>SKYCOLORS COLOMBIA SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$433.200</td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,3)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,3)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-017</td>
-      <td>2026-08-16</td>
-      <td><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td>
-      <td>VINILO BLANCO MATTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td>
-      <td>SKYCOLORS COLOMBIA SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$433.200</td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,4)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,4)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-016</td>
-      <td>2026-08-16</td>
-      <td><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td>
-      <td>VINILO BLANCO BRILLANTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td>
-      <td>SKYCOLORS COLOMBIA SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$433.200</td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,5)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,5)">✕</button></td>
-    </tr><tr>
-      <td>KHLEE-OC-2026-001</td>
-      <td>2026-08-15</td>
-      <td><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td>
-      <td>Compra de equipos · PLOTTER DE IMPRESION 180 CM ECOSOLVENTE SKY COLORS</td>
-      <td>SKY COLORS COLOMBIA SAS</td>
-      <td>Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td>
-      <td class="num">$38.000.000<br><small style="color:#6B6A63;">incl. IVA $6.067.227</small></td>
-      <td><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,3)" title="Exportar orden de compra a PDF">📄 PDF</button><button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,3)">✕</button></td>
-    </tr></tbody>
-    </table>
-    <div class="totales" style="margin-top:14px;">
-      <div class="totales-box" style="width:300px;">
-        <div class="row total"><span>Total filtrado</span><span>$49.615.200</span></div>
-      </div>
-    </div></div>
+      <div id="compras-list"></div>
       <div class="btn-row" style="margin-top:16px;"><button class="btn" onclick="exportarComprasExcel()">📊 Exportar compras a Excel</button></div>
     </div>
   </div>
@@ -780,143 +694,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--verde)"></span>Inventario de insumos</h2>
       <p class="helptext">El saldo se calcula solo: cada compra de insumo suma, cada consumo contra una orden de producción resta. El costo promedio se pondera con las compras registradas.</p>
-      <div id="inventario-list">
-    <table>
-      <thead><tr><th>Material (nombre y ancho)</th><th class="num">Metraje disponible</th><th class="num" style="background:#F7F6F2;">$ Costo prom. (por unidad)</th><th class="num" style="background:#F7F6F2;">$ Valor total en inventario</th><th></th></tr></thead>
-      <tbody><tr>
-      <td>
-        <strong>TINTA AMARILLA</strong> <small style="color:var(--gris-texto);">(AMARILLA)</small>
-        
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">0,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
-      <td class="num" style="background:#F7F6F2;">$0 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
-      <td class="num" style="background:#F7F6F2;color:#B23B3B;">$0</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787572999048381&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(0)">✏️</button>
-        <button class="btn btn-sm" onclick="eliminarInsumo(0)" title="Sin movimientos todavía — se puede eliminar">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>TINTA CYAN</strong> <small style="color:var(--gris-texto);">(CYAN)</small>
-        
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">0,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
-      <td class="num" style="background:#F7F6F2;">$0 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
-      <td class="num" style="background:#F7F6F2;color:#B23B3B;">$0</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573024672983&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(1)">✏️</button>
-        <button class="btn btn-sm" onclick="eliminarInsumo(1)" title="Sin movimientos todavía — se puede eliminar">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>TINTA MAGENTA</strong> <small style="color:var(--gris-texto);">(MAGENTA)</small>
-        
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">0,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
-      <td class="num" style="background:#F7F6F2;">$0 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
-      <td class="num" style="background:#F7F6F2;color:#B23B3B;">$0</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573040363580&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(2)">✏️</button>
-        <button class="btn btn-sm" onclick="eliminarInsumo(2)" title="Sin movimientos todavía — se puede eliminar">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>TINTA NEGRA</strong> <small style="color:var(--gris-texto);">(NEGRA)</small>
-        
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">0,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
-      <td class="num" style="background:#F7F6F2;">$0 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
-      <td class="num" style="background:#F7F6F2;color:#B23B3B;">$0</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573054455944&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(3)">✏️</button>
-        <button class="btn btn-sm" onclick="eliminarInsumo(3)" title="Sin movimientos todavía — se puede eliminar">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>VINILO BLANCO BRILLANTE</strong> <small style="color:var(--gris-texto);">(BLANCO)</small>
-        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">76,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$433.200</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573084436820&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(4)">✏️</button>
-        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>VINILO BLANCO MATTE</strong> <small style="color:var(--gris-texto);">(BLANCO)</small>
-        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">76,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$433.200</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573103020179&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(5)">✏️</button>
-        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>VINILO LAMINADO MATTE</strong> <small style="color:var(--gris-texto);">(CLEAR)</small>
-        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">76,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$433.200</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573128877228&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(6)">✏️</button>
-        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>VINILO LAMINADO BRILLANTE</strong> <small style="color:var(--gris-texto);">(CLEAR)</small>
-        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">76,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$433.200</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573151328879&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(7)">✏️</button>
-        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>PET BACKLIT</strong> <small style="color:var(--gris-texto);">(BLANCO)</small>
-        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 106 cm de ancho</span>
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">53,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$10.200 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$540.600</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i178757316798644&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(8)">✏️</button>
-        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
-      </td>
-    </tr><tr>
-      <td>
-        <strong>BANNER RESPALDO GRIS</strong> <small style="color:var(--gris-texto);">(BLANCO-GRIS)</small>
-        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 180 cm de ancho</span>
-      </td>
-      <td class="num" style="font-weight:700;font-size:15px;">18,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$4.933 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
-      <td class="num" style="background:#F7F6F2;">$88.800</td>
-      <td style="white-space:nowrap;">
-        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573190609199&#39;)">Ver kárdex</button>
-        <button class="btn btn-sm" onclick="editarInsumo(9)">✏️</button>
-        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
-      </td>
-    </tr></tbody>
-    </table>
-    <p class="helptext" style="margin-top:8px;">Las dos últimas columnas (con fondo gris) son valores en <strong>pesos</strong>, no medidas — el ancho del material siempre aparece junto al nombre, en la etiqueta amarilla 📏. El botón "✕" solo se activa si el material todavía no tiene ninguna compra o consumo registrado.</p>
-    <div id="kardex-detalle" style="margin-top:20px;"></div></div>
+      <div id="inventario-list"></div>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn" onclick="exportarInventarioExcel()">📊 Exportar inventario y kárdex</button>
         <button class="btn" onclick="exportarConsumosExcel()">📊 Exportar consumos por proyecto</button>
@@ -1420,23 +1198,24 @@ function mostrarToast(msg){
 }
 
 /* ============ TABS ============ */
+function activarTab(nombre){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===nombre));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  const panel = document.getElementById('panel-'+nombre);
+  if(panel) panel.classList.add('active');
+  renderRecordatorioBackupGlobal();
+  if(nombre==='materiales') renderMateriales();
+  if(nombre==='historial') renderHistorial();
+  if(nombre==='ordenes') renderOrdenes();
+  if(nombre==='compras'){ initComprasUI(); renderCompras(); }
+  if(nombre==='inventario') renderInventario();
+  if(nombre==='rentabilidad') renderRentabilidad();
+  if(nombre==='contabilidad') renderContabilidad();
+  if(nombre==='config'){ renderConfig(); renderEstadoBackup(); }
+}
 function initTabs(){
   document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
-      renderRecordatorioBackupGlobal();
-      if(btn.dataset.tab==='materiales') renderMateriales();
-      if(btn.dataset.tab==='historial') renderHistorial();
-      if(btn.dataset.tab==='ordenes') renderOrdenes();
-      if(btn.dataset.tab==='compras'){ initComprasUI(); renderCompras(); }
-      if(btn.dataset.tab==='inventario') renderInventario();
-      if(btn.dataset.tab==='rentabilidad') renderRentabilidad();
-      if(btn.dataset.tab==='contabilidad') renderContabilidad();
-      if(btn.dataset.tab==='config'){ renderConfig(); renderEstadoBackup(); }
-    });
+    btn.addEventListener('click', ()=> activarTab(btn.dataset.tab));
   });
 
   document.querySelectorAll('.cat-btn').forEach(btn=>{
@@ -2552,6 +2331,10 @@ let insumoEditandoIdx = null;
 function editarInsumo(idx){
   insumoEditandoIdx = idx;
   const i = state.insumos[idx];
+  // si se llama desde Inventario (u otra pestaña), hay que llevar a la persona a Materiales,
+  // que es donde vive el formulario de edición — si no, el formulario se llena "detrás de cámaras"
+  // en una pestaña oculta y parece que el botón no hizo nada.
+  activarTab('materiales');
   document.getElementById('nuevo-ins-nombre').value = i.nombre||'';
   document.getElementById('nuevo-ins-presentacion').value = i.presentacion||'';
   document.getElementById('nuevo-ins-medida').value = medidaCmDe(i) || '';
@@ -2565,6 +2348,7 @@ function editarInsumo(idx){
   const campoNombre = document.getElementById('nuevo-ins-nombre');
   if(typeof campoNombre.scrollIntoView==='function') campoNombre.scrollIntoView({behavior:'smooth', block:'center'});
   campoNombre.focus();
+  mostrarToast('Editando "'+i.nombre+'" — corrige lo que necesites y pulsa "✓ Guardar cambios".');
 }
 function cancelarEdicionInsumo(){
   insumoEditandoIdx = null;
@@ -2897,6 +2681,120 @@ function limpiarCamposProveedor(){
   document.getElementById('oc-proveedor-email').value='';
   document.getElementById('oc-proveedor-direccion').value='';
 }
+/* ============ CARRITO DE OC: varios insumos bajo UNA sola orden de compra ============ */
+let carritoOC = [];
+function agregarItemCarritoOC(){
+  const selI = document.getElementById('oc-insumo');
+  const insumo = state.insumos.find(i=>i.id===selI.value);
+  if(!insumo){ mostrarToast('Selecciona un insumo.'); return; }
+  const r = convertirCompraAM2();
+  if(r.cant<=0){ mostrarToast('Ingresa la cantidad comprada.'); return; }
+  carritoOC.push({
+    insumoId: insumo.id, insumoNombre: insumo.nombre, unidad: r.unidadKardex,
+    modoCompra: r.modo, ancho: r.ancho,
+    cantidad: r.cantidadKardex, precioUnit: r.costoUnit,
+    baseGravable: r.total, detalleCompra: r.equivaleTxt
+  });
+  document.getElementById('oc-cantidad').value='';
+  document.getElementById('oc-precio-unit').value='';
+  document.getElementById('oc-insumo').value='';
+  calcularCompra();
+  renderCarritoOC();
+  mostrarToast('"'+insumo.nombre+'" agregado a la orden. Sigue agregando o registra la orden completa.');
+}
+function quitarItemCarritoOC(idx){
+  carritoOC.splice(idx,1);
+  renderCarritoOC();
+}
+function vaciarCarritoOC(){
+  if(carritoOC.length===0) return;
+  if(!confirm('¿Vaciar todos los insumos que llevas agregados a esta orden?')) return;
+  carritoOC = [];
+  renderCarritoOC();
+}
+function renderCarritoOC(){
+  const wrap = document.getElementById('carrito-oc-wrap');
+  const cont = document.getElementById('carrito-oc-lista');
+  if(!wrap || !cont) return;
+  if(carritoOC.length===0){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  const totalBase = carritoOC.reduce((s,it)=>s+it.baseGravable,0);
+  cont.innerHTML = `
+    <table>
+      <thead><tr><th>Insumo</th><th>Equivale</th><th class="num">Subtotal (sin IVA)</th><th></th></tr></thead>
+      <tbody>${carritoOC.map((it,idx)=>`<tr>
+        <td>${it.insumoNombre}</td>
+        <td>${it.detalleCompra}</td>
+        <td class="num">${moneda(it.baseGravable)}</td>
+        <td><button class="btn btn-sm" onclick="quitarItemCarritoOC(${idx})">✕</button></td>
+      </tr>`).join('')}</tbody>
+      <tfoot><tr style="background:#fff;font-weight:700;"><td colspan="2">Subtotal de la orden (sin IVA)</td><td class="num">${moneda(totalBase)}</td><td></td></tr></tfoot>
+    </table>
+    <p class="helptext" style="margin:8px 0 0;">Llevas ${carritoOC.length} insumo(s) en esta orden. El IVA y la forma de pago (arriba) se aplican a toda la orden junto, al registrarla.</p>`;
+}
+function registrarCarritoOC(){
+  if(carritoOC.length===0){ mostrarToast('Agrega al menos un insumo a la orden.'); return; }
+  const fecha = document.getElementById('oc-fecha').value || new Date().toISOString().slice(0,10);
+  const datosProveedor = leerDatosProveedorForm();
+  const proveedor = datosProveedor.nombre;
+  const formaPago = document.getElementById('oc-forma-pago').value;
+  const vencimiento = document.getElementById('oc-vencimiento').value || '';
+  const iva = datosIvaCompra();
+  guardarOActualizarProveedor(datosProveedor);
+
+  const codigoOC = generarCodigoOC();
+  let totalOrdenConIva = 0;
+  carritoOC.forEach(it=>{
+    const ivaValor = it.baseGravable*iva.pct/100;
+    const total = it.baseGravable+ivaValor;
+    totalOrdenConIva += total;
+    const compra = {
+      codigo: codigoOC, tipo:'insumo', fecha, proveedor, proveedorDatos: datosProveedor,
+      formaPago, vencimiento, pagada: formaPago==='Contado',
+      insumoId: it.insumoId, insumoNombre: it.insumoNombre, unidad: it.unidad,
+      modoCompra: it.modoCompra, anchoRollo: it.ancho,
+      cantidad: it.cantidad, precioUnit: it.precioUnit,
+      baseGravable: it.baseGravable, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total,
+      detalleCompra: it.detalleCompra
+    };
+    state.compras.unshift(compra);
+    state.movimientos.unshift({
+      fecha, insumoId: it.insumoId, insumoNombre: it.insumoNombre, unidad: it.unidad,
+      tipo:'entrada', cantidad: it.cantidad, precioUnit: it.precioUnit, referencia: codigoOC,
+      nota:'Compra'+(proveedor?' · '+proveedor:'')+' ('+it.detalleCompra+')'
+    });
+  });
+
+  const detalleItems = carritoOC.map(it=>it.insumoNombre).join(', ');
+  if(formaPago==='Contado'){
+    state.pagos.unshift({tipo:'egreso', fecha, concepto:'Compra '+codigoOC+(proveedor?' · '+proveedor:'')+' — '+detalleItems, referencia:codigoOC, monto:totalOrdenConIva});
+  }else if(formaPago==='Anticipo'){
+    const antic = parseFloat(document.getElementById('oc-anticipo').value)||0;
+    if(antic>0){
+      state.pagos.unshift({tipo:'egreso', fecha, concepto:'Anticipo compra '+codigoOC+(proveedor?' · '+proveedor:'')+' — '+detalleItems, referencia:codigoOC, monto:antic});
+      // el anticipo se reparte proporcionalmente entre los ítems de la orden, para que la cuenta por pagar cuadre
+      const compraGrupo = state.compras.filter(c=>c.codigo===codigoOC);
+      compraGrupo.forEach(c=>{ c.anticipo = totalOrdenConIva>0 ? antic*(c.total/totalOrdenConIva) : 0; });
+    }
+  }
+
+  const cantidadItems = carritoOC.length;
+  state.config.siguienteNumeroOC += 1;
+  carritoOC = [];
+  limpiarCamposProveedor();
+  reiniciarIvaCompra();
+  document.getElementById('oc-vencimiento').value='';
+  if(document.getElementById('oc-anticipo')) document.getElementById('oc-anticipo').value='';
+  renderCarritoOC();
+  guardarEstado();
+  calcularCompra();
+  renderCompras();
+  renderInventario();
+  if(typeof renderContabilidad==='function') renderContabilidad();
+  mostrarToast('Orden '+codigoOC+' registrada con '+cantidadItems+' insumo(s)'+(iva.aplica? ' (con IVA '+numFmt(iva.pct,1)+'%).':' (sin IVA).'));
+  if(proveedor) generarOCProveedor('compras', codigoOC);
+}
+
 function registrarCompra(){
   const fecha = document.getElementById('oc-fecha').value || new Date().toISOString().slice(0,10);
   const datosProveedor = leerDatosProveedorForm();
@@ -2925,10 +2823,10 @@ function registrarCompra(){
       baseGravable: valorBase, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total
     });
     if(formaPago==='Contado'){
-      state.pagos.unshift({tipo:'egreso', fecha, concepto:'Oficina '+codigoOC+' · '+cat.nombre, referencia:codigoOC, monto:total});
+      state.pagos.unshift({tipo:'egreso', fecha, concepto:'Oficina '+codigoOC+' · '+cat.nombre+(desc? ' — '+desc:''), referencia:codigoOC, monto:total});
     }else if(formaPago==='Anticipo'){
       const antic = parseFloat(document.getElementById('oc-anticipo').value)||0;
-      if(antic>0){ state.pagos.unshift({tipo:'egreso', fecha, concepto:'Anticipo oficina '+codigoOC, referencia:codigoOC, monto:antic}); state.comprasOficina[0].anticipo=antic; }
+      if(antic>0){ state.pagos.unshift({tipo:'egreso', fecha, concepto:'Anticipo oficina '+codigoOC+' · '+cat.nombre+(desc? ' — '+desc:''), referencia:codigoOC, monto:antic}); state.comprasOficina[0].anticipo=antic; }
     }
     // si es compra de equipos, se registra como activo fijo para depreciarlo en vez de cargarlo todo de una vez
     if(esEquipo){
@@ -2945,6 +2843,7 @@ function registrarCompra(){
     reiniciarIvaCompra();
     guardarEstado(); calcularCompra(); renderCompras(); if(typeof renderContabilidad==='function') renderContabilidad();
     mostrarToast('Costo de oficina '+codigoOC+' registrado'+(iva.aplica? ' (con IVA '+numFmt(iva.pct,1)+'%)':' (sin IVA)')+'.'+(esEquipo? ' Se creó como activo fijo para depreciar.':''));
+    if(proveedor) generarOCProveedor('comprasOficina', codigoOC);
     return;
   }
 
@@ -2993,12 +2892,15 @@ function registrarCompra(){
     document.getElementById('oc-gasto-proyecto').value='';
   }
   const totalCompra = state.compras[0].total;
+  const detalleUnaCompra = state.compras[0].tipo==='insumo'
+    ? state.compras[0].insumoNombre
+    : (state.compras[0].categoriaNombre+(state.compras[0].descripcion? ' — '+state.compras[0].descripcion:''));
   if(formaPago==='Contado'){
-    state.pagos.unshift({tipo:'egreso', fecha, concepto:'Compra '+codigoOC+(proveedor?' · '+proveedor:''), referencia:codigoOC, monto:totalCompra});
+    state.pagos.unshift({tipo:'egreso', fecha, concepto:'Compra '+codigoOC+(proveedor?' · '+proveedor:'')+' — '+detalleUnaCompra, referencia:codigoOC, monto:totalCompra});
   }else if(formaPago==='Anticipo'){
     const antic = parseFloat(document.getElementById('oc-anticipo').value)||0;
     if(antic>0){
-      state.pagos.unshift({tipo:'egreso', fecha, concepto:'Anticipo compra '+codigoOC+(proveedor?' · '+proveedor:''), referencia:codigoOC, monto:antic});
+      state.pagos.unshift({tipo:'egreso', fecha, concepto:'Anticipo compra '+codigoOC+(proveedor?' · '+proveedor:'')+' — '+detalleUnaCompra, referencia:codigoOC, monto:antic});
       state.compras[0].anticipo = antic;
     }
   }
@@ -3013,6 +2915,7 @@ function registrarCompra(){
   renderInventario();
   if(typeof renderContabilidad==='function') renderContabilidad();
   mostrarToast('Compra '+codigoOC+' registrada'+(iva.aplica? ' (con IVA '+numFmt(iva.pct,1)+'%).':' (sin IVA).'));
+  if(proveedor) generarOCProveedor('compras', codigoOC);
 }
 function renderCompras(){
   const cont = document.getElementById('compras-list');
@@ -3041,41 +2944,61 @@ function renderCompras(){
 
   const totalFiltrado = filtradas.reduce((a,c)=>a+(c.total||0),0);
 
-  let rows = filtradas.map((c)=>{
-    let detalle;
-    if(c.tipo==='insumo'){
-      detalle = `${c.insumoNombre} — ${c.detalleCompra || (numFmt(c.cantidad,2)+' '+c.unidad)} × ${moneda(c.precioUnit)}/${c.unidad}`;
-    }else if(c.tipo==='oficina'){
-      detalle = `${c.categoriaNombre}${c.descripcion? ' · '+c.descripcion:''}`;
-    }else{
-      detalle = `${c.categoriaNombre}${c.descripcion? ' · '+c.descripcion:''}${c.proyecto? ' · Proyecto: '+c.proyecto:''}`;
-    }
+  // agrupar filas consecutivas que comparten el mismo código de OC (una orden con varios insumos)
+  let rows = '';
+  let i = 0;
+  while(i < filtradas.length){
+    const c = filtradas[i];
+    let grupo = [c];
+    let j = i+1;
+    while(j < filtradas.length && filtradas[j].codigo===c.codigo && filtradas[j]._origen===c._origen){ grupo.push(filtradas[j]); j++; }
+    const esGrupo = grupo.length>1;
+    const totalGrupo = grupo.reduce((s,x)=>s+(x.total||0),0);
+    const ivaGrupo = grupo.reduce((s,x)=>s+(x.ivaValor||0),0);
+    const todasPagadas = grupo.every(x=>x.pagada);
     const tipoTag = c.tipo==='insumo'
       ? '<span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span>'
       : c.tipo==='oficina'
       ? '<span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span>'
       : '<span class="tag" style="background:#F8F1EA;color:#A8611F;">Gasto</span>';
     const fp = c.formaPago||'Contado';
-    const pagoTag = c.pagada
+    const pagoTag = todasPagadas
       ? '<span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span>'
       : '<span class="tag" style="background:#FBEDED;color:#B23B3B;">Pendiente</span>'+(c.vencimiento? ' <small style="color:#6B6A63;">vence '+c.vencimiento+'</small>':'');
-    const origenArg = `'${c._origen}',${c._idx}`;
-    return `<tr>
-      <td>${c.codigo}</td>
-      <td>${c.fecha}</td>
-      <td>${tipoTag}</td>
-      <td>${detalle}</td>
-      <td>${c.proveedor||''}</td>
-      <td>${fp}${(c.anticipo? ' · anticipo '+moneda(c.anticipo):'')}<br>${pagoTag}</td>
-      <td class="num">${moneda(c.total)}${c.ivaValor>0? '<br><small style="color:#6B6A63;">incl. IVA '+moneda(c.ivaValor)+'</small>':''}</td>
-      <td>${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor('+origenArg+')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${c.pagada? '' : '<button class="btn btn-sm btn-verde" onclick="marcarCompraPagada('+origenArg+')">Pagar</button>'}<button class="btn btn-sm" onclick="eliminarCompra(${origenArg})">✕</button></td>
-    </tr>`;
-  }).join('');
+
+    grupo.forEach((item, k)=>{
+      let detalle;
+      if(item.tipo==='insumo'){
+        detalle = `${item.insumoNombre} — ${item.detalleCompra || (numFmt(item.cantidad,2)+' '+item.unidad)} × ${moneda(item.precioUnit)}/${item.unidad}`;
+      }else if(item.tipo==='oficina'){
+        detalle = `${item.categoriaNombre}${item.descripcion? ' · '+item.descripcion:''}`;
+      }else{
+        detalle = `${item.categoriaNombre}${item.descripcion? ' · '+item.descripcion:''}${item.proyecto? ' · Proyecto: '+item.proyecto:''}`;
+      }
+      const origenArg = `'${item._origen}',${item._idx}`;
+      rows += `<tr${esGrupo? ' style="background:#FAFAFA;"':''}>`;
+      if(k===0){
+        rows += `<td rowspan="${grupo.length}">${c.codigo}${esGrupo? '<br><small style="color:var(--azul);font-weight:700;">🛒 orden de '+grupo.length+' insumos</small>':''}</td>`;
+        rows += `<td rowspan="${grupo.length}">${c.fecha}</td>`;
+        rows += `<td rowspan="${grupo.length}">${tipoTag}</td>`;
+      }
+      rows += `<td>${detalle}</td>`;
+      if(k===0){
+        rows += `<td rowspan="${grupo.length}">${c.proveedor||''}</td>`;
+        rows += `<td rowspan="${grupo.length}">${fp}${(c.anticipo? ' · anticipo '+moneda(c.anticipo):'')}<br>${pagoTag}</td>`;
+        rows += `<td rowspan="${grupo.length}" class="num">${moneda(totalGrupo)}${ivaGrupo>0? '<br><small style="color:#6B6A63;">incl. IVA '+moneda(ivaGrupo)+'</small>':''}</td>`;
+        rows += `<td rowspan="${grupo.length}">${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor(\''+c._origen+'\',\''+c.codigo+'\')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${!todasPagadas? '<button class="btn btn-sm btn-verde" onclick="marcarCompraPagadaGrupo(\''+c.codigo+'\')">Pagar</button>':''}</td>`;
+      }
+      rows += `<td><button class="btn btn-sm" onclick="eliminarCompra(${origenArg})" title="Elimina solo este ítem">✕</button></td>`;
+      rows += `</tr>`;
+    });
+    i = j;
+  }
 
   cont.innerHTML = `
     <table>
-      <thead><tr><th>OC</th><th>Fecha</th><th>Tipo</th><th>Detalle</th><th>Proveedor</th><th>Pago</th><th class="num">Total</th><th></th></tr></thead>
-      <tbody>${rows || '<tr class="empty-row"><td colspan="8">No hay compras que coincidan con los filtros.</td></tr>'}</tbody>
+      <thead><tr><th>OC</th><th>Fecha</th><th>Tipo</th><th>Detalle</th><th>Proveedor</th><th>Pago</th><th class="num">Total</th><th>Acciones</th><th></th></tr></thead>
+      <tbody>${rows || '<tr class="empty-row"><td colspan="9">No hay compras que coincidan con los filtros.</td></tr>'}</tbody>
     </table>
     <div class="totales" style="margin-top:14px;">
       <div class="totales-box" style="width:300px;">
@@ -3105,13 +3028,40 @@ function marcarCompraPagada(origen, idx){
   const c = lista[idx];
   if(!c) return;
   const saldo = (c.total||0) - (c.anticipo||0);
+  const detalle = c.tipo==='insumo'? c.insumoNombre : (c.categoriaNombre+(c.descripcion? ' — '+c.descripcion:''));
   if(!confirm('Marcar la compra '+c.codigo+' como pagada registra un egreso de caja de '+moneda(saldo)+'. ¿Continuar?')) return;
   c.pagada = true;
-  state.pagos.unshift({tipo:'egreso', fecha:new Date().toISOString().slice(0,10), concepto:'Pago compra '+c.codigo+(c.proveedor?' · '+c.proveedor:''), referencia:c.codigo, monto:saldo});
+  state.pagos.unshift({tipo:'egreso', fecha:new Date().toISOString().slice(0,10), concepto:'Pago compra '+c.codigo+(c.proveedor?' · '+c.proveedor:'')+' — '+detalle, referencia:c.codigo, monto:saldo});
   guardarEstado();
   renderCompras();
   if(typeof renderContabilidad==='function') renderContabilidad();
   mostrarToast('Compra '+c.codigo+' marcada como pagada.');
+}
+// Paga de una sola vez TODOS los insumos que comparten el mismo código de orden de compra
+// (una orden con varios insumos se paga como una sola factura, no una por una).
+// Busca tanto en compras normales (insumo/gasto) como en compras de oficina, para que
+// el botón "Pagar" de Contabilidad funcione sin importar de qué tipo sea la cuenta por pagar.
+function marcarCompraPagadaGrupo(codigo){
+  let items = state.compras.filter(c=>c.codigo===codigo && !c.pagada);
+  let esOficina = false;
+  if(items.length===0){
+    items = (state.comprasOficina||[]).filter(c=>c.codigo===codigo && !c.pagada);
+    esOficina = true;
+  }
+  if(items.length===0) return;
+  const saldoTotal = items.reduce((s,c)=>s+((c.total||0)-(c.anticipo||0)),0);
+  const proveedor = items[0].proveedor;
+  const detalles = items.map(it=> it.tipo==='insumo'? it.insumoNombre : (it.categoriaNombre+(it.descripcion? ' — '+it.descripcion:''))).join(', ');
+  const mensaje = items.length>1
+    ? 'Marcar la orden '+codigo+' ('+items.length+' ítems) como pagada registra un egreso de caja de '+moneda(saldoTotal)+'. ¿Continuar?'
+    : 'Marcar la compra '+codigo+' como pagada registra un egreso de caja de '+moneda(saldoTotal)+'. ¿Continuar?';
+  if(!confirm(mensaje)) return;
+  items.forEach(c=>{ c.pagada = true; });
+  state.pagos.unshift({tipo:'egreso', fecha:new Date().toISOString().slice(0,10), concepto:'Pago orden '+codigo+(proveedor?' · '+proveedor:'')+' — '+detalles, referencia:codigo, monto:saldoTotal});
+  guardarEstado();
+  renderCompras();
+  if(typeof renderContabilidad==='function') renderContabilidad();
+  mostrarToast('Orden '+codigo+' marcada como pagada.');
 }
 function eliminarCompra(origen, idx){
   if(idx===undefined){ idx=origen; origen='compras'; }
@@ -3126,7 +3076,9 @@ function eliminarCompra(origen, idx){
       mensaje = '⚠ Ya se consumió parte de esta compra en alguna orden de producción. Si la eliminas, el saldo de "'+(c.insumoNombre||'este insumo')+'" quedaría en '+numFmt(saldoTrasEliminar,2)+' '+c.unidad+' (negativo). ¿Eliminar de todas formas?';
     }
     if(!confirm(mensaje)) return;
-    const mIdx = state.movimientos.findIndex(m=>m.referencia===c.codigo && m.tipo==='entrada');
+    // importante: si varios insumos comparten el mismo código de OC, hay que revertir SOLO
+    // el movimiento de ESTE insumo específico, no el primero que coincida con la referencia.
+    const mIdx = state.movimientos.findIndex(m=>m.referencia===c.codigo && m.tipo==='entrada' && m.insumoId===c.insumoId);
     if(mIdx>=0) state.movimientos.splice(mIdx,1);
   }else{
     if(!confirm('¿Eliminar esta compra? Esta acción no se puede deshacer.')) return;
@@ -3139,25 +3091,38 @@ function eliminarCompra(origen, idx){
   mostrarToast('Compra '+c.codigo+' eliminada.');
 }
 
-function generarOCProveedor(origen, idx){
-  if(idx===undefined){ idx=origen; origen='compras'; }
-  const c = _listaPorOrigen(origen)[idx];
-  if(!c){ mostrarToast('Compra no encontrada.'); return; }
+function generarOCProveedor(origen, idxOCodigo){
+  if(idxOCodigo===undefined){ idxOCodigo=origen; origen='compras'; }
+  // si idxOCodigo es un texto (código de OC), reunimos TODOS los ítems que comparten ese código
+  // (una orden de compra con varios insumos); si es un número, es una compra suelta de siempre.
+  let items;
+  if(typeof idxOCodigo==='string'){
+    items = _listaPorOrigen(origen).filter(c=>c.codigo===idxOCodigo);
+  }else{
+    const unaCompra = _listaPorOrigen(origen)[idxOCodigo];
+    items = unaCompra ? [unaCompra] : [];
+  }
+  if(items.length===0){ mostrarToast('Compra no encontrada.'); return; }
+  const c = items[0]; // datos compartidos por toda la orden: código, fecha, proveedor, forma de pago
   const logoSrc = document.querySelector('.brand img').src;
   // compatibilidad: compras antiguas sin desglose de IVA no tenían baseGravable/ivaValor
-  const base = (typeof c.baseGravable==='number') ? c.baseGravable : (c.total||0);
-  const ivaValor = c.ivaValor||0;
+  const base = items.reduce((s,it)=> s+((typeof it.baseGravable==='number') ? it.baseGravable : (it.total||0)), 0);
+  const ivaValor = items.reduce((s,it)=> s+(it.ivaValor||0), 0);
   const totalConIva = base+ivaValor;
   // retenciones activas aplicadas sobre la BASE sin IVA (referencia; el proveedor puede o no aplicarlas)
   const rets = (state.retenciones||[]).filter(r=>r.activa && r.porcentaje>0).map(r=>({nombre:r.nombre, pct:r.porcentaje, monto:base*r.porcentaje/100}));
   const totalRet = rets.reduce((s,r)=>s+r.monto,0);
   const neto = totalConIva - totalRet;
-  let detalle;
-  if(c.tipo==='insumo'){
-    detalle = `${c.insumoNombre} — ${c.detalleCompra||(numFmt(c.cantidad,2)+' '+c.unidad)}`;
-  }else{
-    detalle = `${c.categoriaNombre}${c.descripcion? ' · '+c.descripcion:''}`;
-  }
+  const filasDetalle = items.map(it=>{
+    let detalle;
+    if(it.tipo==='insumo'){
+      detalle = `${it.insumoNombre} — ${it.detalleCompra||(numFmt(it.cantidad,2)+' '+it.unidad)}`;
+    }else{
+      detalle = `${it.categoriaNombre}${it.descripcion? ' · '+it.descripcion:''}`;
+    }
+    const baseItem = (typeof it.baseGravable==='number') ? it.baseGravable : (it.total||0);
+    return `<tr><td style="padding:8px;border-bottom:1px solid #eee;">${detalle}</td><td style="padding:8px;text-align:right;border-bottom:1px solid #eee;">${moneda(baseItem)}</td></tr>`;
+  }).join('');
   const fact = state.config;
   document.getElementById('print-area').className = '';
   document.getElementById('print-area').innerHTML = `
@@ -3189,20 +3154,18 @@ function generarOCProveedor(origen, idx){
           ${(c.proveedorDatos&&c.proveedorDatos.email)? c.proveedorDatos.email:''}
         </td></tr>
       </table>
+      <p style="font-size:11px;margin:0 0 8px;">Forma de pago: <strong>${c.formaPago||'Contado'}</strong>${c.vencimiento? ' · vence '+c.vencimiento:''}</p>
       <table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:16px;">
         <thead><tr style="background:#F7F6F2;">
           <th style="text-align:left;padding:8px;border-bottom:2px solid #17171C;">Descripción</th>
-          <th style="text-align:right;padding:8px;border-bottom:2px solid #17171C;">Forma de pago</th>
           <th style="text-align:right;padding:8px;border-bottom:2px solid #17171C;">Valor (sin IVA)</th>
         </tr></thead>
-        <tbody>
-          <tr><td style="padding:8px;border-bottom:1px solid #eee;">${detalle}</td><td style="padding:8px;text-align:right;border-bottom:1px solid #eee;">${c.formaPago||'Contado'}${c.vencimiento? ' · vence '+c.vencimiento:''}</td><td style="padding:8px;text-align:right;border-bottom:1px solid #eee;">${moneda(base)}</td></tr>
-        </tbody>
+        <tbody>${filasDetalle}</tbody>
       </table>
       <div style="display:flex;justify-content:flex-end;">
         <table style="font-size:12px;min-width:280px;">
           <tr><td style="padding:4px 8px;">Subtotal (sin IVA)</td><td style="padding:4px 8px;text-align:right;">${moneda(base)}</td></tr>
-          ${ivaValor>0? `<tr><td style="padding:4px 8px;">IVA${c.ivaPct? ' ('+numFmt(c.ivaPct,1)+'%)':''}</td><td style="padding:4px 8px;text-align:right;">${moneda(ivaValor)}</td></tr>`:''}
+          ${ivaValor>0? `<tr><td style="padding:4px 8px;">IVA</td><td style="padding:4px 8px;text-align:right;">${moneda(ivaValor)}</td></tr>`:''}
           <tr style="font-weight:700;"><td style="padding:4px 8px;">Total con IVA</td><td style="padding:4px 8px;text-align:right;">${moneda(totalConIva)}</td></tr>
           ${rets.map(r=>`<tr><td style="padding:4px 8px;color:#B23B3B;">(−) ${r.nombre} (${numFmt(r.pct,2)}%)</td><td style="padding:4px 8px;text-align:right;color:#B23B3B;">-${moneda(r.monto)}</td></tr>`).join('')}
           <tr style="font-weight:700;border-top:2px solid #17171C;"><td style="padding:6px 8px;">Neto a pagar</td><td style="padding:6px 8px;text-align:right;">${moneda(neto)}</td></tr>
@@ -4181,12 +4144,43 @@ function renderContabilidad(){
   // --- Cuentas por pagar ---
   const contCxp = document.getElementById('cont-cxp');
   if(contCxp){
-    contCxp.innerHTML = cxp.length===0? '<p class="helptext">No hay cuentas por pagar pendientes.</p>' : `
-      <table>
-        <thead><tr><th>OC</th><th>Proveedor</th><th>Detalle</th><th>Forma pago</th><th>Vence</th><th class="num">Saldo</th><th></th></tr></thead>
-        <tbody>${cxp.map(c=>`<tr><td>${c.codigo}</td><td>${c.proveedor}</td><td>${c.detalle}</td><td>${c.formaPago}</td><td>${c.vencimiento||'—'}</td><td class="num" style="font-weight:700;color:#A8611F;">${moneda(c.saldo)}</td><td><button class="btn btn-sm btn-verde" onclick="marcarCompraPagadaPorCodigo('${c.codigo}')">Pagar</button></td></tr>`).join('')}</tbody>
-        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td colspan="5">TOTAL POR PAGAR</td><td class="num" style="color:#A8611F;">${moneda(totalCxp)}</td><td></td></tr></tfoot>
-      </table>`;
+    if(cxp.length===0){
+      contCxp.innerHTML = '<p class="helptext">No hay cuentas por pagar pendientes.</p>';
+    }else{
+      // agrupar filas consecutivas con el mismo código de OC, para ver de una vez todo lo que trae esa orden
+      let filasCxp = '';
+      let i = 0;
+      while(i < cxp.length){
+        const c = cxp[i];
+        let grupo = [c];
+        let j = i+1;
+        while(j < cxp.length && cxp[j].codigo===c.codigo){ grupo.push(cxp[j]); j++; }
+        const esGrupo = grupo.length>1;
+        const saldoGrupo = grupo.reduce((s,x)=>s+x.saldo,0);
+        grupo.forEach((item, k)=>{
+          filasCxp += `<tr${esGrupo? ' style="background:#FAFAFA;"':''}>`;
+          if(k===0){
+            filasCxp += `<td rowspan="${grupo.length}">${c.codigo}${esGrupo? '<br><small style="color:var(--azul);font-weight:700;">🛒 '+grupo.length+' ítems</small>':''}</td>`;
+            filasCxp += `<td rowspan="${grupo.length}">${c.proveedor}</td>`;
+          }
+          filasCxp += `<td><strong>${item.detalle}</strong></td>`;
+          if(k===0){
+            filasCxp += `<td rowspan="${grupo.length}">${c.formaPago}</td>`;
+            filasCxp += `<td rowspan="${grupo.length}">${c.vencimiento||'—'}</td>`;
+            filasCxp += `<td rowspan="${grupo.length}" class="num" style="font-weight:700;color:#A8611F;">${moneda(saldoGrupo)}</td>`;
+            filasCxp += `<td rowspan="${grupo.length}"><button class="btn btn-sm btn-verde" onclick="marcarCompraPagadaPorCodigo('${c.codigo}')">Pagar ${esGrupo? 'toda la orden':''}</button></td>`;
+          }
+          filasCxp += `</tr>`;
+        });
+        i = j;
+      }
+      contCxp.innerHTML = `
+        <table>
+          <thead><tr><th>OC</th><th>Proveedor</th><th>Detalle de lo comprado</th><th>Forma pago</th><th>Vence</th><th class="num">Saldo</th><th></th></tr></thead>
+          <tbody>${filasCxp}</tbody>
+          <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td colspan="5">TOTAL POR PAGAR</td><td class="num" style="color:#A8611F;">${moneda(totalCxp)}</td><td></td></tr></tfoot>
+        </table>`;
+    }
   }
 
   // --- Movimientos de caja ---
@@ -4346,9 +4340,7 @@ function calcularReparto(){
 }
 
 function marcarCompraPagadaPorCodigo(codigo){
-  const idx = state.compras.findIndex(c=>c.codigo===codigo);
-  if(idx>=0) marcarCompraPagada(idx);
-  renderContabilidad();
+  marcarCompraPagadaGrupo(codigo);
 }
 
 function exportarContabilidadExcel(){
