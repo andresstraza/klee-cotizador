@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_19.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_20.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,7 +243,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <div class="topbar-meta">
       COTIZADOR INTERNO<br>
-      <span id="fechaHoy">24 de agosto de 2026</span>
+      <span id="fechaHoy">25 de agosto de 2026</span>
       <br><span style="font-size:10px;opacity:.55;">v2026-08-23-1</span>
     </div>
   </div>
@@ -388,15 +388,26 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <thead>
           <tr><th>Categoría</th><th>Detalle</th><th class="num">Cant. / Área</th><th class="num">Costo</th><th class="num">Margen</th><th class="num">Precio venta unit.</th><th class="num">Subtotal</th><th></th></tr>
         </thead>
-        <tbody id="items-body"><tr class="empty-row"><td colspan="8">Todavía no has agregado ítems a esta cotización.</td></tr></tbody>
+        <tbody id="items-body">
+      <tr>
+        <td>Impresión digital gran formato</td>
+        <td>Impresión en vinilo mate sin laminado de 106 cm x 100 cm</td>
+        <td class="num">2,12 m²</td>
+        <td class="num">$24.804</td>
+        <td class="num">140%</td>
+        <td class="num">$28.080</td>
+        <td class="num">$59.530</td>
+        <td><button class="btn btn-sm" onclick="eliminarItem(0)">✕</button></td>
+      </tr>
+    </tbody>
       </table>
 
       <div class="totales">
         <div class="totales-box">
-          <div class="row"><span>Subtotal</span><span id="tot-subtotal">$0</span></div>
+          <div class="row"><span>Subtotal</span><span id="tot-subtotal">$59.530</span></div>
           <div class="row"><span>Descuento (%)</span><input type="number" id="tot-descuento" value="0" min="0" max="100" onchange="renderTotales()"></div>
           <div class="row" id="row-iva" style="display: none;"><span>IVA (<span id="tot-ivapct">0</span>%)</span><span id="tot-iva">$0</span></div>
-          <div class="row total"><span>Total</span><span id="tot-total">$0</span></div>
+          <div class="row total"><span>Total</span><span id="tot-total">$59.530</span></div>
         </div>
       </div>
 
@@ -879,7 +890,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--negro);">
       <h2><span class="dot" style="background:var(--negro)"></span>💾 Copia de seguridad — muy importante</h2>
       <p class="helptext">Toda la información de KHLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>únicamente en la memoria de este navegador</strong> (localStorage). No se guarda en internet ni en ningún servidor. Si subes el archivo a GitHub, ahí solo queda guardado el <strong>programa</strong> — tus datos del día a día siguen viviendo en el navegador donde lo uses, y cada navegador/computador tiene su propia copia independiente. <strong>Por eso, cada vez que alguien abre la herramienta, se descarga sola una copia de seguridad automática</strong> (verás un aviso abajo a la derecha). Aun así, mueve de vez en cuando esos archivos descargados a un lugar aparte como Google Drive, un USB o el correo — así nunca dependes de un solo navegador ni de la carpeta de Descargas.</p>
-      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>24 de agosto de 2026</strong> (hace hoy).</p></div>
+      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>25 de agosto de 2026</strong> (hace hoy).</p></div>
       <div class="btn-row">
         <button class="btn btn-negro" onclick="exportarBackup()">⬇ Descargar copia de seguridad ahora</button>
         <label class="btn" style="cursor:pointer;">⬆ Restaurar copia
@@ -1183,6 +1194,25 @@ function nuevaCotizacionVacia(){
 function moneda(n){
   n = Math.round(n||0);
   return '$' + n.toLocaleString('es-CO');
+}
+// Construye el nombre de archivo/título del documento con la estructura pedida:
+// consecutivo_códigoProyecto_cliente_nombreProyecto — se usa como document.title justo
+// antes de imprimir, así "Guardar como PDF" del navegador sugiere este nombre.
+function nombreArchivoDocumento(consecutivo, codProyecto, cliente, nomProyecto){
+  const limpiar = (s)=> (s||'').toString().trim()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // quita tildes/acentos
+    .replace(/[\/\\:*?"<>|]/g,'') // quita caracteres inválidos en nombres de archivo
+    .replace(/\s+/g,'_');
+  const partes = [consecutivo, codProyecto, cliente, nomProyecto].map(limpiar).filter(Boolean);
+  return partes.join('_') || 'documento';
+}
+// Cambia el título de la página al nombre de archivo deseado, ejecuta la acción (normalmente
+// imprimir), y restaura el título original después — para no dejar la pestaña con un título raro.
+function imprimirConTitulo(tituloArchivo, accion){
+  const tituloOriginal = document.title;
+  document.title = tituloArchivo;
+  accion();
+  setTimeout(()=>{ document.title = tituloOriginal; }, 800);
 }
 function numFmt(n, dec){
   dec = dec===undefined?2:dec;
@@ -1830,7 +1860,10 @@ function imprimirCuentaCobro(cc){
     </div>
   `;
   let yaImprimio=false;
-  function imprimirUnaVez(){ if(yaImprimio) return; yaImprimio=true; window.print(); }
+  function imprimirUnaVez(){
+    if(yaImprimio) return; yaImprimio=true;
+    imprimirConTitulo(nombreArchivoDocumento(cc.codigo, cc.codProyecto, cc.cliente, cc.nomProyecto), ()=>window.print());
+  }
   const imgLogo = document.querySelector('#print-area img');
   if(imgLogo && !imgLogo.complete){
     imgLogo.addEventListener('load', imprimirUnaVez);
@@ -2122,7 +2155,10 @@ function imprimirOrden(idx){
     </div>
   `;
   let yaImprimio = false;
-  function imprimirUnaVez(){ if(yaImprimio) return; yaImprimio = true; window.print(); }
+  function imprimirUnaVez(){
+    if(yaImprimio) return; yaImprimio = true;
+    imprimirConTitulo(nombreArchivoDocumento(o.codigo, o.codProyecto, o.cliente, o.nomProyecto), ()=>window.print());
+  }
   const imgLogo = document.querySelector('#print-area img');
   if(imgLogo && !imgLogo.complete){
     imgLogo.addEventListener('load', imprimirUnaVez);
@@ -2155,7 +2191,7 @@ function exportarOrdenExcel(idx){
   const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `KHLEE_${o.codigo}.csv`;
+  a.href = url; a.download = nombreArchivoDocumento(o.codigo, o.codProyecto, o.cliente, o.nomProyecto)+'.csv';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
@@ -3630,7 +3666,10 @@ function imprimirRemision(rem){
   document.getElementById('print-area').className = 'formato-media-carta';
   document.getElementById('print-area').innerHTML = bloque('ORIGINAL') + '<p class="mc-corte">✂ Corte aquí — Copia KHLEE ✂</p>' + bloque('COPIA');
   let yaImprimio=false;
-  function imprimirUnaVez(){ if(yaImprimio) return; yaImprimio=true; window.print(); }
+  function imprimirUnaVez(){
+    if(yaImprimio) return; yaImprimio=true;
+    imprimirConTitulo(nombreArchivoDocumento(rem.codigo, rem.codProyecto, rem.cliente, rem.nomProyecto), ()=>window.print());
+  }
   const imgLogo = document.querySelector('#print-area img');
   if(imgLogo && !imgLogo.complete){
     imgLogo.addEventListener('load', imprimirUnaVez);
@@ -4562,7 +4601,10 @@ function exportarPDF(){
     </div>
   `;
   let yaImprimio = false;
-  function imprimirUnaVez(){ if(yaImprimio) return; yaImprimio = true; window.print(); }
+  function imprimirUnaVez(){
+    if(yaImprimio) return; yaImprimio = true;
+    imprimirConTitulo(nombreArchivoDocumento(codigo, cotizacionActual.codProyecto, cotizacionActual.cliente, cotizacionActual.nomProyecto), ()=>window.print());
+  }
   const imgLogo = document.querySelector('#print-area img');
   if(imgLogo && !imgLogo.complete){
     imgLogo.addEventListener('load', imprimirUnaVez);
@@ -4598,7 +4640,7 @@ function exportarExcel(){
   const a = document.createElement('a');
   const codigo = cotizacionActual.codigo || 'borrador';
   a.href = url;
-  a.download = `KHLEE_${codigo}_materiales.csv`;
+  a.download = nombreArchivoDocumento(codigo, cotizacionActual.codProyecto, cotizacionActual.cliente, cotizacionActual.nomProyecto)+'.csv';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -4685,7 +4727,7 @@ render();
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `KHLEE_${codigo}_editable.html`;
+  a.download = nombreArchivoDocumento(codigo, cli.codProyecto, cli.cliente, cli.nomProyecto)+'_editable.html';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
