@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_36.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_37.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -768,6 +768,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
 
     <div class="card">
+      <h2><span class="dot" style="background:var(--marron)"></span>Retenciones que te han practicado</h2>
+      <div id="cont-retenciones"></div>
+    </div>
+
+    <div class="card">
       <h2><span class="dot" style="background:var(--naranja)"></span>Cuentas por pagar</h2>
       <div id="cont-cxp"></div>
     </div>
@@ -1244,7 +1249,8 @@ function estadoPorDefecto(){
     remisiones:[],
     borrador:null,
     activosFijos:[],
-    costosProduccionOP:[]
+    costosProduccionOP:[],
+    retencionesRecibidas:[]
   };
 }
 
@@ -1283,7 +1289,8 @@ function fusionarConEstadoBase(parsed){
     borrador: parsed.borrador || null,
     activosFijos: parsed.activosFijos || [],
     recetaImpresion: Object.assign({}, base.recetaImpresion, parsed.recetaImpresion||{}),
-    costosProduccionOP: parsed.costosProduccionOP || []
+    costosProduccionOP: parsed.costosProduccionOP || [],
+    retencionesRecibidas: parsed.retencionesRecibidas || []
   });
 }
 function cargarEstado(){
@@ -4815,10 +4822,27 @@ function registrarCobro(){
   const fecha = new Date().toISOString().slice(0,10);
   state.ingresos.unshift({ccCodigo:cc.codigo, cotizacionCodigo:cc.cotizacionCodigo||'', codProyecto:cc.codProyecto||'', cliente:cc.empresaCliente||cc.cliente||'', fecha, monto});
   state.pagos.unshift({tipo:'ingreso', fecha, concepto:'Cobro '+cc.codigo+(cc.cliente?' · '+cc.cliente:''), referencia:cc.codigo, monto});
+
+  // Las retenciones que el cliente aplicó sobre esta cuenta de cobro quedan CONTABILIZADAS aparte
+  // (no solo restadas del cálculo) — son plata a favor para la declaración de renta/ICA, no un gasto
+  // que simplemente desaparece. Se registran una sola vez por cuenta de cobro, la primera vez que
+  // se le registra un cobro (así una entrega en varios abonos no las duplica).
+  const yaRegistradas = (state.retencionesRecibidas||[]).some(r=>r.ccCodigo===cc.codigo);
+  if(!yaRegistradas && cc.retenciones && cc.retenciones.length){
+    cc.retenciones.forEach(ret=>{
+      if(ret.monto>0){
+        state.retencionesRecibidas.unshift({
+          ccCodigo: cc.codigo, fecha, nombre: ret.nombre, porcentaje: ret.porcentaje, monto: ret.monto,
+          cliente: cc.empresaCliente||cc.cliente||'', codProyecto: cc.codProyecto||'', nomProyecto: cc.nomProyecto||''
+        });
+      }
+    });
+  }
+
   guardarEstado();
   cerrarCobro();
   renderContabilidad();
-  mostrarToast('Cobro registrado.');
+  mostrarToast('Cobro registrado'+(!yaRegistradas && cc.totalRetenciones>0? ' junto con '+moneda(cc.totalRetenciones)+' de retenciones.':'.'));
 }
 
 // --- Registrar movimiento manual de caja ---
@@ -5070,6 +5094,30 @@ function renderContabilidad(){
         <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td colspan="7">TOTAL POR COBRAR (sobre el neto)</td><td class="num" style="color:#33468F;">${moneda(totalCxc)}</td><td></td></tr></tfoot>
       </table>
       <p class="helptext" style="margin-top:8px;">El saldo por cobrar ya descuenta las retenciones activas en Configuración — el valor que registres al cobrar debe ser lo que realmente te depositó el cliente.</p>`;
+  }
+
+  // --- Retenciones que te han practicado (quedan a tu favor para la declaración de renta/ICA) ---
+  const contRet = document.getElementById('cont-retenciones');
+  if(contRet){
+    const retenidas = state.retencionesRecibidas||[];
+    if(retenidas.length===0){
+      contRet.innerHTML = '<p class="helptext">Todavía no se ha registrado ningún cobro con retenciones aplicadas.</p>';
+    }else{
+      const porTipo = {};
+      retenidas.forEach(r=>{ porTipo[r.nombre] = (porTipo[r.nombre]||0) + r.monto; });
+      const totalRet = retenidas.reduce((s,r)=>s+r.monto,0);
+      contRet.innerHTML = `
+        <table>
+          <thead><tr><th>Tipo de retención</th><th class="num">Total acumulado</th></tr></thead>
+          <tbody>${Object.entries(porTipo).map(([nombre,monto])=>`<tr><td>${nombre}</td><td class="num">${moneda(monto)}</td></tr>`).join('')}</tbody>
+          <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL RETENIDO A TU FAVOR</td><td class="num">${moneda(totalRet)}</td></tr></tfoot>
+        </table>
+        <p class="helptext" style="margin-top:8px;">Este valor no se perdió — es plata que ya pagaste de impuestos por anticipado, y se descuenta de lo que debas declarar/pagar más adelante. Detalle por cuenta de cobro:</p>
+        <table style="margin-top:8px;font-size:12px;">
+          <thead><tr><th>Fecha</th><th>Cta. cobro</th><th>Cliente</th><th>Tipo</th><th class="num">%</th><th class="num">Valor</th></tr></thead>
+          <tbody>${retenidas.map(r=>`<tr><td>${r.fecha}</td><td>${r.ccCodigo}</td><td>${r.cliente}</td><td>${r.nombre}</td><td class="num">${numFmt(r.porcentaje,3)}%</td><td class="num">${moneda(r.monto)}</td></tr>`).join('')}</tbody>
+        </table>`;
+    }
   }
 
   // --- Cuentas por pagar ---
@@ -5430,6 +5478,16 @@ function exportarContabilidadExcel(){
   wsCxc['!cols'] = [{wch:16},{wch:16},{wch:26},{wch:15},{wch:15},{wch:15},{wch:15},{wch:16}];
   aplicarFormatos(wsCxc, cxcAoa, [3,4,5,6,7], [], 1);
   XLSX.utils.book_append_sheet(wb, wsCxc, 'Cuentas por cobrar');
+
+  // ---------- Hoja RETENCIONES ----------
+  const retenidas = state.retencionesRecibidas||[];
+  const retAoa = [['Fecha','Cuenta de cobro','Cliente','Cód. proyecto','Tipo de retención','%','Valor']];
+  retenidas.slice().reverse().forEach(r=>retAoa.push([r.fecha, r.ccCodigo, r.cliente||'', r.codProyecto||'', r.nombre, r.porcentaje, r.monto]));
+  retAoa.push(['','','','','TOTAL RETENIDO A TU FAVOR','',retenidas.reduce((s,r)=>s+r.monto,0)]);
+  const wsRetenciones = XLSX.utils.aoa_to_sheet(retAoa);
+  wsRetenciones['!cols'] = [{wch:13},{wch:16},{wch:26},{wch:16},{wch:30},{wch:10},{wch:15}];
+  aplicarFormatos(wsRetenciones, retAoa, [6], [], 1);
+  XLSX.utils.book_append_sheet(wb, wsRetenciones, 'Retenciones');
 
   // ---------- Hoja CUENTAS POR PAGAR ----------
   const cxpAoa = [['OC','Proveedor','Detalle','Forma pago','Vence','Total','Anticipo','Saldo por pagar']];
