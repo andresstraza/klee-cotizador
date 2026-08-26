@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_35.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_36.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1015,13 +1015,15 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 </div>
 
 <div id="modal-cobro" class="modal-overlay">
-  <div class="modal-box" style="max-width:460px;">
+  <div class="modal-box" style="max-width:480px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">Registrar cobro</h2>
       <button class="btn btn-sm" onclick="cerrarCobro()">✕ Cerrar</button>
     </div>
-    <p class="helptext" style="margin-top:0;">Cotización: <strong id="cobro-cot-codigo"></strong><br>Saldo por cobrar: <strong id="cobro-saldo"></strong></p>
-    <div class="field" style="margin:14px 0;"><label>Valor cobrado</label><input type="number" id="cobro-monto" step="1000"></div>
+    <p class="helptext" style="margin-top:0;">Cuenta de cobro: <strong id="cobro-cot-codigo"></strong></p>
+    <p class="helptext" id="cobro-desglose" style="margin:8px 0;padding:10px 12px;background:#F4F5FA;border-radius:6px;"></p>
+    <p class="helptext" style="margin-top:0;">Saldo por cobrar (sobre el neto): <strong id="cobro-saldo"></strong></p>
+    <div class="field" style="margin:14px 0;"><label>Valor realmente recibido</label><input type="number" id="cobro-monto" step="1000"></div>
     <div class="btn-row"><button class="btn btn-verde" onclick="registrarCobro()">+ Registrar cobro</button></div>
   </div>
 </div>
@@ -2889,7 +2891,7 @@ function renderRetenciones(){
   cont.innerHTML = (state.retenciones||[]).map((r,idx)=>`
     <div class="mat-row" style="align-items:center;">
       <div><label>Retención</label><input type="text" value="${r.nombre}" onchange="editarRetencion(${idx},'nombre',this.value)"></div>
-      <div><label>%</label><input type="number" step="0.1" value="${r.porcentaje}" onchange="editarRetencion(${idx},'porcentaje',this.value)"></div>
+      <div><label>%</label><input type="number" step="0.001" value="${r.porcentaje}" onchange="editarRetencion(${idx},'porcentaje',this.value)"></div>
       <div><label>&nbsp;</label><label class="checkline" style="margin-top:6px;"><input type="checkbox" ${r.activa?'checked':''} onchange="editarRetencion(${idx},'activa',this.checked)"> Activa</label></div>
       <div><label>&nbsp;</label><button class="btn btn-sm" onclick="eliminarRetencion(${idx})">✕ Eliminar</button></div>
     </div>`).join('');
@@ -4755,11 +4757,16 @@ function exportarRentabilidadExcel(){
 /* ============ CONTABILIDAD ============ */
 
 // --- Cuentas por cobrar: cotizaciones aprobadas menos lo ya cobrado ---
+// Cuentas por cobrar: se calculan sobre las CUENTAS DE COBRO reales (no sobre la cotización
+// directamente), porque son las que ya traen las retenciones descontadas — lo que de verdad
+// se espera recibir es el NETO, no el valor bruto de venta.
 function cuentasPorCobrar(){
-  return state.cotizaciones.filter(c=>c.aprobada).map(c=>{
-    const cobrado = state.ingresos.filter(i=>i.cotizacionCodigo===c.codigo).reduce((s,i)=>s+i.monto,0);
-    const saldo = (c.total||0) - cobrado;
-    return {codigo:c.codigo, codProyecto:c.codProyecto||'', nomProyecto:c.nomProyecto||'', cliente:c.cliente||'', total:c.total||0, cobrado, saldo, fecha:c.fecha};
+  return (state.cuentasCobro||[]).map(cc=>{
+    const cobrado = state.ingresos.filter(i=>i.ccCodigo===cc.codigo).reduce((s,i)=>s+i.monto,0);
+    const saldo = (cc.neto||0) - cobrado;
+    return {codigo:cc.codigo, codProyecto:cc.codProyecto||'', nomProyecto:cc.nomProyecto||'',
+      cliente: cc.empresaCliente||cc.cliente||'', valorBruto: cc.valorBruto||0,
+      totalRetenciones: cc.totalRetenciones||0, neto: cc.neto||0, cobrado, saldo, fecha:cc.fecha};
   });
 }
 // --- Cuentas por pagar: compras no pagadas (insumos, gastos y oficina) ---
@@ -4780,15 +4787,20 @@ function saldoCaja(){
   return state.pagos.reduce((s,p)=> s + (p.tipo==='ingreso'? p.monto : -p.monto), 0);
 }
 
-// --- Registrar cobro a cliente ---
+// --- Registrar cobro a cliente (sobre una cuenta de cobro específica, ya con retenciones aplicadas) ---
 let cobroActual = null;
-function abrirCobro(codigoCot){
-  const c = state.cotizaciones.find(x=>x.codigo===codigoCot);
-  if(!c) return;
-  cobroActual = codigoCot;
-  const cobrado = state.ingresos.filter(i=>i.cotizacionCodigo===codigoCot).reduce((s,i)=>s+i.monto,0);
-  const saldo = (c.total||0)-cobrado;
-  document.getElementById('cobro-cot-codigo').textContent = c.codigo + (c.nomProyecto? ' · '+c.nomProyecto:'');
+function abrirCobro(codigoCC){
+  const cc = (state.cuentasCobro||[]).find(x=>x.codigo===codigoCC);
+  if(!cc) return;
+  cobroActual = codigoCC;
+  const cobrado = state.ingresos.filter(i=>i.ccCodigo===codigoCC).reduce((s,i)=>s+i.monto,0);
+  const saldo = (cc.neto||0)-cobrado;
+  document.getElementById('cobro-cot-codigo').textContent = cc.codigo + (cc.nomProyecto? ' · '+cc.nomProyecto:'');
+  const detalleRet = cc.retenciones && cc.retenciones.length
+    ? cc.retenciones.map(r=>r.nombre+' ('+numFmt(r.porcentaje,3)+'%): -'+moneda(r.monto)).join(' · ')
+    : 'Sin retenciones aplicadas';
+  document.getElementById('cobro-desglose').innerHTML =
+    'Valor bruto: <strong>'+moneda(cc.valorBruto||0)+'</strong> · '+detalleRet+' · Neto a recibir: <strong>'+moneda(cc.neto||0)+'</strong>';
   document.getElementById('cobro-saldo').textContent = moneda(saldo);
   document.getElementById('cobro-monto').value = saldo>0? Math.round(saldo) : '';
   document.getElementById('modal-cobro').style.display='flex';
@@ -4796,12 +4808,13 @@ function abrirCobro(codigoCot){
 function cerrarCobro(){ document.getElementById('modal-cobro').style.display='none'; cobroActual=null; }
 function registrarCobro(){
   if(!cobroActual) return;
-  const c = state.cotizaciones.find(x=>x.codigo===cobroActual);
+  const cc = (state.cuentasCobro||[]).find(x=>x.codigo===cobroActual);
+  if(!cc) return;
   const monto = parseFloat(document.getElementById('cobro-monto').value)||0;
   if(monto<=0){ mostrarToast('Ingresa el valor cobrado.'); return; }
   const fecha = new Date().toISOString().slice(0,10);
-  state.ingresos.unshift({cotizacionCodigo:c.codigo, codProyecto:c.codProyecto||'', cliente:c.cliente||'', fecha, monto});
-  state.pagos.unshift({tipo:'ingreso', fecha, concepto:'Cobro '+c.codigo+(c.cliente?' · '+c.cliente:''), referencia:c.codigo, monto});
+  state.ingresos.unshift({ccCodigo:cc.codigo, cotizacionCodigo:cc.cotizacionCodigo||'', codProyecto:cc.codProyecto||'', cliente:cc.empresaCliente||cc.cliente||'', fecha, monto});
+  state.pagos.unshift({tipo:'ingreso', fecha, concepto:'Cobro '+cc.codigo+(cc.cliente?' · '+cc.cliente:''), referencia:cc.codigo, monto});
   guardarEstado();
   cerrarCobro();
   renderContabilidad();
@@ -5052,10 +5065,11 @@ function renderContabilidad(){
   if(contCxc){
     contCxc.innerHTML = cxc.length===0? '<p class="helptext">No hay cuentas por cobrar pendientes.</p>' : `
       <table>
-        <thead><tr><th>Cotización</th><th>Proyecto</th><th>Cliente</th><th class="num">Total</th><th class="num">Cobrado</th><th class="num">Saldo</th><th></th></tr></thead>
-        <tbody>${cxc.map(c=>`<tr><td>${c.codigo}</td><td>${c.nomProyecto||c.codProyecto}</td><td>${c.cliente}</td><td class="num">${moneda(c.total)}</td><td class="num">${moneda(c.cobrado)}</td><td class="num" style="font-weight:700;color:#33468F;">${moneda(c.saldo)}</td><td><button class="btn btn-sm btn-verde" onclick="abrirCobro('${c.codigo}')">Registrar cobro</button></td></tr>`).join('')}</tbody>
-        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td colspan="5">TOTAL POR COBRAR</td><td class="num" style="color:#33468F;">${moneda(totalCxc)}</td><td></td></tr></tfoot>
-      </table>`;
+        <thead><tr><th>Cta. cobro</th><th>Proyecto</th><th>Cliente</th><th class="num">Bruto</th><th class="num">Retenciones</th><th class="num">Neto</th><th class="num">Cobrado</th><th class="num">Saldo</th><th></th></tr></thead>
+        <tbody>${cxc.map(c=>`<tr><td>${c.codigo}</td><td>${c.nomProyecto||c.codProyecto}</td><td>${c.cliente}</td><td class="num">${moneda(c.valorBruto)}</td><td class="num" style="color:#B23B3B;">${c.totalRetenciones>0? '-'+moneda(c.totalRetenciones):'—'}</td><td class="num">${moneda(c.neto)}</td><td class="num">${moneda(c.cobrado)}</td><td class="num" style="font-weight:700;color:#33468F;">${moneda(c.saldo)}</td><td><button class="btn btn-sm btn-verde" onclick="abrirCobro('${c.codigo}')">Registrar cobro</button></td></tr>`).join('')}</tbody>
+        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td colspan="7">TOTAL POR COBRAR (sobre el neto)</td><td class="num" style="color:#33468F;">${moneda(totalCxc)}</td><td></td></tr></tfoot>
+      </table>
+      <p class="helptext" style="margin-top:8px;">El saldo por cobrar ya descuenta las retenciones activas en Configuración — el valor que registres al cobrar debe ser lo que realmente te depositó el cliente.</p>`;
   }
 
   // --- Cuentas por pagar ---
@@ -5382,11 +5396,11 @@ function exportarContabilidadExcel(){
   XLSX.utils.book_append_sheet(wb, wsRent, 'Rentabilidad');
 
   // ---------- Hoja INGRESOS ----------
-  const ingAoa = [['Mes','Fecha','Cotización','Cód. proyecto','Cliente','Valor cobrado']];
-  state.ingresos.slice().reverse().forEach(i=>ingAoa.push([mesDeFecha(i.fecha), i.fecha, i.cotizacionCodigo, i.codProyecto||'', i.cliente||'', i.monto]));
+  const ingAoa = [['Mes','Fecha','Cuenta de cobro','Cotización','Cód. proyecto','Cliente','Valor cobrado']];
+  state.ingresos.slice().reverse().forEach(i=>ingAoa.push([mesDeFecha(i.fecha), i.fecha, i.ccCodigo||'', i.cotizacionCodigo||'', i.codProyecto||'', i.cliente||'', i.monto]));
   const wsI = XLSX.utils.aoa_to_sheet(ingAoa);
-  wsI['!cols'] = [{wch:16},{wch:13},{wch:16},{wch:16},{wch:26},{wch:16}];
-  aplicarFormatos(wsI, ingAoa, [5], [], 1);
+  wsI['!cols'] = [{wch:16},{wch:13},{wch:16},{wch:16},{wch:16},{wch:26},{wch:16}];
+  aplicarFormatos(wsI, ingAoa, [6], [], 1);
   XLSX.utils.book_append_sheet(wb, wsI, 'Ingresos');
 
   // ---------- Hoja COMPRAS Y GASTOS ----------
@@ -5409,12 +5423,12 @@ function exportarContabilidadExcel(){
   XLSX.utils.book_append_sheet(wb, wsM, 'Mano de obra');
 
   // ---------- Hoja CUENTAS POR COBRAR ----------
-  const cxcAoa = [['Cotización','Cód. proyecto','Cliente','Total','Cobrado','Saldo por cobrar']];
-  cxc.forEach(c=>cxcAoa.push([c.codigo, c.codProyecto||'', c.cliente||'', c.total, c.cobrado, c.saldo]));
-  cxcAoa.push(['','','TOTAL POR COBRAR','','',cxc.reduce((s,c)=>s+c.saldo,0)]);
+  const cxcAoa = [['Cuenta de cobro','Cód. proyecto','Cliente','Valor bruto','Retenciones','Neto','Cobrado','Saldo por cobrar']];
+  cxc.forEach(c=>cxcAoa.push([c.codigo, c.codProyecto||'', c.cliente||'', c.valorBruto, c.totalRetenciones, c.neto, c.cobrado, c.saldo]));
+  cxcAoa.push(['','','TOTAL POR COBRAR','','','','',cxc.reduce((s,c)=>s+c.saldo,0)]);
   const wsCxc = XLSX.utils.aoa_to_sheet(cxcAoa);
-  wsCxc['!cols'] = [{wch:16},{wch:16},{wch:26},{wch:15},{wch:15},{wch:16}];
-  aplicarFormatos(wsCxc, cxcAoa, [3,4,5], [], 1);
+  wsCxc['!cols'] = [{wch:16},{wch:16},{wch:26},{wch:15},{wch:15},{wch:15},{wch:15},{wch:16}];
+  aplicarFormatos(wsCxc, cxcAoa, [3,4,5,6,7], [], 1);
   XLSX.utils.book_append_sheet(wb, wsCxc, 'Cuentas por cobrar');
 
   // ---------- Hoja CUENTAS POR PAGAR ----------
