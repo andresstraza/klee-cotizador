@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_20.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_26.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -388,26 +388,15 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <thead>
           <tr><th>Categoría</th><th>Detalle</th><th class="num">Cant. / Área</th><th class="num">Costo</th><th class="num">Margen</th><th class="num">Precio venta unit.</th><th class="num">Subtotal</th><th></th></tr>
         </thead>
-        <tbody id="items-body">
-      <tr>
-        <td>Impresión digital gran formato</td>
-        <td>Impresión en vinilo mate sin laminado de 106 cm x 100 cm</td>
-        <td class="num">2,12 m²</td>
-        <td class="num">$24.804</td>
-        <td class="num">140%</td>
-        <td class="num">$28.080</td>
-        <td class="num">$59.530</td>
-        <td><button class="btn btn-sm" onclick="eliminarItem(0)">✕</button></td>
-      </tr>
-    </tbody>
+        <tbody id="items-body"><tr class="empty-row"><td colspan="8">Todavía no has agregado ítems a esta cotización.</td></tr></tbody>
       </table>
 
       <div class="totales">
         <div class="totales-box">
-          <div class="row"><span>Subtotal</span><span id="tot-subtotal">$59.530</span></div>
+          <div class="row"><span>Subtotal</span><span id="tot-subtotal">$0</span></div>
           <div class="row"><span>Descuento (%)</span><input type="number" id="tot-descuento" value="0" min="0" max="100" onchange="renderTotales()"></div>
           <div class="row" id="row-iva" style="display: none;"><span>IVA (<span id="tot-ivapct">0</span>%)</span><span id="tot-iva">$0</span></div>
-          <div class="row total"><span>Total</span><span id="tot-total">$59.530</span></div>
+          <div class="row total"><span>Total</span><span id="tot-total">$0</span></div>
         </div>
       </div>
 
@@ -434,7 +423,63 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--azul)"></span>Impresión digital · materiales (precio por m²)</h2>
-      <div id="mat-digital-list"></div>
+      <div id="mat-digital-list">
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Vinilo adhesivo" onchange="editarMaterialDigital(0,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(0,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(0)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Vinilo para laminado" onchange="editarMaterialDigital(1,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(1,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(1)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Vinilo blockout" onchange="editarMaterialDigital(2,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="7000" onchange="editarMaterialDigital(2,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(2)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Banner 13 onzas" onchange="editarMaterialDigital(3,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="3700" onchange="editarMaterialDigital(3,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(3)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Banner blockout" onchange="editarMaterialDigital(4,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="4900" onchange="editarMaterialDigital(4,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(4)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Vinilo microperforado" onchange="editarMaterialDigital(5,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="7000" onchange="editarMaterialDigital(5,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(5)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Pet backlit" onchange="editarMaterialDigital(6,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="10800" onchange="editarMaterialDigital(6,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(6)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="vinilo clear" onchange="editarMaterialDigital(7,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(7,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(7)">✕ Eliminar</button></div>
+    </div>
+  </div>
       <div class="mat-row">
         <div><label>Nuevo material</label><input type="text" id="nuevo-mat-digital-nombre" placeholder="Ej: Lona, Adhesivo, Backlight"></div>
         <div><label>Precio / m²</label><input type="number" id="nuevo-mat-digital-precio" step="100"></div>
@@ -455,7 +500,35 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--naranja)"></span>Impresión 3D · precio por gramo</h2>
-      <div id="mat-3d-list"></div>
+      <div id="mat-3d-list">
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="PLA" onchange="editarMaterial3D(0,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="250" onchange="editarMaterial3D(0,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(0)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="PETG" onchange="editarMaterial3D(1,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="300" onchange="editarMaterial3D(1,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(1)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="TPU (flexible)" onchange="editarMaterial3D(2,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="350" onchange="editarMaterial3D(2,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(2)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Resina estándar" onchange="editarMaterial3D(3,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="600" onchange="editarMaterial3D(3,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(3)">✕ Eliminar</button></div>
+    </div>
+  </div>
       <div class="mat-row">
         <div><label>Nuevo material</label><input type="text" id="nuevo-mat-3d-nombre" placeholder="Nombre del material"></div>
         <div><label>Precio / gramo</label><input type="number" id="nuevo-mat-3d-precio" step="10"></div>
@@ -470,7 +543,25 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>Actividades adicionales (precio por m² o unidad)</h2>
-      <div id="mat-actividades-list"></div>
+      <div id="mat-actividades-list">
+    <div class="mat-row">
+      <div><label>Actividad</label><input type="text" value="Plotter de corte" onchange="editarActividad(0,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio</label><input type="number" value="3000" onchange="editarActividad(0,&#39;precio&#39;,this.value)"></div>
+      <div><label>Unidad</label><input type="text" value="m²" onchange="editarActividad(0,&#39;unidad&#39;,this.value)"></div>
+      <div><button class="btn btn-sm" onclick="eliminarActividad(0)">✕ Eliminar</button></div>
+    </div>
+    <div class="mat-row">
+      <div><label>Actividad</label><input type="text" value="Instalación" onchange="editarActividad(1,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio</label><input type="number" value="15000" onchange="editarActividad(1,&#39;precio&#39;,this.value)"></div>
+      <div><label>Unidad</label><input type="text" value="unidad" onchange="editarActividad(1,&#39;unidad&#39;,this.value)"></div>
+      <div><button class="btn btn-sm" onclick="eliminarActividad(1)">✕ Eliminar</button></div>
+    </div>
+    <div class="mat-row">
+      <div><label>Actividad</label><input type="text" value="Troquelado" onchange="editarActividad(2,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio</label><input type="number" value="2000" onchange="editarActividad(2,&#39;precio&#39;,this.value)"></div>
+      <div><label>Unidad</label><input type="text" value="m²" onchange="editarActividad(2,&#39;unidad&#39;,this.value)"></div>
+      <div><button class="btn btn-sm" onclick="eliminarActividad(2)">✕ Eliminar</button></div>
+    </div></div>
       <div class="mat-row">
         <div><label>Nueva actividad</label><input type="text" id="nueva-act-nombre" placeholder="Ej: Plotter de corte, Instalación"></div>
         <div><label>Precio</label><input type="number" id="nueva-act-precio" step="100"></div>
@@ -489,7 +580,77 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--azul);">
       <h2><span class="dot" style="background:var(--azul)"></span>📦 Insumos de inventario (kárdex)</h2>
       <p class="helptext" style="margin-top:0;">Este catálogo es <strong>independiente</strong> del de materiales/producción/actividades de arriba. Sirve solo para el inventario real: cada insumo que crees aquí entra al saldo cuando lo compras (pestaña Compras) y sale cuando registras su consumo en una orden de producción.</p>
-      <div id="mat-insumos-list"></div>
+      <div id="mat-insumos-list"><table><thead><tr><th>Nombre</th><th>Presentación</th><th>Medida (cm)</th><th>Unidad</th><th>Color</th><th></th></tr></thead><tbody><tr>
+      <td>TINTA AMARILLA</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>AMARILLA</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(0)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(0)">✕</button></td>
+    </tr><tr>
+      <td>TINTA CYAN</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>CYAN</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(1)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(1)">✕</button></td>
+    </tr><tr>
+      <td>TINTA MAGENTA</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>MAGENTA</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(2)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(2)">✕</button></td>
+    </tr><tr>
+      <td>TINTA NEGRA</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>NEGRA</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(3)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(3)">✕</button></td>
+    </tr><tr>
+      <td>VINILO BLANCO BRILLANTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>BLANCO</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(4)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(4)">✕</button></td>
+    </tr><tr>
+      <td>VINILO BLANCO MATTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>BLANCO</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(5)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(5)">✕</button></td>
+    </tr><tr>
+      <td>VINILO LAMINADO MATTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>CLEAR</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(6)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(6)">✕</button></td>
+    </tr><tr>
+      <td>VINILO LAMINADO BRILLANTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>CLEAR</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(7)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(7)">✕</button></td>
+    </tr><tr>
+      <td>PET BACKLIT</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">106 cm</td>
+      <td>m²</td>
+      <td>BLANCO</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(8)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(8)">✕</button></td>
+    </tr><tr>
+      <td>BANNER RESPALDO GRIS</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">180 cm</td>
+      <td>m²</td>
+      <td>BLANCO-GRIS</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(9)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(9)">✕</button></td>
+    </tr></tbody></table></div>
       <div class="section-divider"></div>
       <p class="helptext" id="ins-form-titulo" style="margin-bottom:8px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.03em;">Agregar nuevo insumo</p>
       <p class="helptext" style="margin-top:0;">La medida se guarda tal cual la escribas, en centímetros — sin ninguna conversión. Si un insumo ya creado quedó con un dato mal digitado, usa el botón "✏️ Editar" en la tabla de arriba — no hace falta borrarlo y volver a crearlo.</p>
@@ -518,7 +679,20 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>Cotizaciones guardadas</h2>
       <p class="helptext">Aprueba una cotización para poder generar su orden de producción. La orden se crea sin valores, solo con ítems y cantidades, y queda en la pestaña Órdenes de producción.</p>
-      <div id="historial-list"></div>
+      <div id="historial-list">
+    <div class="hist-card">
+      <div>
+        <span class="hist-code">KHLEE-2026-003</span> <span class="tag" style="background:#F4F5FA;color:#33468F;">KHL001</span> <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Aprobada</span>
+        <div class="hist-meta"><strong>SV12346-PDG SMIRNOFF SAN JERONIMO</strong> · ANDRES MEDINA · STRAZA SAS · 2026-08-24 · 1 ítem(s) · <a href="file:///C:/Users/Usuario/Downloads/index_26.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-003&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-003</a>, <a href="file:///C:/Users/Usuario/Downloads/index_26.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-002&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-002</a>, <a href="file:///C:/Users/Usuario/Downloads/index_26.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-001&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-001</a></div>
+      </div>
+      <div class="hist-total">$59.530</div>
+      <div class="btn-row" style="margin:0;">
+        <button class="btn btn-sm btn-mostaza" onclick="cargarCotizacion(0)">Cargar</button>
+        <button class="btn btn-sm btn-verde" onclick="generarOrden(0)">Generar OP</button>
+        <button class="btn btn-sm btn-azul" onclick="generarCuentaCobro(0)">📄 Otra cuenta de cobro</button>
+        <button class="btn btn-sm" onclick="eliminarCotizacion(0)">Eliminar</button>
+      </div>
+    </div></div>
     </div>
   </div>
 
@@ -529,9 +703,9 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
       <h2><span class="dot" style="background:var(--naranja)"></span>Órdenes de producción</h2>
       <div class="grid grid-4" style="margin-bottom:8px;">
         <div class="field"><label>Buscar</label><input type="text" id="filtro-op-texto" placeholder="Código, cliente, proyecto..." oninput="renderOrdenes()"></div>
-        <div class="field"><label>Cliente</label><select id="filtro-op-cliente" onchange="renderOrdenes()"></select></div>
-        <div class="field"><label>Código de proyecto</label><select id="filtro-op-proyecto" onchange="renderOrdenes()"></select></div>
-        <div class="field"><label>Mes</label><select id="filtro-op-mes" onchange="renderOrdenes()"></select></div>
+        <div class="field"><label>Cliente</label><select id="filtro-op-cliente" onchange="renderOrdenes()"><option value="">Todos los clientes</option></select></div>
+        <div class="field"><label>Código de proyecto</label><select id="filtro-op-proyecto" onchange="renderOrdenes()"><option value="">Todos los proyectos</option></select></div>
+        <div class="field"><label>Mes</label><select id="filtro-op-mes" onchange="renderOrdenes()"><option value="">Todos los meses</option></select></div>
       </div>
       <div class="grid grid-4" style="margin-bottom:18px;">
         <div class="field"><label>Estado</label>
@@ -544,7 +718,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         </div>
         <div class="field" style="align-self:end;"><button class="btn btn-sm" onclick="limpiarFiltrosOrdenes()">Limpiar filtros</button></div>
       </div>
-      <div id="ordenes-list"></div>
+      <div id="ordenes-list"><p class="helptext">Todavía no has generado órdenes de producción. Ve al Historial, aprueba una cotización y genera su OP.</p></div>
     </div>
   </div>
 
@@ -880,6 +1054,25 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
 
     <div class="card">
+      <h2><span class="dot" style="background:var(--mostaza)"></span>⚡ Receta para "Cargar impresión" (automático)</h2>
+      <p class="helptext">Con solo escribir los m² impresos en una orden, la herramienta calcula sola el costo real del material (de tu inventario) más estas tarifas fijas de costeo interno — no generan ningún pago nuevo en caja, las facturas reales de luz, mantenimiento y crédito de equipos las sigues registrando aparte, como ya lo haces.</p>
+      <div class="grid grid-4" style="margin-top:14px;">
+        <div class="field"><label>% desperdicio de material</label><input type="number" id="cfg-receta-desperdicio" step="0.5" min="0"></div>
+        <div class="field"><label>Tinta ($/m²)</label><input type="number" id="cfg-receta-tinta" step="10" min="0"></div>
+        <div class="field"><label>Equipos ($/m²)</label><input type="number" id="cfg-receta-equipos" step="10" min="0"></div>
+        <div class="field"><label>Cabezal ($/m²)</label><input type="number" id="cfg-receta-cabezal" step="1" min="0"></div>
+      </div>
+      <div class="grid grid-4" style="margin-top:12px;">
+        <div class="field"><label>Energía ($/m²)</label><input type="number" id="cfg-receta-energia" step="1" min="0"></div>
+        <div class="field"><label>Mantenimiento ($/m²)</label><input type="number" id="cfg-receta-mantenimiento" step="1" min="0"></div>
+        <div class="field"><label>Operario impresión ($/m²)</label><input type="number" id="cfg-receta-mo-impresion" step="10" min="0"></div>
+        <div class="field"><label>Operario laminado ($/m²)</label><input type="number" id="cfg-receta-mo-laminado" step="10" min="0"></div>
+      </div>
+      <div class="btn-row"><button class="btn btn-verde" onclick="guardarRecetaImpresion()">Guardar receta</button></div>
+      <p class="helptext" style="margin-top:10px;">Tinta, Equipos, Cabezal, Energía y Mantenimiento aparecen como columnas propias en el estado de resultados mensual — separadas de cualquier gasto real de servicios/mantenimiento que registres por tu cuenta en Compras.</p>
+    </div>
+
+    <div class="card">
       <h2><span class="dot" style="background:var(--verde)"></span>Catálogo de materiales</h2>
       <p class="helptext">Usa esto si actualizamos los materiales o precios de fábrica y quieres traerlos al cotizador. Recarga el catálogo de materiales de impresión digital, modos de producción y materiales 3D con los valores de fábrica. <strong>No borra tus cotizaciones ni tus órdenes de producción</strong> — solo reemplaza las listas de materiales.</p>
       <div class="btn-row">
@@ -902,35 +1095,40 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
 </div>
 
-<div id="modal-consumo" class="modal-overlay">
+<div id="modal-consumo" class="modal-overlay" style="display: none;">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">Consumo de material</h2>
       <button class="btn btn-sm" onclick="cerrarConsumo()">✕ Cerrar</button>
     </div>
-    <p class="helptext" style="margin-top:0;">Orden: <strong id="consumo-op-codigo"></strong>. Puedes registrar todos los insumos que necesites, uno por uno — cada uno se suma a la lista de abajo, que se actualiza al instante.</p>
+    <p class="helptext" style="margin-top:0;">Orden: <strong id="consumo-op-codigo">KHL001-01 · Impresión en vinilo mate sin laminado de 106 cm x 100 cm</strong>. Puedes registrar todos los insumos que necesites, uno por uno — cada uno se suma a la lista de abajo, que se actualiza al instante.</p>
     <div style="background:#F7F6F2;border-radius:6px;padding:12px 14px;margin:14px 0;">
       <p class="helptext" style="margin:0 0 8px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.05em;color:var(--verde);">✓ Ya cargado en esta orden</p>
-      <div id="consumo-lista"></div>
+      <div id="consumo-lista">
+    <table>
+      <thead><tr><th>Insumo</th><th class="num">Cantidad</th><th class="num">Costo</th><th></th></tr></thead>
+      <tbody><tr><td>VINILO LAMINADO BRILLANTE</td><td class="num">2,23 m²</td><td class="num">$12.711</td><td><button class="btn btn-sm" onclick="revertirConsumo(0)">✕</button></td></tr><tr><td>VINILO BLANCO MATTE</td><td class="num">2,23 m²</td><td class="num">$12.688</td><td><button class="btn btn-sm" onclick="revertirConsumo(1)">✕</button></td></tr></tbody>
+    </table>
+    <p class="helptext" style="margin-top:10px;">Costo de material consumido en esta orden: <strong>$25.399</strong></p></div>
     </div>
     <div class="section-divider"></div>
     <p class="helptext" style="margin-bottom:8px;font-weight:700;">Agregar otro insumo</p>
     <p class="helptext" style="margin-top:0;">Elige el insumo, escribe la cantidad y presiona <strong>Enter</strong> (o pulsa el botón) — eso lo agrega a la lista de arriba y deja todo listo para el siguiente.</p>
     <div class="grid grid-3" style="margin:14px 0;">
-      <div class="field" style="grid-column:span 2;"><label>Insumo</label><select id="consumo-insumo"></select></div>
+      <div class="field" style="grid-column:span 2;"><label>Insumo</label><select id="consumo-insumo"><option value="">— Selecciona un insumo —</option><option value="i1787572999048381">TINTA AMARILLA (LITRO) — saldo: 1,00 L</option><option value="i1787573024672983">TINTA CYAN (LITRO) — saldo: 1,00 L</option><option value="i1787573040363580">TINTA MAGENTA (LITRO) — saldo: 1,00 L</option><option value="i1787573054455944">TINTA NEGRA (LITRO) — saldo: 1,00 L</option><option value="i1787573084436820">VINILO BLANCO BRILLANTE (ROLLO · 152 cm) — saldo: 76,00 m²</option><option value="i1787573103020179">VINILO BLANCO MATTE (ROLLO · 152 cm) — saldo: 73,77 m²</option><option value="i1787573128877228">VINILO LAMINADO MATTE (ROLLO · 152 cm) — saldo: 76,00 m²</option><option value="i1787573151328879">VINILO LAMINADO BRILLANTE (ROLLO · 152 cm) — saldo: 73,77 m²</option><option value="i178757316798644">PET BACKLIT (ROLLO · 106 cm) — saldo: 53,00 m²</option><option value="i1787573190609199">BANNER RESPALDO GRIS (ROLLO · 180 cm) — saldo: 18,00 m²</option></select></div>
       <div class="field"><label>Cantidad usada</label><input type="number" id="consumo-cantidad" step="0.01" min="0" onkeydown="if(event.key===&#39;Enter&#39;){event.preventDefault();registrarConsumo();}"></div>
     </div>
     <div class="btn-row"><button class="btn btn-verde" onclick="registrarConsumo()">− Descontar del inventario</button></div>
   </div>
 </div>
 
-<div id="modal-manoobra" class="modal-overlay">
+<div id="modal-manoobra" class="modal-overlay" style="display: none;">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">Mano de obra</h2>
       <button class="btn btn-sm" onclick="cerrarManoObra()">✕ Cerrar</button>
     </div>
-    <p class="helptext" style="margin-top:0;">Orden: <strong id="mo-op-codigo"></strong></p>
+    <p class="helptext" style="margin-top:0;">Orden: <strong id="mo-op-codigo">KHL001-01 · SV12346-PDG SMIRNOFF SAN JERONIMO</strong></p>
     <div class="grid grid-2" style="margin:14px 0;">
       <div class="field"><label>Horas de impresión</label><input type="number" id="mo-horas-impresion" step="0.5" min="0" value="0" oninput="calcularManoObra()"></div>
       <div class="field"><label>Horas de laminado</label><input type="number" id="mo-horas-laminado" step="0.5" min="0" value="0" oninput="calcularManoObra()"></div>
@@ -941,24 +1139,50 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <div class="field" style="max-width:240px;margin-bottom:14px;"><label>Costo total mano de obra</label><input type="text" id="mo-costo-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
     <div class="btn-row"><button class="btn btn-verde" onclick="registrarManoObra()">+ Cargar mano de obra al proyecto</button></div>
-    <div id="mo-lista" style="margin-top:20px;"></div>
+    <div id="mo-lista" style="margin-top:20px;">
+    <table>
+      <thead><tr><th>Fecha</th><th class="num">H. impresión</th><th class="num">H. laminado</th><th class="num">Costo</th><th></th></tr></thead>
+      <tbody><tr><td>2026-08-26</td><td colspan="2" style="color:var(--gris-texto);font-size:12px;">⚡ Carga automática (2,12 m²): impresión $1.000/m² + laminado $500/m²</td><td class="num">$3.180</td><td><button class="btn btn-sm" onclick="eliminarManoObra(0)">✕</button></td></tr></tbody>
+    </table>
+    <p class="helptext" style="margin-top:10px;">Total mano de obra de esta orden: <strong>$3.180</strong></p></div>
   </div>
 </div>
 
-<div id="modal-produccion" class="modal-overlay">
+<div id="modal-produccion" class="modal-overlay" style="display: none;">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">Producción por m²</h2>
       <button class="btn btn-sm" onclick="cerrarProduccion()">✕ Cerrar</button>
     </div>
-    <p class="helptext" style="margin-top:0;">Orden: <strong id="pr-op-codigo"></strong>. Carga los m² efectivamente impresos. El costo de producción por m² cubre tinta, mantenimiento proyectado, aporte al desgaste del cabezal y pago del crédito de los equipos.</p>
+    <p class="helptext" style="margin-top:0;">Orden: <strong id="pr-op-codigo">KHL001-01 · SV12346-PDG SMIRNOFF SAN JERONIMO</strong>. Carga los m² efectivamente impresos.</p>
+    <div id="pr-referencia-material" style="margin:0 0 14px;padding:10px 14px;background:#F8F1EA;border-radius:6px;border-left:4px solid var(--marron);">📦 Material ya cargado para esta orden (en Consumo): <strong>$25.399</strong> — no lo repitas aquí.</div>
+    <p class="helptext" style="margin-top:0;font-weight:700;color:var(--marron);">⚠ Este costo por m² es SOLO mantenimiento proyectado, aporte al desgaste del cabezal y pago del crédito de los equipos. NUNCA incluyas aquí material ni tinta — esos se cargan aparte, en "📦 Consumo" o con "⚡ Cargar impresión".</p>
     <div class="grid grid-2" style="margin:14px 0;">
       <div class="field"><label>m² impresos</label><input type="number" id="pr-m2" step="0.01" min="0" value="0" oninput="calcularProduccion()"></div>
-      <div class="field"><label>Costo producción por m²</label><input type="number" id="pr-costo-m2" step="100" min="0" oninput="calcularProduccion()"></div>
+      <div class="field"><label>Costo producción por m² (sin material ni tinta)</label><input type="number" id="pr-costo-m2" step="100" min="0" oninput="calcularProduccion()"></div>
     </div>
     <div class="field" style="max-width:260px;margin-bottom:14px;"><label>Costo total de producción</label><input type="text" id="pr-costo-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
     <div class="btn-row"><button class="btn btn-verde" onclick="registrarProduccion()">+ Cargar producción al proyecto</button></div>
-    <div id="pr-lista" style="margin-top:20px;"></div>
+    <div id="pr-lista" style="margin-top:20px;"><p class="helptext">Sin producción registrada para esta orden.</p></div>
+  </div>
+</div>
+
+<div id="modal-carga-impresion" class="modal-overlay" style="display: none;">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">⚡ Cargar impresión (automático)</h2>
+      <button class="btn btn-sm" onclick="cerrarCargaImpresion()">✕ Cerrar</button>
+    </div>
+    <p class="helptext" style="margin-top:0;">Orden: <strong id="ci-op-codigo">KHL001-01 · SV12346-PDG SMIRNOFF SAN JERONIMO</strong>. Con los m² impresos, calcula el costo real del material (de tu inventario) más tinta/equipos/cabezal/energía/mantenimiento/mano de obra según tu receta configurada — sin generar ningún pago nuevo en caja.</p>
+    <div class="grid grid-2" style="margin:14px 0;">
+      <div class="field"><label>m² impresos</label><input type="number" id="ci-m2" step="0.01" min="0" value="0" oninput="calcularCargaImpresion()"></div>
+      <div class="field"><label>Material usado (vinilo, banner, etc.)</label><select id="ci-vinilo" onchange="calcularCargaImpresion()"><option value="">— Selecciona un insumo —</option><option value="i1787572999048381">TINTA AMARILLA (LITRO) — saldo: 1,00 L</option><option value="i1787573024672983">TINTA CYAN (LITRO) — saldo: 1,00 L</option><option value="i1787573040363580">TINTA MAGENTA (LITRO) — saldo: 1,00 L</option><option value="i1787573054455944">TINTA NEGRA (LITRO) — saldo: 1,00 L</option><option value="i1787573084436820">VINILO BLANCO BRILLANTE (ROLLO · 152 cm) — saldo: 76,00 m²</option><option value="i1787573103020179">VINILO BLANCO MATTE (ROLLO · 152 cm) — saldo: 73,77 m²</option><option value="i1787573128877228">VINILO LAMINADO MATTE (ROLLO · 152 cm) — saldo: 76,00 m²</option><option value="i1787573151328879">VINILO LAMINADO BRILLANTE (ROLLO · 152 cm) — saldo: 73,77 m²</option><option value="i178757316798644">PET BACKLIT (ROLLO · 106 cm) — saldo: 53,00 m²</option><option value="i1787573190609199">BANNER RESPALDO GRIS (ROLLO · 180 cm) — saldo: 18,00 m²</option></select></div>
+    </div>
+    <div class="field" style="margin-bottom:10px;"><label class="checkline"><input type="checkbox" id="ci-lleva-laminado" onchange="alCambiarLlevaLaminado()"> Esta impresión lleva laminado</label></div>
+    <div class="field" id="ci-laminado-wrap" style="display: block; margin-bottom: 14px;"><label>Laminado usado</label><select id="ci-laminado" onchange="calcularCargaImpresion()"><option value="">— Selecciona un insumo —</option><option value="i1787572999048381">TINTA AMARILLA (LITRO) — saldo: 1,00 L</option><option value="i1787573024672983">TINTA CYAN (LITRO) — saldo: 1,00 L</option><option value="i1787573040363580">TINTA MAGENTA (LITRO) — saldo: 1,00 L</option><option value="i1787573054455944">TINTA NEGRA (LITRO) — saldo: 1,00 L</option><option value="i1787573084436820">VINILO BLANCO BRILLANTE (ROLLO · 152 cm) — saldo: 76,00 m²</option><option value="i1787573103020179">VINILO BLANCO MATTE (ROLLO · 152 cm) — saldo: 73,77 m²</option><option value="i1787573128877228">VINILO LAMINADO MATTE (ROLLO · 152 cm) — saldo: 76,00 m²</option><option value="i1787573151328879">VINILO LAMINADO BRILLANTE (ROLLO · 152 cm) — saldo: 73,77 m²</option><option value="i178757316798644">PET BACKLIT (ROLLO · 106 cm) — saldo: 53,00 m²</option><option value="i1787573190609199">BANNER RESPALDO GRIS (ROLLO · 180 cm) — saldo: 18,00 m²</option></select></div>
+    <div id="ci-resumen" style="margin:14px 0;padding:12px 14px;background:#F4F5FA;border-radius:6px;"><table style="width:100%;font-size:12.5px;"><tbody><tr><td>Material — VINILO BLANCO BRILLANTE (1,05 m² · incl. 5% desperdicio)</td><td class="num">$5.985</td></tr><tr><td>Tinta</td><td class="num">$1.500</td></tr><tr><td>Equipos</td><td class="num">$2.400</td></tr><tr><td>Cabezal</td><td class="num">$157</td></tr><tr><td>Energía</td><td class="num">$250</td></tr><tr><td>Mantenimiento</td><td class="num">$131</td></tr><tr><td>Mano de obra impresión</td><td class="num">$1.000</td></tr><tr><td>Material laminado — VINILO LAMINADO BRILLANTE (1,05 m² · incl. 5% desperdicio)</td><td class="num">$5.985</td></tr><tr><td>Mano de obra laminado</td><td class="num">$500</td></tr><tr style="font-weight:700;border-top:2px solid #17171C;"><td>Total a cargar</td><td class="num">$17.908</td></tr></tbody></table></div>
+    <div class="btn-row"><button class="btn btn-verde" onclick="registrarCargaImpresion()">⚡ Cargar todo al proyecto</button></div>
+    <p class="helptext" style="margin-top:14px;">Descuenta del inventario real el material (y el laminado si aplica); tinta/equipos/cabezal/energía/mantenimiento son costeo interno — no ligado a inventario ni a caja — y aparecen como columnas propias en el estado de resultados. La mano de obra se suma en su categoría de siempre.</p>
   </div>
 </div>
 
@@ -1073,6 +1297,19 @@ function estadoPorDefecto(){
     tarifaHora3D:45000,
     tarifaHoraImpresion:0,
     tarifaHoraLaminado:0,
+    // Receta para "Cargar impresión" (auto): a partir de m² impresos, calcula solo el material real
+    // de inventario + 5 costos de producción fijos por m² (costeo interno, sin generar pago en caja)
+    // + mano de obra de impresión/laminado.
+    recetaImpresion:{
+      pctDesperdicioVinilo: 5,       // % extra de material por recortes/errores
+      tintaM2: 1500,                 // $/m² de tinta (costeo interno, no ligado a kárdex)
+      equiposM2: 2400,               // $/m² de crédito/pago de equipos
+      cabezalM2: 157,                // $/m² de desgaste de cabezal
+      energiaM2: 250,                // $/m² de energía
+      mantenimientoM2: 131,          // $/m² de mantenimiento
+      manoObraImpresionM2: 1170,     // $/m² de mano de obra de impresión
+      manoObraLaminadoM2: 500        // $/m² de mano de obra de laminado (solo si aplica)
+    },
     retenciones:[
       {id:'r1', nombre:'Retención en la fuente (servicios)', porcentaje:4, activa:true},
       {id:'r2', nombre:'ReteICA', porcentaje:0, activa:false}
@@ -1115,7 +1352,8 @@ function estadoPorDefecto(){
     cuentasCobro:[],
     remisiones:[],
     borrador:null,
-    activosFijos:[]
+    activosFijos:[],
+    costosProduccionOP:[]
   };
 }
 
@@ -1152,7 +1390,9 @@ function fusionarConEstadoBase(parsed){
     cuentasCobro: parsed.cuentasCobro || [],
     remisiones: parsed.remisiones || [],
     borrador: parsed.borrador || null,
-    activosFijos: parsed.activosFijos || []
+    activosFijos: parsed.activosFijos || [],
+    recetaImpresion: Object.assign({}, base.recetaImpresion, parsed.recetaImpresion||{}),
+    costosProduccionOP: parsed.costosProduccionOP || []
   });
 }
 function cargarEstado(){
@@ -1564,6 +1804,29 @@ function detalleProduccion(it){
     return it.materiales.map(m=>`${m.nombre} (${numFmt(m.cantidad,2)} ${m.unidad||'m²'})`).join(' + ');
   }
   return it.detalle;
+}
+// El material/formato que se cotizó (detalleProduccion) es solo una referencia general del catálogo
+// de cotización. Esto trae el material REAL que se consumió del kárdex para esta OP — con su ancho/
+// formato real — que es la trazabilidad que de verdad importa para producción.
+function materialesConsumidosOP(codigoOP){
+  return state.consumos.filter(c=>c.ordenCodigo===codigoOP).map(c=>{
+    const ins = state.insumos.find(i=>i.id===c.insumoId);
+    const etiqueta = ins ? etiquetaInsumo(ins) : c.insumoNombre;
+    return {etiqueta, cantidad: c.cantidad, unidad: c.unidad, costoTotal: c.costoTotal};
+  });
+}
+function costosCargadosOP(codigoOP){
+  const materiales = state.consumos.filter(c=>c.ordenCodigo===codigoOP).reduce((s,c)=>s+(c.costoTotal||0),0);
+  const manoObra = state.manoObra.filter(mo=>mo.ordenCodigo===codigoOP).reduce((s,mo)=>s+(mo.costoTotal||0),0);
+  const produccion = (state.produccionOP||[]).filter(p=>p.ordenCodigo===codigoOP).reduce((s,p)=>s+(p.costoTotal||0),0);
+  const cp = (state.costosProduccionOP||[]).filter(p=>p.ordenCodigo===codigoOP);
+  const tinta = cp.reduce((s,p)=>s+(p.costoTinta||0),0);
+  const equipos = cp.reduce((s,p)=>s+(p.costoEquipos||0),0);
+  const cabezal = cp.reduce((s,p)=>s+(p.costoCabezal||0),0);
+  const energia = cp.reduce((s,p)=>s+(p.costoEnergia||0),0);
+  const mantenimiento = cp.reduce((s,p)=>s+(p.costoMantenimiento||0),0);
+  return {materiales, manoObra, produccion, tinta, equipos, cabezal, energia, mantenimiento,
+    total: materiales+manoObra+produccion+tinta+equipos+cabezal+energia+mantenimiento};
 }
 
 /* ============ RENDER COTIZACION ============ */
@@ -2073,6 +2336,7 @@ function renderOrdenes(){
           <button class="btn btn-sm btn-verde" onclick="abrirConsumoOrden(${realIdx})">📦 Consumo</button>
           <button class="btn btn-sm" onclick="abrirManoObra(${realIdx})">👷 Mano de obra</button>
           <button class="btn btn-sm" onclick="abrirProduccion(${realIdx})">🖨 Producción m²</button>
+          <button class="btn btn-sm btn-mostaza" onclick="abrirCargaImpresion(${realIdx})" title="Con solo los m² impresos, calcula y descuenta sola vinilo, tinta y mano de obra">⚡ Cargar impresión</button>
           <button class="btn btn-sm btn-azul" onclick="abrirRemision(${realIdx})">📋 Remisión</button>
           <button class="btn btn-sm" onclick="eliminarOrden(${realIdx})">✕</button>
         </div>
@@ -2081,6 +2345,27 @@ function renderOrdenes(){
         <thead><tr><th>Categoría</th><th>Ítem</th><th class="num">Cantidad / Área</th></tr></thead>
         <tbody>${items}</tbody>
       </table>
+      ${(()=>{
+        const consumidos = materialesConsumidosOP(o.codigo);
+        if(consumidos.length===0) return '';
+        return `<p class="helptext" style="margin:10px 0 4px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--verde);">Material real consumido (con formato)</p>
+        <table style="margin-top:0;">
+          <thead><tr><th>Insumo (nombre y formato)</th><th class="num">Cantidad</th></tr></thead>
+          <tbody>${consumidos.map(c=>`<tr><td>${c.etiqueta}</td><td class="num">${numFmt(c.cantidad,2)} ${c.unidad}</td></tr>`).join('')}</tbody>
+        </table>`;
+      })()}
+      ${(()=>{
+        const cc = costosCargadosOP(o.codigo);
+        if(cc.total<=0) return '';
+        const partes = [`Materiales: <strong>${moneda(cc.materiales)}</strong>`, `Mano de obra: <strong>${moneda(cc.manoObra)}</strong>`];
+        if(cc.tinta>0) partes.push(`Tinta: <strong>${moneda(cc.tinta)}</strong>`);
+        if(cc.equipos>0) partes.push(`Equipos: <strong>${moneda(cc.equipos)}</strong>`);
+        if(cc.cabezal>0) partes.push(`Cabezal: <strong>${moneda(cc.cabezal)}</strong>`);
+        if(cc.energia>0) partes.push(`Energía: <strong>${moneda(cc.energia)}</strong>`);
+        if(cc.mantenimiento>0) partes.push(`Mantenimiento: <strong>${moneda(cc.mantenimiento)}</strong>`);
+        if(cc.produccion>0) partes.push(`Producción (manual): <strong>${moneda(cc.produccion)}</strong>`);
+        return `<p class="helptext" style="margin-top:10px;">Costos cargados — ${partes.join(' · ')} · <strong style="color:var(--negro);">Total: ${moneda(cc.total)}</strong></p>`;
+      })()}
     </div>`;
   }).join('');
 }
@@ -2115,6 +2400,16 @@ function imprimirOrden(idx){
   const items = o.items.map(it=>`
     <tr><td>${it.categoria}</td><td>${it.foto? `<img src="${it.foto}" style="height:44px;width:44px;object-fit:cover;border-radius:3px;vertical-align:middle;margin-right:8px;">`:''}${detalleProduccion(it)}</td><td style="text-align:right;">${it.cantidadTexto}</td></tr>
   `).join('');
+  const consumidos = materialesConsumidosOP(o.codigo);
+  const tablaConsumidos = consumidos.length===0? '' : `
+      <p style="font-family:'Archivo Black',sans-serif;font-size:11px;text-transform:uppercase;margin:18px 0 8px;color:#2E7D4F;">Material real consumido (con formato)</p>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+        <thead><tr style="background:#2E7D4F;color:#fff;">
+          <th style="border:1px solid #2E7D4F;padding:8px;text-align:left;">Insumo (nombre y formato)</th>
+          <th style="border:1px solid #2E7D4F;padding:8px;text-align:right;">Cantidad</th>
+        </tr></thead>
+        <tbody>${consumidos.map(c=>`<tr><td style="border:1px solid #ccc;padding:8px;">${c.etiqueta}</td><td style="border:1px solid #ccc;padding:8px;text-align:right;">${numFmt(c.cantidad,2)} ${c.unidad}</td></tr>`).join('')}</tbody>
+      </table>`;
   document.getElementById('print-area').className = '';
   document.getElementById('print-area').innerHTML = `
     <div style="font-family:'Space Grotesk',sans-serif;color:#17171C;padding:20px;">
@@ -2142,6 +2437,7 @@ function imprimirOrden(idx){
         </tr></thead>
         <tbody>${items.replace(/<td>/g,'<td style="border:1px solid #ccc;padding:8px;">').replace(/<td style="text-align:right;">/g,'<td style="border:1px solid #ccc;padding:8px;text-align:right;">')}</tbody>
       </table>
+      ${tablaConsumidos}
       <div style="margin-top:26px;font-size:11px;color:#555;">
         <div style="display:flex;gap:40px;margin-top:40px;">
           <div style="flex:1;border-top:1px solid #999;padding-top:6px;">Elaboró</div>
@@ -2421,6 +2717,7 @@ function agregarInsumo(){
   document.getElementById('nuevo-ins-presentacion').value='';
   document.getElementById('nuevo-ins-medida').value='';
   document.getElementById('nuevo-ins-color').value='';
+  document.getElementById('nuevo-ins-unidad').value='m²'; // no heredar la unidad del insumo anterior (ej. mL de una tinta)
   renderInsumos(); poblarSelectsCompra();
   mostrarToast('Insumo "'+nombre+'" agregado — medida: '+medidaCm+' cm.');
 }
@@ -2435,6 +2732,7 @@ function toggleNuevoInsumoInline(){
     document.getElementById('oci-presentacion').value='';
     document.getElementById('oci-medida').value='';
     document.getElementById('oci-color').value='';
+    document.getElementById('oci-unidad').value='m²'; // no heredar la unidad del insumo anterior (ej. mL de una tinta)
   }
 }
 function crearInsumoInlineYSeleccionar(){
@@ -2469,6 +2767,7 @@ function renderConfig(){
   document.getElementById('cfg-tarifa-laminado').value = state.tarifaHoraLaminado||0;
   toggleIvaConfig();
   renderRetenciones();
+  renderRecetaImpresion();
 }
 function toggleIvaConfig(){
   const sinIva = document.getElementById('cfg-sin-iva').checked;
@@ -2496,6 +2795,33 @@ function guardarTarifasManoObra(){
   state.tarifaHoraLaminado = parseFloat(document.getElementById('cfg-tarifa-laminado').value)||0;
   guardarEstado();
   mostrarToast('Tarifas de mano de obra guardadas.');
+}
+/* ---- Receta de "Cargar impresión" (automático) ---- */
+function renderRecetaImpresion(){
+  const r = state.recetaImpresion || {};
+  const setVal = (id,v,def)=>{ const el=document.getElementById(id); if(el) el.value = (v!==undefined? v : def); };
+  setVal('cfg-receta-desperdicio', r.pctDesperdicioVinilo, 5);
+  setVal('cfg-receta-tinta', r.tintaM2, 1500);
+  setVal('cfg-receta-equipos', r.equiposM2, 2400);
+  setVal('cfg-receta-cabezal', r.cabezalM2, 157);
+  setVal('cfg-receta-energia', r.energiaM2, 250);
+  setVal('cfg-receta-mantenimiento', r.mantenimientoM2, 131);
+  setVal('cfg-receta-mo-impresion', r.manoObraImpresionM2, 1170);
+  setVal('cfg-receta-mo-laminado', r.manoObraLaminadoM2, 500);
+}
+function guardarRecetaImpresion(){
+  state.recetaImpresion = {
+    pctDesperdicioVinilo: parseFloat(document.getElementById('cfg-receta-desperdicio').value)||0,
+    tintaM2: parseFloat(document.getElementById('cfg-receta-tinta').value)||0,
+    equiposM2: parseFloat(document.getElementById('cfg-receta-equipos').value)||0,
+    cabezalM2: parseFloat(document.getElementById('cfg-receta-cabezal').value)||0,
+    energiaM2: parseFloat(document.getElementById('cfg-receta-energia').value)||0,
+    mantenimientoM2: parseFloat(document.getElementById('cfg-receta-mantenimiento').value)||0,
+    manoObraImpresionM2: parseFloat(document.getElementById('cfg-receta-mo-impresion').value)||0,
+    manoObraLaminadoM2: parseFloat(document.getElementById('cfg-receta-mo-laminado').value)||0
+  };
+  guardarEstado();
+  mostrarToast('Receta de impresión guardada.');
 }
 /* ---- Retenciones ---- */
 function renderRetenciones(){
@@ -3250,6 +3576,13 @@ function saldoInsumo(insumoId){
   return state.movimientos.filter(m=>m.insumoId===insumoId)
     .reduce((s,m)=> s + (m.tipo==='entrada'? m.cantidad : -m.cantidad), 0);
 }
+// Costo promedio ponderado actual de un insumo, según sus entradas reales al kárdex.
+function costoPromedioInsumo(insumoId){
+  const entradas = state.movimientos.filter(m=>m.insumoId===insumoId && m.tipo==='entrada');
+  const totalEntrada = entradas.reduce((s,m)=>s+m.cantidad,0);
+  const valorTotal = entradas.reduce((s,m)=>s+m.cantidad*(m.precioUnit||0),0);
+  return totalEntrada>0 ? valorTotal/totalEntrada : 0;
+}
 function renderInventario(){
   const cont = document.getElementById('inventario-list');
   if(!cont) return;
@@ -3468,6 +3801,9 @@ function renderManoObraOrden(idxOrden){
       <thead><tr><th>Fecha</th><th class="num">H. impresión</th><th class="num">H. laminado</th><th class="num">Costo</th><th></th></tr></thead>
       <tbody>${registros.map(m=>{
         const realIdx = state.manoObra.indexOf(m);
+        if(m.notaAuto){
+          return `<tr><td>${m.fecha}</td><td colspan="2" style="color:var(--gris-texto);font-size:12px;">⚡ ${m.notaAuto}</td><td class="num">${moneda(m.costoTotal)}</td><td><button class="btn btn-sm" onclick="eliminarManoObra(${realIdx})">✕</button></td></tr>`;
+        }
         return `<tr><td>${m.fecha}</td><td class="num">${numFmt(m.horasImpresion,1)}</td><td class="num">${numFmt(m.horasLaminado,1)}</td><td class="num">${moneda(m.costoTotal)}</td><td><button class="btn btn-sm" onclick="eliminarManoObra(${realIdx})">✕</button></td></tr>`;
       }).join('')}</tbody>
     </table>
@@ -3489,6 +3825,13 @@ function abrirProduccion(idxOrden){
   document.getElementById('pr-op-codigo').textContent = o.codigo + (o.nomProyecto? ' · '+o.nomProyecto : '');
   document.getElementById('pr-m2').value = 0;
   document.getElementById('pr-costo-m2').value = state.produccionDefault;
+  const cc = costosCargadosOP(o.codigo);
+  const refBox = document.getElementById('pr-referencia-material');
+  if(cc.materiales>0){
+    refBox.innerHTML = '📦 Material ya cargado para esta orden (en Consumo): <strong>'+moneda(cc.materiales)+'</strong> — no lo repitas aquí.';
+  }else{
+    refBox.innerHTML = '📦 Todavía no has cargado material (Consumo) para esta orden. Si el material ya se consumió, regístralo en "📦 Consumo" — no lo mezcles con este costo de producción.';
+  }
   calcularProduccion();
   renderProduccionOrden(idxOrden);
   document.getElementById('modal-produccion').style.display='flex';
@@ -3545,6 +3888,128 @@ function eliminarProduccion(idx){
   mostrarToast('Registro de producción eliminado.');
 }
 
+/* ============ CARGA DE IMPRESIÓN AUTOMÁTICA (vinilo + 4 tintas + mano de obra, desde m²) ============ */
+let ordenCargaImpresionActual = null;
+function abrirCargaImpresion(idxOrden){
+  ordenCargaImpresionActual = idxOrden;
+  const o = state.ordenes[idxOrden];
+  document.getElementById('ci-op-codigo').textContent = o.codigo + (o.nomProyecto? ' · '+o.nomProyecto : '');
+  document.getElementById('ci-m2').value = 0;
+  document.getElementById('ci-lleva-laminado').checked = false;
+  document.getElementById('ci-laminado-wrap').style.display = 'none';
+  const opciones = '<option value="">— Selecciona un insumo —</option>' + state.insumos.map(i=>`<option value="${i.id}">${etiquetaInsumo(i)} — saldo: ${numFmt(saldoInsumo(i.id),2)} ${i.unidad}</option>`).join('');
+  document.getElementById('ci-vinilo').innerHTML = opciones;
+  document.getElementById('ci-laminado').innerHTML = opciones;
+  calcularCargaImpresion();
+  document.getElementById('modal-carga-impresion').style.display='flex';
+}
+function cerrarCargaImpresion(){
+  document.getElementById('modal-carga-impresion').style.display='none';
+  ordenCargaImpresionActual = null;
+}
+function alCambiarLlevaLaminado(){
+  document.getElementById('ci-laminado-wrap').style.display = document.getElementById('ci-lleva-laminado').checked? 'block':'none';
+  calcularCargaImpresion();
+}
+function calcularCargaImpresion(){
+  const m2 = parseFloat(document.getElementById('ci-m2').value)||0;
+  const r = state.recetaImpresion || {};
+  const llevaLaminado = document.getElementById('ci-lleva-laminado').checked;
+
+  const materialId = document.getElementById('ci-vinilo').value;
+  const material = state.insumos.find(i=>i.id===materialId);
+  const cantMaterial = m2 * (1 + (r.pctDesperdicioVinilo||0)/100);
+  const costoMaterial = material ? cantMaterial * costoPromedioInsumo(material.id) : 0;
+
+  // costeo interno por m² — NO ligado a kárdex, NO genera pago en caja
+  const costoTinta = m2 * (r.tintaM2||0);
+  const costoEquipos = m2 * (r.equiposM2||0);
+  const costoCabezal = m2 * (r.cabezalM2||0);
+  const costoEnergia = m2 * (r.energiaM2||0);
+  const costoMantenimientoProd = m2 * (r.mantenimientoM2||0);
+
+  const costoManoObraImpresion = m2 * (r.manoObraImpresionM2||0);
+
+  const laminadoId = document.getElementById('ci-laminado').value;
+  const laminado = llevaLaminado? state.insumos.find(i=>i.id===laminadoId) : null;
+  const cantLaminado = llevaLaminado? m2 * (1 + (r.pctDesperdicioVinilo||0)/100) : 0;
+  const costoLaminadoMaterial = laminado ? cantLaminado * costoPromedioInsumo(laminado.id) : 0;
+  const costoManoObraLaminado = llevaLaminado ? m2 * (r.manoObraLaminadoM2||0) : 0;
+
+  const totalGeneral = costoMaterial + costoTinta + costoEquipos + costoCabezal + costoEnergia + costoMantenimientoProd
+    + costoManoObraImpresion + costoLaminadoMaterial + costoManoObraLaminado;
+
+  let html = '<table style="width:100%;font-size:12.5px;">';
+  html += `<tr><td>Material${material? ' — '+material.nombre:''} (${numFmt(cantMaterial,2)} m²${r.pctDesperdicioVinilo? ' · incl. '+r.pctDesperdicioVinilo+'% desperdicio':''})</td><td class="num">${moneda(costoMaterial)}</td></tr>`;
+  html += `<tr><td>Tinta</td><td class="num">${moneda(costoTinta)}</td></tr>`;
+  html += `<tr><td>Equipos</td><td class="num">${moneda(costoEquipos)}</td></tr>`;
+  html += `<tr><td>Cabezal</td><td class="num">${moneda(costoCabezal)}</td></tr>`;
+  html += `<tr><td>Energía</td><td class="num">${moneda(costoEnergia)}</td></tr>`;
+  html += `<tr><td>Mantenimiento</td><td class="num">${moneda(costoMantenimientoProd)}</td></tr>`;
+  html += `<tr><td>Mano de obra impresión</td><td class="num">${moneda(costoManoObraImpresion)}</td></tr>`;
+  if(llevaLaminado){
+    html += `<tr><td>Material laminado${laminado? ' — '+laminado.nombre:''} (${numFmt(cantLaminado,2)} m²${r.pctDesperdicioVinilo? ' · incl. '+r.pctDesperdicioVinilo+'% desperdicio':''})</td><td class="num">${moneda(costoLaminadoMaterial)}</td></tr>`;
+    html += `<tr><td>Mano de obra laminado</td><td class="num">${moneda(costoManoObraLaminado)}</td></tr>`;
+  }
+  html += `<tr style="font-weight:700;border-top:2px solid #17171C;"><td>Total a cargar</td><td class="num">${moneda(totalGeneral)}</td></tr>`;
+  html += '</table>';
+  document.getElementById('ci-resumen').innerHTML = html;
+
+  return {m2, material, cantMaterial, costoMaterial, costoTinta, costoEquipos, costoCabezal, costoEnergia, costoMantenimientoProd,
+    costoManoObraImpresion, llevaLaminado, laminado, cantLaminado, costoLaminadoMaterial, costoManoObraLaminado, totalGeneral};
+}
+function registrarCargaImpresion(){
+  if(ordenCargaImpresionActual===null) return;
+  const o = state.ordenes[ordenCargaImpresionActual];
+  const c = calcularCargaImpresion();
+  if(c.m2<=0){ mostrarToast('Ingresa los m² impresos.'); return; }
+  if(!c.material){ mostrarToast('Selecciona qué material se usó.'); return; }
+  if(c.llevaLaminado && !c.laminado){ mostrarToast('Selecciona qué laminado se usó.'); return; }
+  const r = state.recetaImpresion;
+  const fecha = new Date().toISOString().slice(0,10);
+
+  function _consumirInsumo(insumo, cantidad, notaExtra){
+    const costoProm = costoPromedioInsumo(insumo.id);
+    state.movimientos.unshift({
+      fecha, insumoId: insumo.id, insumoNombre: insumo.nombre, unidad: insumo.unidad,
+      tipo:'salida', cantidad, precioUnit: costoProm,
+      referencia: o.codigo, nota:'Consumo automático ('+notaExtra+')'+(o.proyecto? ' · '+o.proyecto:'')
+    });
+    state.consumos.unshift({
+      ordenCodigo: o.codigo, proyecto: o.proyecto||'', cliente: o.cliente||'',
+      fecha, insumoId: insumo.id, insumoNombre: insumo.nombre, unidad: insumo.unidad,
+      cantidad, costoUnit: costoProm, costoTotal: cantidad*costoProm
+    });
+  }
+
+  // material real (y laminado real si aplica) — sí descuentan kárdex, como Consumo
+  _consumirInsumo(c.material, c.cantMaterial, 'material por m² impresos');
+  if(c.llevaLaminado && c.laminado){ _consumirInsumo(c.laminado, c.cantLaminado, 'laminado por m² impresos'); }
+
+  // costeo interno por m² (tinta/equipos/cabezal/energía/mantenimiento) — NO toca kárdex, NO genera pago en caja
+  state.costosProduccionOP.unshift({
+    ordenCodigo: o.codigo, codProyecto: o.codProyecto||'', nomProyecto: o.nomProyecto||'', fecha, m2: c.m2,
+    costoTinta: c.costoTinta, costoEquipos: c.costoEquipos, costoCabezal: c.costoCabezal,
+    costoEnergia: c.costoEnergia, costoMantenimiento: c.costoMantenimientoProd
+  });
+
+  // mano de obra (impresión + laminado) — sigue yendo a la categoría de siempre
+  const notaAuto = 'Carga automática ('+numFmt(c.m2,2)+' m²): impresión $'+numFmt(r.manoObraImpresionM2,0)+'/m²'+(c.llevaLaminado? ' + laminado $'+numFmt(r.manoObraLaminadoM2,0)+'/m²':'');
+  state.manoObra.unshift({
+    ordenCodigo:o.codigo, codProyecto:o.codProyecto||'', nomProyecto:o.nomProyecto||'', cliente:o.cliente||'',
+    fecha, horasImpresion:0, horasLaminado:0, tarifaImpresion:0, tarifaLaminado:0,
+    costoTotal: c.costoManoObraImpresion + c.costoManoObraLaminado,
+    notaAuto
+  });
+
+  guardarEstado();
+  cerrarCargaImpresion();
+  renderOrdenes();
+  renderInventario();
+  if(typeof renderContabilidad==='function') renderContabilidad();
+  mostrarToast('Impresión cargada: material'+(c.llevaLaminado? ' + laminado':'')+', tinta, equipos, cabezal, energía, mantenimiento y mano de obra — todo de una vez, con '+numFmt(c.m2,2)+' m².');
+}
+
 /* ============ REMISIÓN (entrega, sin valores) ============ */
 let remisionOrdenActual = null;
 let remisionSeleccion = [];
@@ -3568,16 +4033,19 @@ function toggleItemRemision(itemIdx, checked){
 function renderItemsRemision(){
   const o = state.ordenes[remisionOrdenActual];
   const cont = document.getElementById('rem-items-lista');
+  const reales = materialesConsumidosOP(o.codigo);
   cont.innerHTML = `
     <table>
-      <thead><tr><th style="width:36px;"></th><th>Referencia</th><th class="num">Metraje / cantidad</th></tr></thead>
+      <thead><tr><th style="width:36px;"></th><th>Referencia (puedes corregirla si no coincide con lo realmente producido)</th><th class="num">Metraje / cantidad (también editable)</th></tr></thead>
       <tbody>${o.items.map((it,i)=>`
         <tr>
           <td><input type="checkbox" ${remisionSeleccion[i]?'checked':''} onchange="toggleItemRemision(${i}, this.checked)"></td>
-          <td>${it.detalle}</td>
-          <td class="num">${it.cantidadTexto}</td>
+          <td><input type="text" id="rem-detalle-${i}" value="${(it.detalle||'').replace(/"/g,'&quot;')}" style="width:100%;"></td>
+          <td class="num"><input type="text" id="rem-cantidad-${i}" value="${(it.cantidadTexto||'').replace(/"/g,'&quot;')}" style="width:120px;text-align:right;"></td>
         </tr>`).join('')}</tbody>
-    </table>`;
+    </table>
+    ${reales.length? `<p class="helptext" style="margin-top:10px;"><strong>Para tu referencia (esto NO sale en la remisión, es solo para ti):</strong> el material realmente descontado del inventario en esta OP fue: ${reales.map(c=>c.etiqueta+' ('+numFmt(c.cantidad,2)+' '+c.unidad+')').join(' + ')}. Si la descripción o el metraje de arriba no coinciden con esto, corrígelos antes de generar.</p>`
+      : `<p class="helptext" style="margin-top:10px;color:#B23B3B;">⚠ Todavía no hay consumo real registrado para esta OP.</p>`}`;
 }
 function generarCodigoREM(){
   const anio = new Date().getFullYear();
@@ -3587,25 +4055,37 @@ function generarCodigoREM(){
 function generarRemision(){
   if(remisionOrdenActual===null) return;
   const o = state.ordenes[remisionOrdenActual];
-  const seleccionados = o.items.filter((it,i)=>remisionSeleccion[i]);
-  if(seleccionados.length===0){ mostrarToast('Marca al menos un ítem para incluir en la remisión.'); return; }
+  const indicesSeleccionados = o.items.map((it,i)=>i).filter(i=>remisionSeleccion[i]);
+  if(indicesSeleccionados.length===0){ mostrarToast('Marca al menos un ítem para incluir en la remisión.'); return; }
   const codigo = generarCodigoREM();
+  // ítems con la descripción Y el metraje ya corregidos (si los editaste), para que remisión y cuenta de cobro coincidan
+  const itemsCorregidos = indicesSeleccionados.map(i=>{
+    const campoDetalle = document.getElementById('rem-detalle-'+i);
+    const campoCantidad = document.getElementById('rem-cantidad-'+i);
+    const detalle = campoDetalle ? campoDetalle.value.trim() : o.items[i].detalle;
+    const cantidadTexto = campoCantidad ? campoCantidad.value.trim() : o.items[i].cantidadTexto;
+    return Object.assign({}, o.items[i], {
+      detalle: detalle || o.items[i].detalle,
+      cantidadTexto: cantidadTexto || o.items[i].cantidadTexto
+    });
+  });
   const rem = {
     codigo, ordenCodigo:o.codigo, codProyecto:o.codProyecto||'', nomProyecto:o.nomProyecto||'',
     fecha: new Date().toISOString().slice(0,10),
     cliente:o.cliente||'', empresaCliente:o.empresaCliente||'', clienteNit:o.clienteNit||'',
     clienteDireccion:o.clienteDireccion||'', clienteTelefono:o.clienteTelefono||'',
     recibe: document.getElementById('rem-recibe').value||'',
-    items: seleccionados.map(it=>({detalle:it.detalle, cantidadTexto:it.cantidadTexto}))
+    items: itemsCorregidos.map(it=>({detalle:it.detalle, cantidadTexto:it.cantidadTexto}))
   };
   state.remisiones.unshift(rem);
   state.config.siguienteNumeroREM += 1;
 
-  // opcionalmente, la cuenta de cobro de EXACTAMENTE estos mismos ítems marcados
+  // opcionalmente, la cuenta de cobro de EXACTAMENTE estos mismos ítems marcados,
+  // con la MISMA descripción ya corregida, para que ambos documentos coincidan
   let ccGenerada = null;
   const tambienCC = document.getElementById('rem-tambien-cc');
   if(tambienCC && tambienCC.checked){
-    ccGenerada = generarCuentaCobroDesdeOrden(remisionOrdenActual, seleccionados);
+    ccGenerada = generarCuentaCobroDesdeOrden(remisionOrdenActual, itemsCorregidos);
   }
 
   guardarEstado();
@@ -4065,7 +4545,7 @@ function eliminarActivoFijo(idx){
 function calcularPyG(){
   // Ingresos reales cobrados agrupados por mes
   const meses = {};
-  function m(mes){ if(!meses[mes]) meses[mes]={mes, ingreso:0, materiales:0, manoObra:0, produccion:0, mantenimiento:0, transporte:0, servicios:0, arriendo:0, oficina:0, depreciacion:0, otros:0}; return meses[mes]; }
+  function m(mes){ if(!meses[mes]) meses[mes]={mes, ingreso:0, materiales:0, manoObra:0, produccion:0, tinta:0, equipos:0, cabezal:0, energia:0, mantenimientoProduccion:0, mantenimiento:0, transporte:0, servicios:0, arriendo:0, oficina:0, depreciacion:0, otros:0}; return meses[mes]; }
 
   // Ingresos = cobros reales (caja tipo ingreso con referencia de cotización) por mes
   state.ingresos.forEach(i=>{ m(mesDeFecha(i.fecha)).ingreso += i.monto; });
@@ -4082,11 +4562,23 @@ function calcularPyG(){
     const mes = orden? mesDeFecha(orden.fecha) : mesDeFecha(mo.fecha);
     m(mes).manoObra += mo.costoTotal||0;
   });
-  // Producción por m² (tinta, mantenimiento, cabezal, crédito) por mes de la OP
+  // Producción por m² manual — mantenimiento/cabezal/crédito equipos (botón "🖨 Producción m²", para casos sin usar la receta automática)
   (state.produccionOP||[]).forEach(pr=>{
     const orden = state.ordenes.find(o=>o.codigo===pr.ordenCodigo);
     const mes = orden? mesDeFecha(orden.fecha) : mesDeFecha(pr.fecha);
     m(mes).produccion += pr.costoTotal||0;
+  });
+  // Costeo interno de "⚡ Cargar impresión" (por m²): tinta, equipos, cabezal, energía, mantenimiento —
+  // columnas propias, separadas de cualquier gasto real de servicios/mantenimiento. No son pagos de caja.
+  (state.costosProduccionOP||[]).forEach(cp=>{
+    const orden = state.ordenes.find(o=>o.codigo===cp.ordenCodigo);
+    const mes = orden? mesDeFecha(orden.fecha) : mesDeFecha(cp.fecha);
+    const mm = m(mes);
+    mm.tinta += cp.costoTinta||0;
+    mm.equipos += cp.costoEquipos||0;
+    mm.cabezal += cp.costoCabezal||0;
+    mm.energia += cp.costoEnergia||0;
+    mm.mantenimientoProduccion += cp.costoMantenimiento||0;
   });
   // Gastos por categoría por mes de la compra
   state.compras.filter(c=>c.tipo==='gasto').forEach(g=>{
@@ -4111,7 +4603,7 @@ function calcularPyG(){
   });
 
   return Object.values(meses).map(x=>{
-    x.costoTotal = x.materiales+x.manoObra+x.produccion+x.mantenimiento+x.transporte+x.servicios+x.arriendo+x.oficina+x.depreciacion+x.otros;
+    x.costoTotal = x.materiales+x.manoObra+x.produccion+x.tinta+x.equipos+x.cabezal+x.energia+x.mantenimientoProduccion+x.mantenimiento+x.transporte+x.servicios+x.arriendo+x.oficina+x.depreciacion+x.otros;
     x.utilidad = x.ingreso - x.costoTotal;
     x.margen = x.ingreso>0? x.utilidad/x.ingreso*100 : 0;
     return x;
@@ -4156,16 +4648,39 @@ function renderContabilidad(){
   if(contPyG){
     if(pyg.length===0){ contPyG.innerHTML='<p class="helptext">Aún no hay movimientos para el estado de resultados.</p>'; }
     else{
-      const tot = pyg.reduce((a,m)=>({ingreso:a.ingreso+m.ingreso, materiales:a.materiales+m.materiales, manoObra:a.manoObra+m.manoObra, produccion:a.produccion+m.produccion, mantenimiento:a.mantenimiento+m.mantenimiento, transporte:a.transporte+m.transporte, servicios:a.servicios+m.servicios, arriendo:a.arriendo+m.arriendo, oficina:a.oficina+m.oficina, depreciacion:a.depreciacion+(m.depreciacion||0), otros:a.otros+m.otros, costoTotal:a.costoTotal+m.costoTotal, utilidad:a.utilidad+m.utilidad}), {ingreso:0,materiales:0,manoObra:0,produccion:0,mantenimiento:0,transporte:0,servicios:0,arriendo:0,oficina:0,depreciacion:0,otros:0,costoTotal:0,utilidad:0});
+      const columnasPyG = [
+        {key:'materiales', label:'Materiales'},
+        {key:'manoObra', label:'Mano obra'},
+        {key:'tinta', label:'Tinta'},
+        {key:'equipos', label:'Equipos'},
+        {key:'cabezal', label:'Cabezal'},
+        {key:'energia', label:'Energía'},
+        {key:'mantenimientoProduccion', label:'Mant. prod.'},
+        {key:'produccion', label:'Producción (manual)'},
+        {key:'mantenimiento', label:'Mantenim. (gasto)'},
+        {key:'transporte', label:'Transporte'},
+        {key:'servicios', label:'Serv. públ.'},
+        {key:'arriendo', label:'Arriendo'},
+        {key:'oficina', label:'Oficina'},
+        {key:'depreciacion', label:'Depreciación'},
+        {key:'otros', label:'Otros'}
+      ];
+      const tot = {ingreso:0, costoTotal:0, utilidad:0};
+      columnasPyG.forEach(c=>{ tot[c.key]=0; });
+      pyg.forEach(mesRow=>{
+        tot.ingreso += mesRow.ingreso; tot.costoTotal += mesRow.costoTotal; tot.utilidad += mesRow.utilidad;
+        columnasPyG.forEach(c=>{ tot[c.key] += mesRow[c.key]||0; });
+      });
       contPyG.innerHTML = `
       <table>
-        <thead><tr><th>Mes</th><th class="num">Ingresos</th><th class="num">Materiales</th><th class="num">Mano obra</th><th class="num">Producción</th><th class="num">Mantenim.</th><th class="num">Transporte</th><th class="num">Serv. públ.</th><th class="num">Arriendo</th><th class="num">Oficina</th><th class="num">Depreciación</th><th class="num">Otros</th><th class="num">Costo total</th><th class="num">Utilidad</th></tr></thead>
-        <tbody>${pyg.map(m=>{
-          const uc = m.utilidad<0?'color:#B23B3B;':'color:#2E7D4F;';
-          return `<tr><td style="text-transform:capitalize;">${m.mes}</td><td class="num">${moneda(m.ingreso)}</td><td class="num">${moneda(m.materiales)}</td><td class="num">${moneda(m.manoObra)}</td><td class="num">${moneda(m.produccion)}</td><td class="num">${moneda(m.mantenimiento)}</td><td class="num">${moneda(m.transporte)}</td><td class="num">${moneda(m.servicios)}</td><td class="num">${moneda(m.arriendo)}</td><td class="num">${moneda(m.oficina)}</td><td class="num">${moneda(m.depreciacion||0)}</td><td class="num">${moneda(m.otros)}</td><td class="num">${moneda(m.costoTotal)}</td><td class="num" style="${uc}font-weight:700;">${moneda(m.utilidad)}</td></tr>`;
+        <thead><tr><th>Mes</th><th class="num">Ingresos</th>${columnasPyG.map(c=>`<th class="num">${c.label}</th>`).join('')}<th class="num">Costo total</th><th class="num">Utilidad</th></tr></thead>
+        <tbody>${pyg.map(mesRow=>{
+          const uc = mesRow.utilidad<0?'color:#B23B3B;':'color:#2E7D4F;';
+          return `<tr><td style="text-transform:capitalize;">${mesRow.mes}</td><td class="num">${moneda(mesRow.ingreso)}</td>${columnasPyG.map(c=>`<td class="num">${moneda(mesRow[c.key]||0)}</td>`).join('')}<td class="num">${moneda(mesRow.costoTotal)}</td><td class="num" style="${uc}font-weight:700;">${moneda(mesRow.utilidad)}</td></tr>`;
         }).join('')}</tbody>
-        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL</td><td class="num">${moneda(tot.ingreso)}</td><td class="num">${moneda(tot.materiales)}</td><td class="num">${moneda(tot.manoObra)}</td><td class="num">${moneda(tot.produccion)}</td><td class="num">${moneda(tot.mantenimiento)}</td><td class="num">${moneda(tot.transporte)}</td><td class="num">${moneda(tot.servicios)}</td><td class="num">${moneda(tot.arriendo)}</td><td class="num">${moneda(tot.oficina)}</td><td class="num">${moneda(tot.depreciacion)}</td><td class="num">${moneda(tot.otros)}</td><td class="num">${moneda(tot.costoTotal)}</td><td class="num" style="${tot.utilidad<0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(tot.utilidad)}</td></tr></tfoot>
-      </table>`;
+        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL</td><td class="num">${moneda(tot.ingreso)}</td>${columnasPyG.map(c=>`<td class="num">${moneda(tot[c.key])}</td>`).join('')}<td class="num">${moneda(tot.costoTotal)}</td><td class="num" style="${tot.utilidad<0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(tot.utilidad)}</td></tr></tfoot>
+      </table>
+      <p class="helptext" style="margin-top:8px;">Tinta/Equipos/Cabezal/Energía/Mant. prod. son costeo interno de "⚡ Cargar impresión" (no generan pago en caja). Mantenim. (gasto) y Serv. públ. son las facturas reales que registras en Compras.</p>`;
     }
   }
 
@@ -4408,25 +4923,38 @@ function exportarContabilidadExcel(){
   }
 
   // ---------- Hoja RESUMEN ----------
-  const totPyG = pyg.reduce((a,m)=>({ingreso:a.ingreso+m.ingreso, materiales:a.materiales+m.materiales, manoObra:a.manoObra+m.manoObra, produccion:a.produccion+(m.produccion||0), mantenimiento:a.mantenimiento+m.mantenimiento, transporte:a.transporte+m.transporte, servicios:a.servicios+m.servicios, arriendo:a.arriendo+m.arriendo, oficina:a.oficina+(m.oficina||0), depreciacion:a.depreciacion+(m.depreciacion||0), otros:a.otros+m.otros, costoTotal:a.costoTotal+m.costoTotal, utilidad:a.utilidad+m.utilidad}), {ingreso:0,materiales:0,manoObra:0,produccion:0,mantenimiento:0,transporte:0,servicios:0,arriendo:0,oficina:0,depreciacion:0,otros:0,costoTotal:0,utilidad:0});
+  const columnasPyGExcel = [
+    {key:'materiales', label:'Materiales / insumos'},
+    {key:'manoObra', label:'Mano de obra'},
+    {key:'tinta', label:'Tinta (costeo interno)'},
+    {key:'equipos', label:'Equipos (costeo interno)'},
+    {key:'cabezal', label:'Cabezal (costeo interno)'},
+    {key:'energia', label:'Energía (costeo interno)'},
+    {key:'mantenimientoProduccion', label:'Mantenimiento producción (costeo interno)'},
+    {key:'produccion', label:'Producción manual (mant./cabezal/crédito)'},
+    {key:'mantenimiento', label:'Mantenimiento (gasto real)'},
+    {key:'transporte', label:'Transporte'},
+    {key:'servicios', label:'Servicios públicos'},
+    {key:'arriendo', label:'Arriendo'},
+    {key:'oficina', label:'Oficina / operación'},
+    {key:'depreciacion', label:'Depreciación de equipos'},
+    {key:'otros', label:'Otros'}
+  ];
+  const totPyG = {ingreso:0, costoTotal:0, utilidad:0};
+  columnasPyGExcel.forEach(c=>{ totPyG[c.key]=0; });
+  pyg.forEach(mesRow=>{
+    totPyG.ingreso += mesRow.ingreso; totPyG.costoTotal += mesRow.costoTotal; totPyG.utilidad += mesRow.utilidad;
+    columnasPyGExcel.forEach(c=>{ totPyG[c.key] += mesRow[c.key]||0; });
+  });
   const resumen = [
     ['KHLEE — REPORTE CONTABLE'],
     ['Generado', new Date().toISOString().slice(0,10)],
     ['Facturación', (state.config.factNombre||'(titular RUT pendiente)')+(state.config.sinIva!==false?' — Cuenta de cobro SIN IVA':'')],
-    ['Nota', 'Control gerencial interno, no contabilidad formal DIAN. Para revisión del contador.'],
+    ['Nota', 'Control gerencial interno, no contabilidad formal DIAN. Para revisión del contador. Las líneas "(costeo interno)" no representan pagos reales de caja — son la asignación de costo de producción por m² impreso.'],
     [],
     ['ESTADO DE RESULTADOS (P&G) — TOTAL DE TODOS LOS MESES'],
     ['Ingresos (cobros)', totPyG.ingreso],
-    ['(−) Materiales / insumos', totPyG.materiales],
-    ['(−) Mano de obra', totPyG.manoObra],
-    ['(−) Producción (tinta/mantenim./cabezal/crédito)', totPyG.produccion],
-    ['(−) Mantenimiento', totPyG.mantenimiento],
-    ['(−) Transporte', totPyG.transporte],
-    ['(−) Servicios públicos', totPyG.servicios],
-    ['(−) Arriendo', totPyG.arriendo],
-    ['(−) Oficina / operación', totPyG.oficina],
-    ['(−) Depreciación de equipos', totPyG.depreciacion],
-    ['(−) Otros', totPyG.otros],
+    ...columnasPyGExcel.map(c=>['(−) '+c.label, totPyG[c.key]]),
     ['Costo total', totPyG.costoTotal],
     ['UTILIDAD', totPyG.utilidad],
     ['Margen', totPyG.ingreso>0? totPyG.utilidad/totPyG.ingreso : 0],
@@ -4437,23 +4965,39 @@ function exportarContabilidadExcel(){
     ['Total por pagar', cxp.reduce((s,c)=>s+c.saldo,0)],
   ];
   const wsR = XLSX.utils.aoa_to_sheet(resumen);
-  wsR['!cols'] = [{wch:38},{wch:22}];
-  // formato moneda col B (índice 1) en filas de valores
-  [6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,23,24].forEach(R=>{
-    const addr = XLSX.utils.encode_cell({r:R,c:1});
+  wsR['!cols'] = [{wch:42},{wch:22}];
+  // índices de fila (0-based) según cómo se construyó el arreglo "resumen" arriba
+  const filaIngresos = 6;
+  const filaUltimaCategoria = filaIngresos + columnasPyGExcel.length; // última de las N líneas "(−) ..."
+  const filaCostoTotal = filaUltimaCategoria + 1;
+  const filaUtilidad = filaCostoTotal + 1;
+  const filaMargen = filaUtilidad + 1;
+  const filaSaldoCaja = filaMargen + 3; // salta la línea en blanco + el encabezado "SALDOS GENERALES"
+  const filaTotalPorPagar = filaSaldoCaja + 2;
+  for(let r_=filaIngresos; r_<=filaUtilidad; r_++){
+    const addr = XLSX.utils.encode_cell({r:r_,c:1});
     if(wsR[addr] && typeof wsR[addr].v==='number') wsR[addr].z = fmtCop;
-  });
-  const addrMargen = XLSX.utils.encode_cell({r:19,c:1});
+  }
+  const addrMargen = XLSX.utils.encode_cell({r:filaMargen,c:1});
   if(wsR[addrMargen]) wsR[addrMargen].z = fmtPct;
+  for(let r_=filaSaldoCaja; r_<=filaTotalPorPagar; r_++){
+    const addr = XLSX.utils.encode_cell({r:r_,c:1});
+    if(wsR[addr] && typeof wsR[addr].v==='number') wsR[addr].z = fmtCop;
+  }
   XLSX.utils.book_append_sheet(wb, wsR, 'Resumen');
 
   // ---------- Hoja P&G POR MES ----------
-  const pygAoa = [['Mes','Ingresos','Materiales','Mano de obra','Producción','Mantenimiento','Transporte','Servicios públicos','Arriendo','Oficina','Depreciación','Otros','Costo total','Utilidad','Margen']];
-  pyg.forEach(m=>pygAoa.push([m.mes, m.ingreso, m.materiales, m.manoObra, m.produccion||0, m.mantenimiento, m.transporte, m.servicios, m.arriendo, m.oficina||0, m.depreciacion||0, m.otros, m.costoTotal, m.utilidad, m.ingreso>0? m.utilidad/m.ingreso : 0]));
-  pygAoa.push(['TOTAL', totPyG.ingreso, totPyG.materiales, totPyG.manoObra, totPyG.produccion, totPyG.mantenimiento, totPyG.transporte, totPyG.servicios, totPyG.arriendo, totPyG.oficina, totPyG.depreciacion, totPyG.otros, totPyG.costoTotal, totPyG.utilidad, totPyG.ingreso>0? totPyG.utilidad/totPyG.ingreso : 0]);
+  const pygAoa = [['Mes','Ingresos', ...columnasPyGExcel.map(c=>c.label), 'Costo total','Utilidad','Margen']];
+  pyg.forEach(mesRow=>pygAoa.push([mesRow.mes, mesRow.ingreso, ...columnasPyGExcel.map(c=>mesRow[c.key]||0), mesRow.costoTotal, mesRow.utilidad, mesRow.ingreso>0? mesRow.utilidad/mesRow.ingreso : 0]));
+  pygAoa.push(['TOTAL', totPyG.ingreso, ...columnasPyGExcel.map(c=>totPyG[c.key]), totPyG.costoTotal, totPyG.utilidad, totPyG.ingreso>0? totPyG.utilidad/totPyG.ingreso : 0]);
   const wsP = XLSX.utils.aoa_to_sheet(pygAoa);
-  wsP['!cols'] = [{wch:16},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:13},{wch:16},{wch:13},{wch:14},{wch:14},{wch:12},{wch:14},{wch:14},{wch:10}];
-  aplicarFormatos(wsP, pygAoa, [1,2,3,4,5,6,7,8,9,10,11,12], [13], 1);
+  wsP['!cols'] = [{wch:16},{wch:14}, ...columnasPyGExcel.map(()=>({wch:16})), {wch:14},{wch:14},{wch:10}];
+  // índices (0-based) en pygAoa: 0=Mes, 1=Ingresos, 2..2+N-1=categorías, luego Costo total, Utilidad, Margen
+  const idxCostoTotal = 2 + columnasPyGExcel.length;
+  const idxUtilidad = idxCostoTotal + 1;
+  const idxMargen = idxUtilidad + 1;
+  const idxColMoneda = []; for(let i=1;i<=idxUtilidad;i++) idxColMoneda.push(i); // Ingresos..Utilidad
+  aplicarFormatos(wsP, pygAoa, idxColMoneda, [idxMargen], 1);
   XLSX.utils.book_append_sheet(wb, wsP, 'P&G por mes');
 
   // ---------- Hoja ACTIVOS FIJOS ----------
