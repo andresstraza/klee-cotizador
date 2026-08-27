@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_37.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_38.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1027,6 +1027,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <p class="helptext" style="margin-top:0;">Cuenta de cobro: <strong id="cobro-cot-codigo"></strong></p>
     <p class="helptext" id="cobro-desglose" style="margin:8px 0;padding:10px 12px;background:#F4F5FA;border-radius:6px;"></p>
+    <div class="btn-row" style="margin:0 0 12px;"><button class="btn btn-sm" id="btn-recalcular-retenciones" onclick="recalcularRetencionesCC(cobroActual)">🔄 Recalcular retenciones con la configuración actual</button></div>
     <p class="helptext" style="margin-top:0;">Saldo por cobrar (sobre el neto): <strong id="cobro-saldo"></strong></p>
     <div class="field" style="margin:14px 0;"><label>Valor realmente recibido</label><input type="number" id="cobro-monto" step="1000"></div>
     <div class="btn-row"><button class="btn btn-verde" onclick="registrarCobro()">+ Registrar cobro</button></div>
@@ -2069,6 +2070,26 @@ function _armarCuentaCobro(datos, items){
   state.cuentasCobro.unshift(cc);
   state.config.siguienteNumeroCC += 1;
   return cc;
+}
+// Las retenciones de una cuenta de cobro quedan fijas al momento de generarse (según la
+// configuración vigente en ese instante). Si se generó antes de activar/ajustar una retención,
+// o si la retención cambió después, esto permite volver a calcularlas con la configuración
+// de HOY, sin tener que anular y rehacer la cuenta de cobro completa.
+function recalcularRetencionesCC(codigo){
+  const cc = (state.cuentasCobro||[]).find(x=>x.codigo===codigo);
+  if(!cc) return;
+  const retencionesNuevas = (state.retenciones||[]).filter(r=>r.activa && r.porcentaje>0).map(r=>({
+    nombre:r.nombre, porcentaje:r.porcentaje, monto: cc.valorBruto*r.porcentaje/100
+  }));
+  const totalNuevo = retencionesNuevas.reduce((s,r)=>s+r.monto,0);
+  if(!confirm('Esto recalcula las retenciones de '+cc.codigo+' con la configuración actual (retención en la fuente/ReteICA activas hoy). El neto pasaría de '+moneda(cc.neto)+' a '+moneda(cc.valorBruto-totalNuevo)+'. ¿Continuar?')) return;
+  cc.retenciones = retencionesNuevas;
+  cc.totalRetenciones = totalNuevo;
+  cc.neto = cc.valorBruto - totalNuevo;
+  guardarEstado();
+  if(cobroActual===codigo) abrirCobro(codigo); // refresca el modal si está abierto viendo esta misma cuenta
+  renderContabilidad();
+  mostrarToast('Retenciones de '+cc.codigo+' recalculadas con la configuración actual.');
 }
 function generarCuentaCobro(idx){
   const c = state.cotizaciones[idx];
