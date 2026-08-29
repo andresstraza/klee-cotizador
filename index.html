@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_38.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_39.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,7 +243,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <div class="topbar-meta">
       COTIZADOR INTERNO<br>
-      <span id="fechaHoy">26 de agosto de 2026</span>
+      <span id="fechaHoy">29 de agosto de 2026</span>
       <br><span style="font-size:10px;opacity:.55;">v2026-08-23-1</span>
     </div>
   </div>
@@ -593,6 +593,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div class="field"><label>IVA (%)</label><input type="number" id="oc-iva-pct" step="0.5" value="19" oninput="calcularCompra()"></div>
         <div class="field"><p class="helptext" style="margin:0;">El valor que escribas abajo es <strong>sin IVA</strong>; si marcas la casilla, la herramienta calcula el IVA aparte y lo suma al total a pagar. Revísalo <strong>en cada compra</strong> — hay proveedores que venden con IVA y otros sin IVA, y este campo no queda marcado de una compra a la siguiente.</p></div>
       </div>
+      <div class="grid grid-3" style="margin-bottom:14px;align-items:end;background:#F8F1EA;padding:12px 14px;border-radius:6px;">
+        <div class="field"><label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="oc-aplica-retencion" onchange="calcularCompra()" style="width:16px;height:16px;"> Le practicaste retención a este proveedor</label></div>
+        <div class="field"><label>Retención (%)</label><input type="number" id="oc-retencion-pct" step="0.001" value="4" oninput="calcularCompra()"></div>
+        <div class="field"><p class="helptext" style="margin:0;">No toda compra lleva retención — solo si tú, como comprador, se la practicaste al proveedor (aplica sobre todo a servicios y a proveedores que no son grandes contribuyentes). Revísalo <strong>en cada compra</strong>, igual que el IVA.</p></div>
+      </div>
 
       <div id="oc-form-insumo">
         <div class="field" style="margin-bottom:14px;">
@@ -923,7 +928,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--negro);">
       <h2><span class="dot" style="background:var(--negro)"></span>💾 Copia de seguridad — muy importante</h2>
       <p class="helptext">Toda la información de KHLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>únicamente en la memoria de este navegador</strong> (localStorage). No se guarda en internet ni en ningún servidor. Si subes el archivo a GitHub, ahí solo queda guardado el <strong>programa</strong> — tus datos del día a día siguen viviendo en el navegador donde lo uses, y cada navegador/computador tiene su propia copia independiente. <strong>Por eso, cada vez que alguien abre la herramienta, se descarga sola una copia de seguridad automática</strong> (verás un aviso abajo a la derecha). Aun así, mueve de vez en cuando esos archivos descargados a un lugar aparte como Google Drive, un USB o el correo — así nunca dependes de un solo navegador ni de la carpeta de Descargas.</p>
-      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>26 de agosto de 2026</strong> (hace hoy).</p></div>
+      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>29 de agosto de 2026</strong> (hace hoy).</p></div>
       <div class="btn-row">
         <button class="btn btn-negro" onclick="exportarBackup()">⬇ Descargar copia de seguridad ahora</button>
         <label class="btn" style="cursor:pointer;">⬆ Restaurar copia
@@ -1107,6 +1112,25 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <p class="helptext" style="margin-top:0;">Compara lado a lado lo que se cotizó contra lo que realmente está cargado en la orden, para encontrar exactamente dónde está cualquier diferencia.</p>
     <div id="auditoria-op-contenido"></div>
+  </div>
+</div>
+
+<div id="modal-editar-compra" class="modal-overlay">
+  <div class="modal-box" style="max-width:520px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">✏️ Editar compra</h2>
+      <button class="btn btn-sm" onclick="cerrarEditarCompra()">✕ Cerrar</button>
+    </div>
+    <p class="helptext" style="margin-top:0;" id="ecompra-info"></p>
+    <div class="grid grid-2" style="margin-bottom:12px;align-items:end;">
+      <div class="field"><label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="ecompra-aplica-iva" style="width:16px;height:16px;"> Tiene IVA</label></div>
+      <div class="field"><label>IVA (%)</label><input type="number" id="ecompra-iva-pct" step="0.5"></div>
+    </div>
+    <div class="grid grid-2" style="margin-bottom:16px;align-items:end;">
+      <div class="field"><label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="ecompra-aplica-retencion" style="width:16px;height:16px;"> Se practicó retención</label></div>
+      <div class="field"><label>Retención (%)</label><input type="number" id="ecompra-retencion-pct" step="0.001"></div>
+    </div>
+    <div class="btn-row"><button class="btn btn-verde" onclick="guardarEdicionCompra()">✓ Guardar cambios</button></div>
   </div>
 </div>
 
@@ -3057,6 +3081,17 @@ function reiniciarIvaCompra(){
   document.getElementById('oc-aplica-iva').checked = false;
   document.getElementById('oc-iva-pct').value = state.config.iva||19;
 }
+// Retención practicada por el comprador (KHLEE) al proveedor — NO se le aplica a todas las compras;
+// solo cuando de verdad se retuvo. Se elige y se guarda por cada compra, nunca automático.
+function datosRetencionCompra(){
+  const aplica = document.getElementById('oc-aplica-retencion').checked;
+  const pct = parseFloat(document.getElementById('oc-retencion-pct').value)||0;
+  return {aplica, pct: aplica? pct : 0};
+}
+function reiniciarRetencionCompra(){
+  document.getElementById('oc-aplica-retencion').checked = false;
+  document.getElementById('oc-retencion-pct').value = 4;
+}
 function calcularCompra(){
   const iva = datosIvaCompra();
   if(tipoCompraActivo==='insumo'){
@@ -3191,12 +3226,14 @@ function registrarCarritoOC(){
   const formaPago = document.getElementById('oc-forma-pago').value;
   const vencimiento = document.getElementById('oc-vencimiento').value || '';
   const iva = datosIvaCompra();
+  const retencion = datosRetencionCompra();
   guardarOActualizarProveedor(datosProveedor);
 
   const codigoOC = generarCodigoOC();
   let totalOrdenConIva = 0;
   carritoOC.forEach(it=>{
     const ivaValor = it.baseGravable*iva.pct/100;
+    const retencionValor = it.baseGravable*retencion.pct/100;
     const total = it.baseGravable+ivaValor;
     totalOrdenConIva += total;
     const compra = {
@@ -3206,6 +3243,7 @@ function registrarCarritoOC(){
       modoCompra: it.modoCompra, anchoRollo: it.ancho,
       cantidad: it.cantidad, precioUnit: it.precioUnit,
       baseGravable: it.baseGravable, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total,
+      aplicaRetencion: retencion.aplica, retencionPct: retencion.pct, retencionValor,
       detalleCompra: it.detalleCompra
     };
     state.compras.unshift(compra);
@@ -3234,6 +3272,7 @@ function registrarCarritoOC(){
   carritoOC = [];
   limpiarCamposProveedor();
   reiniciarIvaCompra();
+  reiniciarRetencionCompra();
   document.getElementById('oc-vencimiento').value='';
   if(document.getElementById('oc-anticipo')) document.getElementById('oc-anticipo').value='';
   renderCarritoOC();
@@ -3253,6 +3292,7 @@ function registrarCompra(){
   const formaPago = document.getElementById('oc-forma-pago').value;
   const vencimiento = document.getElementById('oc-vencimiento').value || '';
   const iva = datosIvaCompra();
+  const retencion = datosRetencionCompra();
   guardarOActualizarProveedor(datosProveedor);
 
   if(tipoCompraActivo==='oficina'){
@@ -3263,6 +3303,7 @@ function registrarCompra(){
     if(valorBase<=0){ mostrarToast('Ingresa el valor.'); return; }
     const ivaValor = valorBase*iva.pct/100;
     const total = valorBase+ivaValor;
+    const retencionValor = valorBase*retencion.pct/100;
     const desc = document.getElementById('oc-oficina-desc').value.trim();
     const codigoOC = generarCodigoOC();
     const esEquipo = cat.nombre==='Compra de equipos';
@@ -3271,7 +3312,8 @@ function registrarCompra(){
       codigo: codigoOC, tipo:'oficina', fecha, proveedor,
       formaPago, vencimiento, pagada: formaPago==='Contado',
       categoriaId: cat.id, categoriaNombre: cat.nombre, descripcion: desc,
-      baseGravable: valorBase, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total
+      baseGravable: valorBase, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total,
+      aplicaRetencion: retencion.aplica, retencionPct: retencion.pct, retencionValor
     });
     if(formaPago==='Contado'){
       state.pagos.unshift({tipo:'egreso', fecha, concepto:'Oficina '+codigoOC+' · '+cat.nombre+(desc? ' — '+desc:''), referencia:codigoOC, monto:total});
@@ -3292,6 +3334,7 @@ function registrarCompra(){
     document.getElementById('oc-oficina-desc').value='';
     limpiarCamposProveedor();
     reiniciarIvaCompra();
+    reiniciarRetencionCompra();
     guardarEstado(); calcularCompra(); renderCompras(); if(typeof renderContabilidad==='function') renderContabilidad();
     mostrarToast('Costo de oficina '+codigoOC+' registrado'+(iva.aplica? ' (con IVA '+numFmt(iva.pct,1)+'%)':' (sin IVA)')+'.'+(esEquipo? ' Se creó como activo fijo para depreciar.':''));
     if(proveedor) generarOCProveedor('comprasOficina', codigoOC);
@@ -3306,6 +3349,7 @@ function registrarCompra(){
     const r = convertirCompraAM2();
     if(r.cant<=0){ mostrarToast('Ingresa la cantidad comprada.'); return; }
     const ivaValor = r.total*iva.pct/100;
+    const retencionValor = r.total*retencion.pct/100;
     const compra = {
       codigo: codigoOC, tipo:'insumo', fecha, proveedor, proveedorDatos: datosProveedor,
       formaPago, vencimiento, pagada: formaPago==='Contado',
@@ -3313,6 +3357,7 @@ function registrarCompra(){
       modoCompra: r.modo, anchoRollo: r.ancho,
       cantidad: r.cantidadKardex, precioUnit: r.costoUnit,
       baseGravable: r.total, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total: r.total+ivaValor,
+      aplicaRetencion: retencion.aplica, retencionPct: retencion.pct, retencionValor,
       detalleCompra: r.equivaleTxt
     };
     state.compras.unshift(compra);
@@ -3330,13 +3375,15 @@ function registrarCompra(){
     const valorBase = parseFloat(document.getElementById('oc-gasto-valor').value)||0;
     if(valorBase<=0){ mostrarToast('Ingresa el valor del gasto.'); return; }
     const ivaValor = valorBase*iva.pct/100;
+    const retencionValor = valorBase*retencion.pct/100;
     const desc = document.getElementById('oc-gasto-desc').value.trim();
     const proyecto = document.getElementById('oc-gasto-proyecto').value.trim();
     state.compras.unshift({
       codigo: codigoOC, tipo:'gasto', fecha, proveedor, proveedorDatos: datosProveedor,
       formaPago, vencimiento, pagada: formaPago==='Contado',
       categoriaId: cat.id, categoriaNombre: cat.nombre, descripcion: desc, proyecto,
-      baseGravable: valorBase, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total: valorBase+ivaValor
+      baseGravable: valorBase, aplicaIva: iva.aplica, ivaPct: iva.pct, ivaValor, total: valorBase+ivaValor,
+      aplicaRetencion: retencion.aplica, retencionPct: retencion.pct, retencionValor
     });
     document.getElementById('oc-gasto-valor').value='';
     document.getElementById('oc-gasto-desc').value='';
@@ -3358,6 +3405,7 @@ function registrarCompra(){
   state.config.siguienteNumeroOC += 1;
   limpiarCamposProveedor();
   reiniciarIvaCompra();
+  reiniciarRetencionCompra();
   document.getElementById('oc-vencimiento').value='';
   if(document.getElementById('oc-anticipo')) document.getElementById('oc-anticipo').value='';
   guardarEstado();
@@ -3440,7 +3488,7 @@ function renderCompras(){
         rows += `<td rowspan="${grupo.length}" class="num">${moneda(totalGrupo)}${ivaGrupo>0? '<br><small style="color:#6B6A63;">incl. IVA '+moneda(ivaGrupo)+'</small>':''}</td>`;
         rows += `<td rowspan="${grupo.length}">${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor(\''+c._origen+'\',\''+c.codigo+'\')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${!todasPagadas? '<button class="btn btn-sm btn-verde" onclick="marcarCompraPagadaGrupo(\''+c.codigo+'\')">Pagar</button>':''}</td>`;
       }
-      rows += `<td><button class="btn btn-sm" onclick="eliminarCompra(${origenArg})" title="Elimina solo este ítem">✕</button></td>`;
+      rows += `<td><button class="btn btn-sm" onclick="abrirEditarCompra(${origenArg})" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(${origenArg})" title="Elimina solo este ítem">✕</button></td>`;
       rows += `</tr>`;
     });
     i = j;
@@ -3514,6 +3562,49 @@ function marcarCompraPagadaGrupo(codigo){
   if(typeof renderContabilidad==='function') renderContabilidad();
   mostrarToast('Orden '+codigo+' marcada como pagada.');
 }
+// Permite corregir el IVA y la retención de una compra YA registrada — por ejemplo, si se marcó
+// retención por error, o si una compra vieja necesita el ajuste que hoy sí se puede elegir.
+let editarCompraOrigen = null, editarCompraIdx = null;
+function abrirEditarCompra(origen, idx){
+  const lista = _listaPorOrigen(origen);
+  const c = lista[idx];
+  if(!c) return;
+  editarCompraOrigen = origen; editarCompraIdx = idx;
+  const detalle = c.tipo==='insumo'? c.insumoNombre : (c.categoriaNombre+(c.descripcion? ' — '+c.descripcion:''));
+  document.getElementById('ecompra-info').innerHTML = '<strong>'+c.codigo+'</strong> · '+detalle+(c.proveedor? ' · '+c.proveedor:'')+' · Base: '+moneda(c.baseGravable||c.total||0);
+  document.getElementById('ecompra-aplica-iva').checked = !!c.aplicaIva;
+  document.getElementById('ecompra-iva-pct').value = c.ivaPct!==undefined? c.ivaPct : 19;
+  document.getElementById('ecompra-aplica-retencion').checked = !!c.aplicaRetencion;
+  document.getElementById('ecompra-retencion-pct').value = c.retencionPct!==undefined? c.retencionPct : 4;
+  document.getElementById('modal-editar-compra').style.display='flex';
+}
+function cerrarEditarCompra(){
+  document.getElementById('modal-editar-compra').style.display='none';
+  editarCompraOrigen = null; editarCompraIdx = null;
+}
+function guardarEdicionCompra(){
+  if(editarCompraOrigen===null) return;
+  const lista = _listaPorOrigen(editarCompraOrigen);
+  const c = lista[editarCompraIdx];
+  if(!c) return;
+  const base = c.baseGravable!==undefined? c.baseGravable : (c.total||0);
+  const aplicaIva = document.getElementById('ecompra-aplica-iva').checked;
+  const ivaPct = parseFloat(document.getElementById('ecompra-iva-pct').value)||0;
+  const aplicaRetencion = document.getElementById('ecompra-aplica-retencion').checked;
+  const retencionPct = parseFloat(document.getElementById('ecompra-retencion-pct').value)||0;
+  c.aplicaIva = aplicaIva;
+  c.ivaPct = aplicaIva? ivaPct : 0;
+  c.ivaValor = aplicaIva? base*ivaPct/100 : 0;
+  c.total = base + c.ivaValor;
+  c.aplicaRetencion = aplicaRetencion;
+  c.retencionPct = aplicaRetencion? retencionPct : 0;
+  c.retencionValor = aplicaRetencion? base*retencionPct/100 : 0;
+  guardarEstado();
+  cerrarEditarCompra();
+  renderCompras();
+  if(typeof renderContabilidad==='function') renderContabilidad();
+  mostrarToast('Compra '+c.codigo+' actualizada.');
+}
 function eliminarCompra(origen, idx){
   if(idx===undefined){ idx=origen; origen='compras'; }
   const lista = _listaPorOrigen(origen);
@@ -3560,8 +3651,17 @@ function generarOCProveedor(origen, idxOCodigo){
   const base = items.reduce((s,it)=> s+((typeof it.baseGravable==='number') ? it.baseGravable : (it.total||0)), 0);
   const ivaValor = items.reduce((s,it)=> s+(it.ivaValor||0), 0);
   const totalConIva = base+ivaValor;
-  // retenciones activas aplicadas sobre la BASE sin IVA (referencia; el proveedor puede o no aplicarlas)
-  const rets = (state.retenciones||[]).filter(r=>r.activa && r.porcentaje>0).map(r=>({nombre:r.nombre, pct:r.porcentaje, monto:base*r.porcentaje/100}));
+  // Retención: se usa la que quedó GUARDADA en cada compra al momento de registrarla (la que tú
+  // elegiste), nunca la configuración global en vivo — así una compra sin retención se queda sin
+  // retención para siempre, sin importar qué esté activo hoy en Configuración.
+  const retencionesPorPct = {};
+  items.forEach(it=>{
+    if(it.aplicaRetencion && it.retencionValor>0){
+      const key = it.retencionPct;
+      retencionesPorPct[key] = (retencionesPorPct[key]||0) + it.retencionValor;
+    }
+  });
+  const rets = Object.entries(retencionesPorPct).map(([pct,monto])=>({nombre:'Retención practicada', pct:parseFloat(pct), monto}));
   const totalRet = rets.reduce((s,r)=>s+r.monto,0);
   const neto = totalConIva - totalRet;
   const filasDetalle = items.map(it=>{
