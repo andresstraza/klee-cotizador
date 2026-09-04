@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_41.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_42.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -959,10 +959,10 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <p class="helptext" style="margin-bottom:8px;font-weight:700;">Agregar otro insumo</p>
     <p class="helptext" style="margin-top:0;">Elige el insumo, escribe la cantidad y presiona <strong>Enter</strong> (o pulsa el botón) — eso lo agrega a la lista de arriba y deja todo listo para el siguiente.</p>
     <div class="grid grid-3" style="margin:14px 0;">
-      <div class="field" style="grid-column:span 2;"><label>Insumo</label><select id="consumo-insumo"></select></div>
+      <div class="field" style="grid-column:span 2;"><label>Insumo</label><select id="consumo-insumo" onchange="actualizarBotonConsumo()"></select></div>
       <div class="field"><label>Cantidad usada</label><input type="number" id="consumo-cantidad" step="0.01" min="0" onkeydown="if(event.key===&#39;Enter&#39;){event.preventDefault();registrarConsumo();}"></div>
     </div>
-    <div class="btn-row"><button class="btn btn-verde" onclick="registrarConsumo()">− Descontar del inventario</button></div>
+    <div class="btn-row"><button class="btn btn-verde" id="btn-registrar-consumo" onclick="registrarConsumo()">− Descontar del inventario</button></div>
   </div>
 </div>
 
@@ -4001,7 +4001,21 @@ function abrirConsumoOrden(idxOrden){
   document.getElementById('consumo-cantidad').value='';
   document.getElementById('consumo-referencia-costos').innerHTML = htmlResumenCostosYaCargados(o.codigo);
   renderConsumosOrden(idxOrden);
+  actualizarBotonConsumo();
   document.getElementById('modal-consumo').style.display='flex';
+}
+// Sin insumo seleccionado, el botón queda deshabilitado y visualmente apagado — así, si el
+// desplegable se reinició tras el registro anterior y no se volvió a elegir uno nuevo, es
+// imposible no notarlo (antes solo avisaba con un toast breve que era fácil pasar por alto).
+function actualizarBotonConsumo(){
+  const sel = document.getElementById('consumo-insumo');
+  const btn = document.getElementById('btn-registrar-consumo');
+  if(!sel || !btn) return;
+  const hayInsumo = !!sel.value;
+  btn.disabled = !hayInsumo;
+  btn.style.opacity = hayInsumo? '1' : '.45';
+  btn.style.cursor = hayInsumo? 'pointer' : 'not-allowed';
+  sel.style.border = hayInsumo? '' : '';
 }
 function cerrarConsumo(){
   document.getElementById('modal-consumo').style.display='none';
@@ -4012,7 +4026,15 @@ function registrarConsumo(){
   const o = state.ordenes[ordenConsumoActual];
   const selIns = document.getElementById('consumo-insumo');
   const ins = state.insumos.find(i=>i.id===selIns.value);
-  if(!ins){ mostrarToast('Selecciona un insumo.'); return; }
+  if(!ins){
+    // resaltado imposible de ignorar — el toast solo no bastaba si se pasaba de largo con Enter
+    selIns.style.border = '2px solid #B23B3B';
+    selIns.style.borderRadius = '4px';
+    selIns.focus();
+    setTimeout(()=>{ selIns.style.border=''; }, 2500);
+    mostrarToast('⚠ Todavía no has elegido un insumo — ese consumo NO se registró.');
+    return;
+  }
   const cant = parseFloat(document.getElementById('consumo-cantidad').value)||0;
   if(cant<=0){ mostrarToast('Ingresa la cantidad usada.'); return; }
   const saldo = saldoInsumo(ins.id);
@@ -4041,6 +4063,7 @@ function registrarConsumo(){
   document.getElementById('consumo-cantidad').value='';
   // refrescar el select con saldos nuevos y volver al placeholder, listo para el siguiente insumo
   document.getElementById('consumo-insumo').innerHTML = '<option value="">— Selecciona un insumo —</option>' + state.insumos.map(i=>`<option value="${i.id}">${etiquetaInsumo(i)} — saldo: ${numFmt(saldoInsumo(i.id),2)} ${i.unidad}</option>`).join('');
+  actualizarBotonConsumo();
   renderConsumosOrden(ordenConsumoActual);
   renderInventario();
   document.getElementById('consumo-referencia-costos').innerHTML = htmlResumenCostosYaCargados(o.codigo);
