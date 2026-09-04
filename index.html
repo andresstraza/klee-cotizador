@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_42.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_43.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,7 +243,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <div class="topbar-meta">
       COTIZADOR INTERNO<br>
-      <span id="fechaHoy">3 de septiembre de 2026</span>
+      <span id="fechaHoy">4 de septiembre de 2026</span>
       <br><span style="font-size:10px;opacity:.55;">v2026-08-23-1</span>
     </div>
   </div>
@@ -931,7 +931,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--negro);">
       <h2><span class="dot" style="background:var(--negro)"></span>💾 Copia de seguridad — muy importante</h2>
       <p class="helptext">Toda la información de KHLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>únicamente en la memoria de este navegador</strong> (localStorage). No se guarda en internet ni en ningún servidor. Si subes el archivo a GitHub, ahí solo queda guardado el <strong>programa</strong> — tus datos del día a día siguen viviendo en el navegador donde lo uses, y cada navegador/computador tiene su propia copia independiente. <strong>Por eso, cada vez que alguien abre la herramienta, se descarga sola una copia de seguridad automática</strong> (verás un aviso abajo a la derecha). Aun así, mueve de vez en cuando esos archivos descargados a un lugar aparte como Google Drive, un USB o el correo — así nunca dependes de un solo navegador ni de la carpeta de Descargas.</p>
-      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>3 de septiembre de 2026</strong> (hace hoy).</p></div>
+      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>4 de septiembre de 2026</strong> (hace hoy).</p></div>
       <div class="btn-row">
         <button class="btn btn-negro" onclick="exportarBackup()">⬇ Descargar copia de seguridad ahora</button>
         <label class="btn" style="cursor:pointer;">⬆ Restaurar copia
@@ -4990,8 +4990,7 @@ function renderRentabilidad(){
     contP.innerHTML = '<p class="helptext">Todavía no hay datos. Aprueba cotizaciones, genera órdenes y registra consumos/gastos para ver la rentabilidad.</p>';
   }else{
     const totIngreso = proyectos.reduce((a,p)=>a+p.ingreso,0);
-    const totMaterial = proyectos.reduce((a,p)=>a+p.costoMaterial,0);
-    const totGastos = proyectos.reduce((a,p)=>a+p.costoGastos,0);
+    const totCostos = proyectos.reduce((a,p)=>a+p.costoTotal,0);
     const totUtil = proyectos.reduce((a,p)=>a+p.utilidad,0);
     contP.innerHTML = `
       <table>
@@ -5008,7 +5007,7 @@ function renderRentabilidad(){
         }).join('')}</tbody>
         <tfoot><tr style="background:#F7F6F2;font-weight:700;">
           <td colspan="2">TOTAL</td>
-          <td class="num">${moneda(totMaterial+totGastos)}</td>
+          <td class="num">${moneda(totCostos)}</td>
           <td class="num" style="${totUtil<0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(totUtil)}</td>
         </tr></tfoot>
       </table>`;
