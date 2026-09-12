@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_58.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_59.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -258,8 +258,8 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 <div class="wrap">
 
   <div class="tabs">
-    <button class="tab-btn active" data-tab="cotizacion">Cotización</button>
-    <button class="tab-btn" data-tab="materiales">Materiales</button>
+    <button class="tab-btn" data-tab="cotizacion">Cotización</button>
+    <button class="tab-btn active" data-tab="materiales">Materiales</button>
     <button class="tab-btn" data-tab="historial">Historial</button>
     <button class="tab-btn" data-tab="ordenes">Órdenes de producción</button>
     <button class="tab-btn" data-tab="compras">Compras</button>
@@ -270,7 +270,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
   </div>
 
   <!-- ================= TAB: COTIZACION ================= -->
-  <div class="tab-panel active" id="panel-cotizacion">
+  <div class="tab-panel" id="panel-cotizacion">
     <div id="recordatorio-backup-global"></div>
 
     <div class="card">
@@ -427,7 +427,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
   </div>
 
   <!-- ================= TAB: MATERIALES ================= -->
-  <div class="tab-panel" id="panel-materiales">
+  <div class="tab-panel active" id="panel-materiales">
     <div class="card" style="background:#F4F5FA;border-color:#C7CBE8;">
       <p class="helptext" style="margin:0;color:#17171C;">
         <strong>Esta pestaña tiene dos catálogos independientes, que no se cruzan entre sí:</strong><br>
@@ -438,7 +438,84 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--azul)"></span>Impresión digital · materiales (precio por m²)</h2>
-      <div id="mat-digital-list"></div>
+      <div id="mat-digital-list">
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Vinilo adhesivo matte x 106 cm" onchange="editarMaterialDigital(0,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(0,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(0)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Vinilo para laminado matte x 106 cm" onchange="editarMaterialDigital(1,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(1,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(1)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Vinilo blockout x 106 cm" onchange="editarMaterialDigital(2,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="7000" onchange="editarMaterialDigital(2,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(2)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Banner reverso gris x 180 cm" onchange="editarMaterialDigital(3,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="4900" onchange="editarMaterialDigital(3,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(3)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Pet backlit x 106 cm" onchange="editarMaterialDigital(4,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="10800" onchange="editarMaterialDigital(4,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(4)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="vinilo para laminado brillante x 106 cm" onchange="editarMaterialDigital(5,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(5,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(5)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="vinilo adhesivo matte x 152 cm" onchange="editarMaterialDigital(6,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(6,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(6)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="vinilo adhesivo brillante x 152 cm" onchange="editarMaterialDigital(7,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(7,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(7)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="vinilo para laminado matte x 152 cm" onchange="editarMaterialDigital(8,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(8,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(8)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="vinilo para laminado brillante x 152 cm" onchange="editarMaterialDigital(9,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="5700" onchange="editarMaterialDigital(9,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(9)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="vinilo blockout x 152 cm" onchange="editarMaterialDigital(10,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / m²</label><input type="number" value="7200" onchange="editarMaterialDigital(10,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(10)">✕ Eliminar</button></div>
+    </div>
+  </div>
       <div class="mat-row">
         <div><label>Nuevo material</label><input type="text" id="nuevo-mat-digital-nombre" placeholder="Ej: Lona, Adhesivo, Backlight"></div>
         <div><label>Precio / m²</label><input type="number" id="nuevo-mat-digital-precio" step="100"></div>
@@ -459,7 +536,35 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--naranja)"></span>Impresión 3D · precio por gramo</h2>
-      <div id="mat-3d-list"></div>
+      <div id="mat-3d-list">
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="PLA" onchange="editarMaterial3D(0,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="250" onchange="editarMaterial3D(0,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(0)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="PETG" onchange="editarMaterial3D(1,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="300" onchange="editarMaterial3D(1,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(1)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="TPU (flexible)" onchange="editarMaterial3D(2,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="350" onchange="editarMaterial3D(2,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(2)">✕ Eliminar</button></div>
+    </div>
+  
+    <div class="mat-row">
+      <div><label>Material</label><input type="text" value="Resina estándar" onchange="editarMaterial3D(3,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio / gramo</label><input type="number" value="600" onchange="editarMaterial3D(3,&#39;precio&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarMaterial3D(3)">✕ Eliminar</button></div>
+    </div>
+  </div>
       <div class="mat-row">
         <div><label>Nuevo material</label><input type="text" id="nuevo-mat-3d-nombre" placeholder="Nombre del material"></div>
         <div><label>Precio / gramo</label><input type="number" id="nuevo-mat-3d-precio" step="10"></div>
@@ -474,7 +579,25 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>Actividades adicionales (precio por m² o unidad)</h2>
-      <div id="mat-actividades-list"></div>
+      <div id="mat-actividades-list">
+    <div class="mat-row">
+      <div><label>Actividad</label><input type="text" value="Plotter de corte" onchange="editarActividad(0,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio</label><input type="number" value="3000" onchange="editarActividad(0,&#39;precio&#39;,this.value)"></div>
+      <div><label>Unidad</label><input type="text" value="m²" onchange="editarActividad(0,&#39;unidad&#39;,this.value)"></div>
+      <div><button class="btn btn-sm" onclick="eliminarActividad(0)">✕ Eliminar</button></div>
+    </div>
+    <div class="mat-row">
+      <div><label>Actividad</label><input type="text" value="Instalación" onchange="editarActividad(1,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio</label><input type="number" value="15000" onchange="editarActividad(1,&#39;precio&#39;,this.value)"></div>
+      <div><label>Unidad</label><input type="text" value="unidad" onchange="editarActividad(1,&#39;unidad&#39;,this.value)"></div>
+      <div><button class="btn btn-sm" onclick="eliminarActividad(1)">✕ Eliminar</button></div>
+    </div>
+    <div class="mat-row">
+      <div><label>Actividad</label><input type="text" value="Troquelado" onchange="editarActividad(2,&#39;nombre&#39;,this.value)"></div>
+      <div><label>Precio</label><input type="number" value="2000" onchange="editarActividad(2,&#39;precio&#39;,this.value)"></div>
+      <div><label>Unidad</label><input type="text" value="m²" onchange="editarActividad(2,&#39;unidad&#39;,this.value)"></div>
+      <div><button class="btn btn-sm" onclick="eliminarActividad(2)">✕ Eliminar</button></div>
+    </div></div>
       <div class="mat-row">
         <div><label>Nueva actividad</label><input type="text" id="nueva-act-nombre" placeholder="Ej: Plotter de corte, Instalación"></div>
         <div><label>Precio</label><input type="number" id="nueva-act-precio" step="100"></div>
@@ -493,7 +616,84 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--azul);">
       <h2><span class="dot" style="background:var(--azul)"></span>📦 Insumos de inventario (kárdex)</h2>
       <p class="helptext" style="margin-top:0;">Este catálogo es <strong>independiente</strong> del de materiales/producción/actividades de arriba. Sirve solo para el inventario real: cada insumo que crees aquí entra al saldo cuando lo compras (pestaña Compras) y sale cuando registras su consumo en una orden de producción.</p>
-      <div id="mat-insumos-list"></div>
+      <div id="mat-insumos-list"><table><thead><tr><th>Nombre</th><th>Presentación</th><th>Medida (cm)</th><th>Unidad</th><th>Color</th><th></th></tr></thead><tbody><tr>
+      <td>TINTA AMARILLA</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>AMARILLA</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(0)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(0)">✕</button></td>
+    </tr><tr>
+      <td>TINTA CYAN</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>CYAN</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(1)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(1)">✕</button></td>
+    </tr><tr>
+      <td>TINTA MAGENTA</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>MAGENTA</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(2)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(2)">✕</button></td>
+    </tr><tr>
+      <td>TINTA NEGRA</td>
+      <td>LITRO</td>
+      <td style="font-weight:700;">—</td>
+      <td>L</td>
+      <td>NEGRA</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(3)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(3)">✕</button></td>
+    </tr><tr>
+      <td>VINILO BLANCO BRILLANTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>BLANCO</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(4)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(4)">✕</button></td>
+    </tr><tr>
+      <td>VINILO BLANCO MATTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>BLANCO</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(5)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(5)">✕</button></td>
+    </tr><tr>
+      <td>VINILO LAMINADO MATTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>CLEAR</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(6)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(6)">✕</button></td>
+    </tr><tr>
+      <td>VINILO LAMINADO BRILLANTE</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>CLEAR</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(7)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(7)">✕</button></td>
+    </tr><tr>
+      <td>PET BACKLIT</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">106 cm</td>
+      <td>m²</td>
+      <td>BLANCO</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(8)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(8)">✕</button></td>
+    </tr><tr>
+      <td>BANNER RESPALDO GRIS</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">180 cm</td>
+      <td>m²</td>
+      <td>BLANCO-GRIS</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(9)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(9)">✕</button></td>
+    </tr><tr>
+      <td>VINILO BLOCKOUT 1.52 X 50 MTS</td>
+      <td>ROLLO</td>
+      <td style="font-weight:700;">152 cm</td>
+      <td>m²</td>
+      <td>BLANCO</td>
+      <td><button class="btn btn-sm" onclick="editarInsumo(10)">✏️ Editar</button> <button class="btn btn-sm" onclick="eliminarInsumo(10)">✕</button></td>
+    </tr></tbody></table></div>
       <div class="section-divider"></div>
       <p class="helptext" id="ins-form-titulo" style="margin-bottom:8px;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.03em;">Agregar nuevo insumo</p>
       <p class="helptext" style="margin-top:0;">La medida se guarda tal cual la escribas, en centímetros — sin ninguna conversión. Si un insumo ya creado quedó con un dato mal digitado, usa el botón "✏️ Editar" en la tabla de arriba — no hace falta borrarlo y volver a crearlo.</p>
@@ -522,7 +722,72 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>Cotizaciones guardadas</h2>
       <p class="helptext">Aprueba una cotización para poder generar su orden de producción. La orden se crea sin valores, solo con ítems y cantidades, y queda en la pestaña Órdenes de producción.</p>
-      <div id="historial-list"></div>
+      <div id="historial-list">
+    <div class="hist-card">
+      <div>
+        <span class="hist-code">KHLEE-2026-007</span> <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12451</span> <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Aprobada</span>
+        <div class="hist-meta"><strong>PDG E ISLAS BITACO</strong> · ANDRES MEDINA · STRAZA SAS · 2026-09-03 · 3 ítem(s) · 1 OP: SV12451-01 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-011&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-011</a></div>
+      </div>
+      <div class="hist-total">$3.005.266</div>
+      <div class="btn-row" style="margin:0;">
+        <button class="btn btn-sm btn-mostaza" onclick="cargarCotizacion(0)" title="Vuelve a abrir esta cotización en el formulario para corregirla">✏️ Editar</button>
+        <button class="btn btn-sm btn-verde" onclick="generarOrden(0)">+ Otra OP</button><button class="btn btn-sm" onclick="irAOrden(&#39;SV12451-01&#39;)">Ver OP</button>
+        <button class="btn btn-sm btn-azul" onclick="generarCuentaCobro(0)">📄 Otra cuenta de cobro</button>
+        <button class="btn btn-sm" onclick="eliminarCotizacion(0)">Eliminar</button>
+      </div>
+    </div>
+    <div class="hist-card">
+      <div>
+        <span class="hist-code">KHLEE-2026-006</span> <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12542</span> <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Aprobada</span>
+        <div class="hist-meta"><strong>VISITA DIAGEO 2026</strong> · andre · STRAZA SAS · 2026-08-28 · 2 ítem(s) · 1 OP: SV12542-01 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-010&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-010</a></div>
+      </div>
+      <div class="hist-total">$62.303</div>
+      <div class="btn-row" style="margin:0;">
+        <button class="btn btn-sm btn-mostaza" onclick="cargarCotizacion(1)" title="Vuelve a abrir esta cotización en el formulario para corregirla">✏️ Editar</button>
+        <button class="btn btn-sm btn-verde" onclick="generarOrden(1)">+ Otra OP</button><button class="btn btn-sm" onclick="irAOrden(&#39;SV12542-01&#39;)">Ver OP</button>
+        <button class="btn btn-sm btn-azul" onclick="generarCuentaCobro(1)">📄 Otra cuenta de cobro</button>
+        <button class="btn btn-sm" onclick="eliminarCotizacion(1)">Eliminar</button>
+      </div>
+    </div>
+    <div class="hist-card">
+      <div>
+        <span class="hist-code">KHLEE-2026-005</span> <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12192</span> <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Aprobada</span>
+        <div class="hist-meta"><strong>IMAGENES MUEBLE LUXURY CAVA DIAGE CARULLA COUNTRY</strong> · andres  · STRAZA SAS · 2026-08-27 · 1 ítem(s) · 1 OP: SV12192-01 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-009&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-009</a></div>
+      </div>
+      <div class="hist-total">$91.872</div>
+      <div class="btn-row" style="margin:0;">
+        <button class="btn btn-sm btn-mostaza" onclick="cargarCotizacion(2)" title="Vuelve a abrir esta cotización en el formulario para corregirla">✏️ Editar</button>
+        <button class="btn btn-sm btn-verde" onclick="generarOrden(2)">+ Otra OP</button><button class="btn btn-sm" onclick="irAOrden(&#39;SV12192-01&#39;)">Ver OP</button>
+        <button class="btn btn-sm btn-azul" onclick="generarCuentaCobro(2)">📄 Otra cuenta de cobro</button>
+        <button class="btn btn-sm" onclick="eliminarCotizacion(2)">Eliminar</button>
+      </div>
+    </div>
+    <div class="hist-card">
+      <div>
+        <span class="hist-code">KHLEE-2026-003</span> <span class="tag" style="background:#F4F5FA;color:#33468F;">KHL001</span> <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Aprobada</span>
+        <div class="hist-meta"><strong>SV12346-PDG SMIRNOFF SAN JERONIMO</strong> · ANDRES MEDINA · STRAZA SAS · 2026-08-24 · 1 ítem(s) · 1 OP: KHL001-01 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-008&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-008</a></div>
+      </div>
+      <div class="hist-total">$70.200</div>
+      <div class="btn-row" style="margin:0;">
+        <button class="btn btn-sm btn-mostaza" onclick="cargarCotizacion(3)" title="Vuelve a abrir esta cotización en el formulario para corregirla">✏️ Editar</button>
+        <button class="btn btn-sm btn-verde" onclick="generarOrden(3)">+ Otra OP</button><button class="btn btn-sm" onclick="irAOrden(&#39;KHL001-01&#39;)">Ver OP</button>
+        <button class="btn btn-sm btn-azul" onclick="generarCuentaCobro(3)">📄 Otra cuenta de cobro</button>
+        <button class="btn btn-sm" onclick="eliminarCotizacion(3)">Eliminar</button>
+      </div>
+    </div>
+    <div class="hist-card">
+      <div>
+        <span class="hist-code">KHLEE-2026-004</span> <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12399</span> <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Aprobada</span>
+        <div class="hist-meta"><strong>PLANTILLAS SMINRMOFF BATERIA EVENTOS</strong> · ANDRES MEDINA · STRAZA SAS · 2026-08-26 · 2 ítem(s) · 1 OP: SV12399-01 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-004&#39;);return false;" style="color:var(--azul);">KHLEE-CC-2026-004</a></div>
+      </div>
+      <div class="hist-total">$378.000</div>
+      <div class="btn-row" style="margin:0;">
+        <button class="btn btn-sm btn-mostaza" onclick="cargarCotizacion(4)" title="Vuelve a abrir esta cotización en el formulario para corregirla">✏️ Editar</button>
+        <button class="btn btn-sm btn-verde" onclick="generarOrden(4)">+ Otra OP</button><button class="btn btn-sm" onclick="irAOrden(&#39;SV12399-01&#39;)">Ver OP</button>
+        <button class="btn btn-sm btn-azul" onclick="generarCuentaCobro(4)">📄 Otra cuenta de cobro</button>
+        <button class="btn btn-sm" onclick="eliminarCotizacion(4)">Eliminar</button>
+      </div>
+    </div></div>
     </div>
   </div>
 
@@ -533,9 +798,9 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
       <h2><span class="dot" style="background:var(--naranja)"></span>Órdenes de producción</h2>
       <div class="grid grid-4" style="margin-bottom:8px;">
         <div class="field"><label>Buscar</label><input type="text" id="filtro-op-texto" placeholder="Código, cliente, proyecto..." oninput="renderOrdenes()"></div>
-        <div class="field"><label>Cliente</label><select id="filtro-op-cliente" onchange="renderOrdenes()"></select></div>
-        <div class="field"><label>Código de proyecto</label><select id="filtro-op-proyecto" onchange="renderOrdenes()"></select></div>
-        <div class="field"><label>Mes</label><select id="filtro-op-mes" onchange="renderOrdenes()"></select></div>
+        <div class="field"><label>Cliente</label><select id="filtro-op-cliente" onchange="renderOrdenes()"><option value="">Todos los clientes</option><option>ANDRES MEDINA</option><option>andre</option><option>andres </option></select></div>
+        <div class="field"><label>Código de proyecto</label><select id="filtro-op-proyecto" onchange="renderOrdenes()"><option value="">Todos los proyectos</option><option>KHL001</option><option>SV12192</option><option>SV12399</option><option>SV12451</option><option>SV12542</option></select></div>
+        <div class="field"><label>Mes</label><select id="filtro-op-mes" onchange="renderOrdenes()"><option value="">Todos los meses</option><option>septiembre 2026</option><option>agosto 2026</option></select></div>
       </div>
       <div class="grid grid-4" style="margin-bottom:18px;">
         <div class="field"><label>Estado</label>
@@ -548,7 +813,210 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         </div>
         <div class="field" style="align-self:end;"><button class="btn btn-sm" onclick="limpiarFiltrosOrdenes()">Limpiar filtros</button></div>
       </div>
-      <div id="ordenes-list"></div>
+      <div id="ordenes-list">
+    <div class="op-card" id="orden-SV12451-01">
+      <div class="op-head">
+        <div>
+          <span class="hist-code">SV12451-01</span>
+          <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12451</span>
+          <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Producida</span>
+          <div class="hist-meta"><strong>PDG E ISLAS BITACO</strong> · ANDRES MEDINA · STRAZA SAS · impresiopnes en vinilo + laminado mate e impresiones en vinilo blockout + laminado mate · 2026-09-03 · desde KHLEE-2026-007 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verRemision(&#39;KHLEE-REM-2026-009&#39;);return false;" style="color:var(--azul);">KHLEE-REM-2026-009</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarRemision(&#39;KHLEE-REM-2026-009&#39;);return false;" title="Eliminar esta remisión" style="color:#B23B3B;">✕</a>, <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-011&#39;);return false;" style="color:var(--marron);">KHLEE-CC-2026-011</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarCuentaCobro(&#39;KHLEE-CC-2026-011&#39;);return false;" title="Eliminar esta cuenta de cobro" style="color:#B23B3B;">✕</a></div>
+        </div>
+        <div class="btn-row" style="margin:0;">
+          <select class="btn-sm" style="border-radius:4px;padding:6px 8px;" onchange="cambiarEstadoOrden(0, this.value)">
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option selected="">Producida</option>
+          </select>
+          <button class="btn btn-sm btn-negro" onclick="imprimirOrden(0)">🖨 PDF</button>
+          <button class="btn btn-sm" onclick="exportarOrdenExcel(0)">📊 Excel</button>
+          <button class="btn btn-sm btn-verde" onclick="abrirConsumoOrden(0)">📦 Consumo</button>
+          <button class="btn btn-sm" onclick="abrirManoObra(0)">👷 Mano de obra</button>
+          <button class="btn btn-sm" onclick="abrirProduccion(0)">🖨 Producción m²</button>
+          <button class="btn btn-sm btn-mostaza" onclick="abrirCargaImpresion(0)" title="Con solo los m² impresos, calcula y descuenta sola vinilo, tinta y mano de obra">⚡ Cargar impresión</button>
+          <button class="btn btn-sm btn-azul" onclick="abrirRemision(0)">📋 Remisión</button>
+          <button class="btn btn-sm btn-marron" onclick="abrirCuentaCobroOP(0)">📄 Cuenta de cobro</button>
+          <button class="btn btn-sm" onclick="abrirEditarOP(0)">✏️ Editar</button>
+          <button class="btn btn-sm" onclick="eliminarOrden(0)">✕</button>
+        </div>
+      </div>
+      <table style="margin-top:12px;">
+        <thead><tr><th>Categoría</th><th>Ítem</th><th class="num">Cantidad / Área</th></tr></thead>
+        <tbody>
+      <tr><td>Impresión digital gran formato</td><td>vinilo adhesivo matte x 152 cm (63,00 m²) + Vinilo para laminado matte x 152 (63,00 m²)</td><td class="num">63,00 m²</td></tr>
+    
+      <tr><td>Impresión digital gran formato</td><td>vinilo adhesivo brillante x 152 cm (17,00 m²) + vinilo para laminado matte x 152 cm (17,00 m²)</td><td class="num">17,00 m²</td></tr>
+    
+      <tr><td>Impresión digital gran formato</td><td>vinilo blockout x 152 cm (4,30 m²) + vinilo para laminado matte x 152 cm (4,30 m²)</td><td class="num">4,30 m²</td></tr>
+    </tbody>
+      </table>
+      <p class="helptext" style="margin:10px 0 4px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--verde);">Material real consumido (con formato)</p>
+        <table style="margin-top:0;">
+          <thead><tr><th>Insumo (nombre y formato)</th><th class="num">Cantidad</th></tr></thead>
+          <tbody><tr><td>VINILO BLOCKOUT 1.52 X 50 MTS (ROLLO · 152 cm)</td><td class="num">4,30 m²</td></tr><tr><td>VINILO LAMINADO MATTE (ROLLO · 152 cm)</td><td class="num">4,45 m²</td></tr><tr><td>VINILO BLANCO BRILLANTE (ROLLO · 152 cm)</td><td class="num">17,00 m²</td></tr><tr><td>VINILO LAMINADO MATTE (ROLLO · 152 cm)</td><td class="num">66,15 m²</td></tr><tr><td>VINILO BLANCO MATTE (ROLLO · 152 cm)</td><td class="num">66,15 m²</td></tr></tbody>
+        </table>
+      <p class="helptext" style="margin-top:10px;">Costos cargados — Materiales: <strong>$907.335</strong> · Mano de obra: <strong>$94.500</strong> · Tinta: <strong>$94.500</strong> · Equipos: <strong>$151.200</strong> · Cabezal: <strong>$9.891</strong> · Energía: <strong>$15.750</strong> · Mantenimiento: <strong>$8.253</strong> · <strong style="color:var(--negro);">Total: $1.281.429</strong></p>
+    </div>
+    <div class="op-card" id="orden-SV12542-01">
+      <div class="op-head">
+        <div>
+          <span class="hist-code">SV12542-01</span>
+          <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12542</span>
+          <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Producida</span>
+          <div class="hist-meta"><strong>VISITA DIAGEO 2026</strong> · andre · STRAZA SAS · IMPRESIÓN MUESTRAS EN BACKLIT Y EN VINILO MATE PARA PDG BUCHANANS  · 2026-08-29 · desde KHLEE-2026-006 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verRemision(&#39;KHLEE-REM-2026-008&#39;);return false;" style="color:var(--azul);">KHLEE-REM-2026-008</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarRemision(&#39;KHLEE-REM-2026-008&#39;);return false;" title="Eliminar esta remisión" style="color:#B23B3B;">✕</a>, <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-010&#39;);return false;" style="color:var(--marron);">KHLEE-CC-2026-010</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarCuentaCobro(&#39;KHLEE-CC-2026-010&#39;);return false;" title="Eliminar esta cuenta de cobro" style="color:#B23B3B;">✕</a></div>
+        </div>
+        <div class="btn-row" style="margin:0;">
+          <select class="btn-sm" style="border-radius:4px;padding:6px 8px;" onchange="cambiarEstadoOrden(1, this.value)">
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option selected="">Producida</option>
+          </select>
+          <button class="btn btn-sm btn-negro" onclick="imprimirOrden(1)">🖨 PDF</button>
+          <button class="btn btn-sm" onclick="exportarOrdenExcel(1)">📊 Excel</button>
+          <button class="btn btn-sm btn-verde" onclick="abrirConsumoOrden(1)">📦 Consumo</button>
+          <button class="btn btn-sm" onclick="abrirManoObra(1)">👷 Mano de obra</button>
+          <button class="btn btn-sm" onclick="abrirProduccion(1)">🖨 Producción m²</button>
+          <button class="btn btn-sm btn-mostaza" onclick="abrirCargaImpresion(1)" title="Con solo los m² impresos, calcula y descuenta sola vinilo, tinta y mano de obra">⚡ Cargar impresión</button>
+          <button class="btn btn-sm btn-azul" onclick="abrirRemision(1)">📋 Remisión</button>
+          <button class="btn btn-sm btn-marron" onclick="abrirCuentaCobroOP(1)">📄 Cuenta de cobro</button>
+          <button class="btn btn-sm" onclick="abrirEditarOP(1)">✏️ Editar</button>
+          <button class="btn btn-sm" onclick="eliminarOrden(1)">✕</button>
+        </div>
+      </div>
+      <table style="margin-top:12px;">
+        <thead><tr><th>Categoría</th><th>Ítem</th><th class="num">Cantidad / Área</th></tr></thead>
+        <tbody>
+      <tr><td>Impresión digital gran formato</td><td>Pet backlit x 106 cm (1,00 m²)</td><td class="num">1,00 m²</td></tr>
+    
+      <tr><td>Impresión digital gran formato</td><td>vinilo adhesivo matte x 152 cm (0,34 m²) + vinilo para laminado matte x 152 cm (0,34 m²)</td><td class="num">0,34 m²</td></tr>
+    </tbody>
+      </table>
+      <p class="helptext" style="margin:10px 0 4px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--verde);">Material real consumido (con formato)</p>
+        <table style="margin-top:0;">
+          <thead><tr><th>Insumo (nombre y formato)</th><th class="num">Cantidad</th></tr></thead>
+          <tbody><tr><td>VINILO LAMINADO MATTE (ROLLO · 152 cm)</td><td class="num">0,36 m²</td></tr><tr><td>VINILO BLANCO MATTE (ROLLO · 152 cm)</td><td class="num">0,36 m²</td></tr><tr><td>PET BACKLIT (ROLLO · 106 cm)</td><td class="num">1,05 m²</td></tr></tbody>
+        </table>
+      <p class="helptext" style="margin-top:10px;">Costos cargados — Materiales: <strong>$14.780</strong> · Mano de obra: <strong>$1.510</strong> · Tinta: <strong>$2.010</strong> · Equipos: <strong>$3.216</strong> · Cabezal: <strong>$210</strong> · Energía: <strong>$335</strong> · Mantenimiento: <strong>$176</strong> · <strong style="color:var(--negro);">Total: $22.237</strong></p>
+    </div>
+    <div class="op-card" id="orden-SV12192-01">
+      <div class="op-head">
+        <div>
+          <span class="hist-code">SV12192-01</span>
+          <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12192</span>
+          <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Producida</span>
+          <div class="hist-meta"><strong>IMAGENES MUEBLE LUXURY CAVA DIAGE CARULLA COUNTRY</strong> · andres  · STRAZA SAS · Impresiones en vinilo mate 152 cm + laminado mate mueble luxury cava diageo carulla country · 2026-08-29 · desde KHLEE-2026-005 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verRemision(&#39;KHLEE-REM-2026-007&#39;);return false;" style="color:var(--azul);">KHLEE-REM-2026-007</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarRemision(&#39;KHLEE-REM-2026-007&#39;);return false;" title="Eliminar esta remisión" style="color:#B23B3B;">✕</a>, <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-009&#39;);return false;" style="color:var(--marron);">KHLEE-CC-2026-009</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarCuentaCobro(&#39;KHLEE-CC-2026-009&#39;);return false;" title="Eliminar esta cuenta de cobro" style="color:#B23B3B;">✕</a></div>
+        </div>
+        <div class="btn-row" style="margin:0;">
+          <select class="btn-sm" style="border-radius:4px;padding:6px 8px;" onchange="cambiarEstadoOrden(2, this.value)">
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option selected="">Producida</option>
+          </select>
+          <button class="btn btn-sm btn-negro" onclick="imprimirOrden(2)">🖨 PDF</button>
+          <button class="btn btn-sm" onclick="exportarOrdenExcel(2)">📊 Excel</button>
+          <button class="btn btn-sm btn-verde" onclick="abrirConsumoOrden(2)">📦 Consumo</button>
+          <button class="btn btn-sm" onclick="abrirManoObra(2)">👷 Mano de obra</button>
+          <button class="btn btn-sm" onclick="abrirProduccion(2)">🖨 Producción m²</button>
+          <button class="btn btn-sm btn-mostaza" onclick="abrirCargaImpresion(2)" title="Con solo los m² impresos, calcula y descuenta sola vinilo, tinta y mano de obra">⚡ Cargar impresión</button>
+          <button class="btn btn-sm btn-azul" onclick="abrirRemision(2)">📋 Remisión</button>
+          <button class="btn btn-sm btn-marron" onclick="abrirCuentaCobroOP(2)">📄 Cuenta de cobro</button>
+          <button class="btn btn-sm" onclick="abrirEditarOP(2)">✏️ Editar</button>
+          <button class="btn btn-sm" onclick="eliminarOrden(2)">✕</button>
+        </div>
+      </div>
+      <table style="margin-top:12px;">
+        <thead><tr><th>Categoría</th><th>Ítem</th><th class="num">Cantidad / Área</th></tr></thead>
+        <tbody>
+      <tr><td>Impresión digital gran formato</td><td>vinilo adhesivo matte x 152 cm (2,40 m²) + vinilo para laminado matte x 152 cm (2,40 m²)</td><td class="num">2,40 m²</td></tr>
+    </tbody>
+      </table>
+      <p class="helptext" style="margin:10px 0 4px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--verde);">Material real consumido (con formato)</p>
+        <table style="margin-top:0;">
+          <thead><tr><th>Insumo (nombre y formato)</th><th class="num">Cantidad</th></tr></thead>
+          <tbody><tr><td>VINILO LAMINADO MATTE (ROLLO · 152 cm)</td><td class="num">2,52 m²</td></tr><tr><td>VINILO LAMINADO MATTE (ROLLO · 152 cm)</td><td class="num">2,52 m²</td></tr></tbody>
+        </table>
+      <p class="helptext" style="margin-top:10px;">Costos cargados — Materiales: <strong>$28.728</strong> · Mano de obra: <strong>$3.600</strong> · Tinta: <strong>$3.600</strong> · Equipos: <strong>$5.760</strong> · Cabezal: <strong>$377</strong> · Energía: <strong>$600</strong> · Mantenimiento: <strong>$314</strong> · <strong style="color:var(--negro);">Total: $42.979</strong></p>
+    </div>
+    <div class="op-card" id="orden-KHL001-01">
+      <div class="op-head">
+        <div>
+          <span class="hist-code">KHL001-01</span>
+          <span class="tag" style="background:#F4F5FA;color:#33468F;">KHL001</span>
+          <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Producida</span>
+          <div class="hist-meta"><strong>SV12346-PDG SMIRNOFF SAN JERONIMO</strong> · ANDRES MEDINA · STRAZA SAS · SV12346-PDG SAN JERONIMO - IMPRESION EN VINILO ADHESIVO MATE DE 152 CM SIN LAMINADO · 2026-08-26 · desde KHLEE-2026-003 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verRemision(&#39;KHLEE-REM-2026-006&#39;);return false;" style="color:var(--azul);">KHLEE-REM-2026-006</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarRemision(&#39;KHLEE-REM-2026-006&#39;);return false;" title="Eliminar esta remisión" style="color:#B23B3B;">✕</a>, <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-008&#39;);return false;" style="color:var(--marron);">KHLEE-CC-2026-008</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarCuentaCobro(&#39;KHLEE-CC-2026-008&#39;);return false;" title="Eliminar esta cuenta de cobro" style="color:#B23B3B;">✕</a></div>
+        </div>
+        <div class="btn-row" style="margin:0;">
+          <select class="btn-sm" style="border-radius:4px;padding:6px 8px;" onchange="cambiarEstadoOrden(3, this.value)">
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option selected="">Producida</option>
+          </select>
+          <button class="btn btn-sm btn-negro" onclick="imprimirOrden(3)">🖨 PDF</button>
+          <button class="btn btn-sm" onclick="exportarOrdenExcel(3)">📊 Excel</button>
+          <button class="btn btn-sm btn-verde" onclick="abrirConsumoOrden(3)">📦 Consumo</button>
+          <button class="btn btn-sm" onclick="abrirManoObra(3)">👷 Mano de obra</button>
+          <button class="btn btn-sm" onclick="abrirProduccion(3)">🖨 Producción m²</button>
+          <button class="btn btn-sm btn-mostaza" onclick="abrirCargaImpresion(3)" title="Con solo los m² impresos, calcula y descuenta sola vinilo, tinta y mano de obra">⚡ Cargar impresión</button>
+          <button class="btn btn-sm btn-azul" onclick="abrirRemision(3)">📋 Remisión</button>
+          <button class="btn btn-sm btn-marron" onclick="abrirCuentaCobroOP(3)">📄 Cuenta de cobro</button>
+          <button class="btn btn-sm" onclick="abrirEditarOP(3)">✏️ Editar</button>
+          <button class="btn btn-sm" onclick="eliminarOrden(3)">✕</button>
+        </div>
+      </div>
+      <table style="margin-top:12px;">
+        <thead><tr><th>Categoría</th><th>Ítem</th><th class="num">Cantidad / Área</th></tr></thead>
+        <tbody>
+      <tr><td>Impresión digital gran formato</td><td>Vinilo adhesivo (2,40 m²)</td><td class="num">2,40 m²</td></tr>
+    </tbody>
+      </table>
+      <p class="helptext" style="margin:10px 0 4px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--verde);">Material real consumido (con formato)</p>
+        <table style="margin-top:0;">
+          <thead><tr><th>Insumo (nombre y formato)</th><th class="num">Cantidad</th></tr></thead>
+          <tbody><tr><td>VINILO BLANCO MATTE (ROLLO · 152 cm)</td><td class="num">2,52 m²</td></tr></tbody>
+        </table>
+      <p class="helptext" style="margin-top:10px;">Costos cargados — Materiales: <strong>$14.364</strong> · Mano de obra: <strong>$2.400</strong> · Tinta: <strong>$3.600</strong> · Equipos: <strong>$5.760</strong> · Cabezal: <strong>$377</strong> · Energía: <strong>$600</strong> · Mantenimiento: <strong>$314</strong> · <strong style="color:var(--negro);">Total: $27.415</strong></p>
+    </div>
+    <div class="op-card" id="orden-SV12399-01">
+      <div class="op-head">
+        <div>
+          <span class="hist-code">SV12399-01</span>
+          <span class="tag" style="background:#F4F5FA;color:#33468F;">SV12399</span>
+          <span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Producida</span>
+          <div class="hist-meta"><strong>PLANTILLAS SMINRMOFF BATERIA EVENTOS</strong> · ANDRES MEDINA · STRAZA SAS · PLANTILLAS 1:1 SMINROFF BATERIA EVENTOS · 2026-08-26 · desde KHLEE-2026-004 · <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verRemision(&#39;KHLEE-REM-2026-004&#39;);return false;" style="color:var(--azul);">KHLEE-REM-2026-004</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarRemision(&#39;KHLEE-REM-2026-004&#39;);return false;" title="Eliminar esta remisión" style="color:#B23B3B;">✕</a>, <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="verCuentaCobro(&#39;KHLEE-CC-2026-004&#39;);return false;" style="color:var(--marron);">KHLEE-CC-2026-004</a> <a href="file:///C:/Users/Usuario/Downloads/index_59.html#" onclick="eliminarCuentaCobro(&#39;KHLEE-CC-2026-004&#39;);return false;" title="Eliminar esta cuenta de cobro" style="color:#B23B3B;">✕</a></div>
+        </div>
+        <div class="btn-row" style="margin:0;">
+          <select class="btn-sm" style="border-radius:4px;padding:6px 8px;" onchange="cambiarEstadoOrden(4, this.value)">
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option selected="">Producida</option>
+          </select>
+          <button class="btn btn-sm btn-negro" onclick="imprimirOrden(4)">🖨 PDF</button>
+          <button class="btn btn-sm" onclick="exportarOrdenExcel(4)">📊 Excel</button>
+          <button class="btn btn-sm btn-verde" onclick="abrirConsumoOrden(4)">📦 Consumo</button>
+          <button class="btn btn-sm" onclick="abrirManoObra(4)">👷 Mano de obra</button>
+          <button class="btn btn-sm" onclick="abrirProduccion(4)">🖨 Producción m²</button>
+          <button class="btn btn-sm btn-mostaza" onclick="abrirCargaImpresion(4)" title="Con solo los m² impresos, calcula y descuenta sola vinilo, tinta y mano de obra">⚡ Cargar impresión</button>
+          <button class="btn btn-sm btn-azul" onclick="abrirRemision(4)">📋 Remisión</button>
+          <button class="btn btn-sm btn-marron" onclick="abrirCuentaCobroOP(4)">📄 Cuenta de cobro</button>
+          <button class="btn btn-sm" onclick="abrirEditarOP(4)">✏️ Editar</button>
+          <button class="btn btn-sm" onclick="eliminarOrden(4)">✕</button>
+        </div>
+      </div>
+      <table style="margin-top:12px;">
+        <thead><tr><th>Categoría</th><th>Ítem</th><th class="num">Cantidad / Área</th></tr></thead>
+        <tbody>
+      <tr><td>Impresión digital gran formato</td><td>Banner blockout (18,00 m²)</td><td class="num">18,00 m²</td></tr>
+    
+      <tr><td>Impresión digital gran formato</td><td>vinilo adhesivo matte x 152 cm (3,20 m²)</td><td class="num">3,20 m²</td></tr>
+    </tbody>
+      </table>
+      <p class="helptext" style="margin:10px 0 4px;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--verde);">Material real consumido (con formato)</p>
+        <table style="margin-top:0;">
+          <thead><tr><th>Insumo (nombre y formato)</th><th class="num">Cantidad</th></tr></thead>
+          <tbody><tr><td>TINTA NEGRA (LITRO)</td><td class="num">0,00 L</td></tr><tr><td>TINTA MAGENTA (LITRO)</td><td class="num">0,00 L</td></tr><tr><td>TINTA CYAN (LITRO)</td><td class="num">0,00 L</td></tr><tr><td>TINTA AMARILLA (LITRO)</td><td class="num">0,00 L</td></tr><tr><td>BANNER RESPALDO GRIS (ROLLO · 180 cm)</td><td class="num">18,00 m²</td></tr></tbody>
+        </table>
+      <p class="helptext" style="margin-top:10px;">Costos cargados — Materiales: <strong>$89.800</strong> · Mano de obra: <strong>$1.000</strong> · Producción (manual): <strong>$108.000</strong> · <strong style="color:var(--negro);">Total: $198.800</strong></p>
+    </div></div>
     </div>
   </div>
 
@@ -598,7 +1066,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div class="field" style="margin-bottom:14px;">
           <label>Insumo</label>
           <div style="display:flex;gap:8px;align-items:center;">
-            <select id="oc-insumo" onchange="alCambiarInsumoCompra()" style="flex:1;"></select>
+            <select id="oc-insumo" onchange="alCambiarInsumoCompra()" style="flex:1;"><option value="i1787572999048381">TINTA AMARILLA (LITRO) — L</option><option value="i1787573024672983">TINTA CYAN (LITRO) — L</option><option value="i1787573040363580">TINTA MAGENTA (LITRO) — L</option><option value="i1787573054455944">TINTA NEGRA (LITRO) — L</option><option value="i1787573084436820">VINILO BLANCO BRILLANTE (ROLLO · 152 cm) — m²</option><option value="i1787573103020179">VINILO BLANCO MATTE (ROLLO · 152 cm) — m²</option><option value="i1787573128877228">VINILO LAMINADO MATTE (ROLLO · 152 cm) — m²</option><option value="i1787573151328879">VINILO LAMINADO BRILLANTE (ROLLO · 152 cm) — m²</option><option value="i178757316798644">PET BACKLIT (ROLLO · 106 cm) — m²</option><option value="i1787573190609199">BANNER RESPALDO GRIS (ROLLO · 180 cm) — m²</option><option value="i1788007491973130">VINILO BLOCKOUT 1.52 X 50 MTS (ROLLO · 152 cm) — m²</option></select>
             <button type="button" class="btn btn-sm btn-azul" onclick="toggleNuevoInsumoInline()">+ Nuevo insumo</button>
             <button type="button" class="btn btn-sm" onclick="eliminarInsumoSeleccionadoEnCompra()" title="Eliminar el insumo seleccionado (solo si no tiene compras/consumos todavía)">✕ Eliminar este</button>
           </div>
@@ -629,8 +1097,8 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
             </select>
           </div>
           <div class="field" id="oc-ancho-wrap" style="display:none;"><label>Ancho del rollo (cm)</label><input type="number" id="oc-ancho" step="1" min="0" list="anchos-comunes" placeholder="Ej: 106, 122, 137, 152, 180" oninput="calcularCompra()"></div>
-          <div class="field"><label id="oc-cantidad-label">Cantidad</label><input type="number" id="oc-cantidad" step="0.01" min="0" oninput="calcularCompra()"></div>
-          <div class="field"><label id="oc-precio-label">Precio unitario</label><input type="number" id="oc-precio-unit" step="1" min="0" oninput="calcularCompra()"></div>
+          <div class="field"><label id="oc-cantidad-label">Litros comprados</label><input type="number" id="oc-cantidad" step="0.01" min="0" oninput="calcularCompra()"></div>
+          <div class="field"><label id="oc-precio-label">Precio por litro</label><input type="number" id="oc-precio-unit" step="1" min="0" oninput="calcularCompra()"></div>
         </div>
         <div class="grid grid-4" style="margin-top:14px;">
           <div class="field"><label>Equivale a (para kárdex)</label><input type="text" id="oc-equivale" readonly="" style="background:#F7F6F2;"></div>
@@ -660,7 +1128,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
       <div id="oc-form-gasto" style="display:none;">
         <div class="grid grid-4">
-          <div class="field"><label>Categoría</label><select id="oc-gasto-cat"></select></div>
+          <div class="field"><label>Categoría</label><select id="oc-gasto-cat"><option value="g1">Mantenimiento</option><option value="g2">Transporte</option><option value="g3">Servicios públicos</option><option value="g4">Arriendo</option><option value="g5">Otros</option></select></div>
           <div class="field"><label>Valor <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="number" id="oc-gasto-valor" step="1" min="0" oninput="calcularCompra()"></div>
           <div class="field"><label>IVA</label><input type="text" id="oc-gasto-iva" readonly="" style="background:#F7F6F2;"></div>
           <div class="field"><label>Total <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-gasto-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
@@ -674,13 +1142,13 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
       <div id="oc-form-oficina" style="display:none;">
         <div class="grid grid-4">
-          <div class="field"><label>Categoría de operación</label><select id="oc-oficina-cat" onchange="alCambiarCategoriaOficina()"></select></div>
+          <div class="field"><label>Categoría de operación</label><select id="oc-oficina-cat" onchange="alCambiarCategoriaOficina()"><option value="o1">Compra de equipos</option><option value="o2">Instalación de equipos</option><option value="o3">Servicios públicos</option><option value="o4">Arriendo</option><option value="o5">Insumos de oficina (bisturís, trapos, etc.)</option><option value="o6">Pago crédito equipos</option><option value="o7">Otros de operación</option></select></div>
           <div class="field"><label>Valor <span style="font-weight:400;text-transform:none;">(sin IVA)</span></label><input type="number" id="oc-oficina-valor" step="1" min="0" oninput="calcularCompra()"></div>
           <div class="field"><label>IVA</label><input type="text" id="oc-oficina-iva" readonly="" style="background:#F7F6F2;"></div>
           <div class="field"><label>Total <span style="font-weight:400;text-transform:none;">(con IVA)</span></label><input type="text" id="oc-oficina-total" readonly="" style="background:#F4F5FA;font-weight:700;"></div>
         </div>
         <div class="field" style="margin-top:14px;"><label>Descripción</label><input type="text" id="oc-oficina-desc" placeholder="Ej: Plotter Epson, recibo luz, arriendo local"></div>
-        <div id="oc-oficina-depreciacion-wrap" style="display:none;margin-top:14px;padding:14px;background:#F8F1EA;border-radius:6px;">
+        <div id="oc-oficina-depreciacion-wrap" style="display: block; margin-top: 14px; padding: 14px; background: rgb(248, 241, 234); border-radius: 6px;">
           <p class="helptext" style="margin-top:0;font-weight:700;color:var(--marron);">📉 Este equipo se registrará como activo fijo, para depreciarlo mes a mes en vez de cargarlo todo de una vez como gasto.</p>
           <div class="field" style="max-width:260px;"><label>Vida útil (años)</label><input type="number" id="oc-oficina-vidautil" step="1" min="1" value="5"></div>
           <p class="helptext">Por defecto 5 años en línea recta — ajustable aquí o después en Contabilidad. Confírmalo con tu contador.</p>
@@ -700,11 +1168,20 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
             <option value="gasto">Gastos</option>
           </select>
         </div>
-        <div class="field"><label>Mes</label><select id="filtro-oc-mes" onchange="renderCompras()"></select></div>
+        <div class="field"><label>Mes</label><select id="filtro-oc-mes" onchange="renderCompras()"><option value="">Todos los meses</option><option>septiembre 2026</option><option>agosto 2026</option></select></div>
         <div class="field"><label>Proveedor</label><input type="text" id="filtro-oc-proveedor" placeholder="Buscar proveedor" oninput="renderCompras()"></div>
         <div class="field" style="align-self:end;"><button class="btn btn-sm" onclick="limpiarFiltrosCompras()">Limpiar</button></div>
       </div>
-      <div id="compras-list"></div>
+      <div id="compras-list">
+    <table>
+      <thead><tr><th>OC</th><th>Fecha</th><th>Tipo</th><th>Detalle</th><th>Proveedor</th><th>Pago</th><th class="num">Total</th><th>Acciones</th><th></th></tr></thead>
+      <tbody><tr><td rowspan="1">KHLEE-OC-2026-034</td><td rowspan="1">2026-09-08</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Compra de equipos · descuentos por 4x1000</td><td rowspan="1">BANCOS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$211.470</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-034&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,0)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,0)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-033</td><td rowspan="1">2026-09-08</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Otros de operación · Transporte en cama baja para entrega laminadora</td><td rowspan="1">TRANSPORTADOR PARRICULAR</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$360.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-033&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,1)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,1)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-032</td><td rowspan="1">2026-09-08</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Otros de operación · Parqueaderos varios</td><td rowspan="1">PARQUEADERO</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$30.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-032&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,2)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,2)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-031</td><td rowspan="1">2026-09-08</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Otros de operación · PARTE 2 MATRICULA MERCANTIL KHLEE</td><td rowspan="1">CAMARA DE COMERCIO</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$49.097</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-031&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,3)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,3)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-030</td><td rowspan="1">2026-09-03</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>VINILO LAMINADO BRILLANTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td><td rowspan="1">SKY COLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$433.200</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-030&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,0)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,0)" title="Elimina solo este ítem">✕</button></td></tr><tr style="background:#FAFAFA;"><td rowspan="2">KHLEE-OC-2026-029<br><small style="color:var(--azul);font-weight:700;">🛒 orden de 2 insumos</small></td><td rowspan="2">2026-09-03</td><td rowspan="2"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>TINTA MAGENTA — 1,00 L × $100.000/L</td><td rowspan="2">SKY COLORS COLOMBIA SAS</td><td rowspan="2">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="2" class="num">$200.000</td><td rowspan="2"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-029&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,1)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,1)" title="Elimina solo este ítem">✕</button></td></tr><tr style="background:#FAFAFA;"><td>TINTA AMARILLA — 1,00 L × $100.000/L</td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,2)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,2)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-028</td><td rowspan="1">2026-08-28</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>VINILO BLOCKOUT 1.52 X 50 MTS — 50,00 m lin × 152 cm = 76,00 m² × $7.200/m²</td><td rowspan="1">SKY COLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$547.200</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-028&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,3)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,3)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-027</td><td rowspan="1">2026-08-27</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Compra de equipos · UPS BIFASICA NETION 3KV 3000 AMP</td><td rowspan="1">SKY COLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$1.850.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-027&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,4)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,4)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-004</td><td rowspan="1">2026-08-20</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Compra de equipos · Computador Portátil HP 8040 16 gb memoria 1 tera disco duro Procesador Icore7</td><td rowspan="1">PABLO FORERO</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$1.500.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-004&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,6)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,6)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-003</td><td rowspan="1">2026-08-20</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Insumos de oficina (bisturís, trapos, etc.) · Tomas dobles de sobreponer</td><td rowspan="1">HOMECENTER</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$18.000<br><small style="color:#6B6A63;">incl. IVA $2.874</small></td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-003&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,7)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,7)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-002</td><td rowspan="1">2026-08-20</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Compra de equipos · Laminadora Neumática 1700-T1</td><td rowspan="1">SUMINISTROS DIGITALES SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$7.735.000<br><small style="color:#6B6A63;">incl. IVA $1.235.000</small></td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-002&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,8)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,8)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-026</td><td rowspan="1">2026-08-19</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Otros de operación · MATRICULA MERCANTIL KHLEE</td><td rowspan="1">CAMARA DE COMERCIO DE BOGOTA</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$56.899</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-026&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,5)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,5)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-025</td><td rowspan="1">2026-08-17</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>TINTA NEGRA — 1,00 L × $100.000/L</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$100.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-025&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,4)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,4)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-024</td><td rowspan="1">2026-08-17</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>TINTA MAGENTA — 1,00 L × $100.000/L</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$100.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-024&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,5)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,5)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-023</td><td rowspan="1">2026-08-17</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>TINTA CYAN — 1,00 L × $100.000/L</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$100.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-023&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,6)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,6)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-022</td><td rowspan="1">2026-08-17</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>TINTA AMARILLA — 1,00 L × $100.000/L</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$100.000</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-022&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,7)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,7)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-021</td><td rowspan="1">2026-08-16</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>BANNER RESPALDO GRIS — 10,00 m lin × 180 cm = 18,00 m² × $4.933/m²</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$88.800</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-021&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,8)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,8)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-020</td><td rowspan="1">2026-08-16</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>PET BACKLIT — 50,00 m lin × 106 cm = 53,00 m² × $10.200/m²</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$540.600</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-020&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,9)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,9)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-019</td><td rowspan="1">2026-08-16</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>VINILO LAMINADO BRILLANTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$433.200</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-019&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,10)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,10)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-018</td><td rowspan="1">2026-08-16</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>VINILO LAMINADO MATTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$433.200</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-018&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,11)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,11)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-017</td><td rowspan="1">2026-08-16</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>VINILO BLANCO MATTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$433.200</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-017&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,12)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,12)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-016</td><td rowspan="1">2026-08-16</td><td rowspan="1"><span class="tag" style="background:#F4F5FA;color:#33468F;">Insumo</span></td><td>VINILO BLANCO BRILLANTE — 50,00 m lin × 152 cm = 76,00 m² × $5.700/m²</td><td rowspan="1">SKYCOLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$433.200</td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;compras&#39;,&#39;KHLEE-OC-2026-016&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;compras&#39;,13)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;compras&#39;,13)" title="Elimina solo este ítem">✕</button></td></tr><tr><td rowspan="1">KHLEE-OC-2026-001</td><td rowspan="1">2026-08-15</td><td rowspan="1"><span class="tag" style="background:#EFEFEF;color:#17171C;">Oficina</span></td><td>Compra de equipos · PLOTTER DE IMPRESION 180 CM ECOSOLVENTE SKY COLORS</td><td rowspan="1">SKY COLORS COLOMBIA SAS</td><td rowspan="1">Contado<br><span class="tag" style="background:#E4F3EA;color:#2E7D4F;">Pagada</span></td><td rowspan="1" class="num">$38.000.000<br><small style="color:#6B6A63;">incl. IVA $6.067.227</small></td><td rowspan="1"><button class="btn btn-sm" onclick="generarOCProveedor(&#39;comprasOficina&#39;,&#39;KHLEE-OC-2026-001&#39;)" title="Exportar orden de compra a PDF">📄 PDF</button></td><td><button class="btn btn-sm" onclick="abrirEditarCompra(&#39;comprasOficina&#39;,9)" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(&#39;comprasOficina&#39;,9)" title="Elimina solo este ítem">✕</button></td></tr></tbody>
+    </table>
+    <div class="totales" style="margin-top:14px;">
+      <div class="totales-box" style="width:300px;">
+        <div class="row total"><span>Total filtrado</span><span>$53.753.066</span></div>
+      </div>
+    </div></div>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn" onclick="exportarComprasExcel()">📊 Exportar compras a Excel</button>
         <button class="btn btn-marron" onclick="abrirAuditoriaComprasCaja()">🔍 Auditoría: Compras vs. Caja</button>
@@ -717,7 +1194,167 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--verde)"></span>Inventario de insumos</h2>
       <p class="helptext">El saldo se calcula solo: cada compra de insumo suma, cada consumo contra una orden de producción resta. El costo promedio se pondera con las compras registradas.</p>
-      <div id="inventario-list"></div>
+      <div id="inventario-list">
+    <table>
+      <thead><tr><th>Material (nombre y ancho)</th><th class="num">Metraje disponible</th><th class="num" style="background:#F7F6F2;">$ Costo prom. (por unidad)</th><th class="num" style="background:#F7F6F2;">$ Valor total en inventario</th><th></th></tr></thead>
+      <tbody><tr>
+      <td>
+        <strong>TINTA AMARILLA</strong> <small style="color:var(--gris-texto);">(AMARILLA)</small>
+        
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">1,50 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
+      <td class="num" style="background:#F7F6F2;">$100.000 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
+      <td class="num" style="background:#F7F6F2;">$150.000</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787572999048381&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(0)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787572999048381&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>TINTA CYAN</strong> <small style="color:var(--gris-texto);">(CYAN)</small>
+        
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">0,70 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
+      <td class="num" style="background:#F7F6F2;">$100.000 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
+      <td class="num" style="background:#F7F6F2;">$70.000</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573024672983&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(1)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573024672983&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>TINTA MAGENTA</strong> <small style="color:var(--gris-texto);">(MAGENTA)</small>
+        
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">1,50 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
+      <td class="num" style="background:#F7F6F2;">$100.000 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
+      <td class="num" style="background:#F7F6F2;">$150.000</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573040363580&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(2)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573040363580&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>TINTA NEGRA</strong> <small style="color:var(--gris-texto);">(NEGRA)</small>
+        
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">0,70 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">L</span></td>
+      <td class="num" style="background:#F7F6F2;">$100.000 <span style="font-size:11px;color:var(--gris-texto);">/L</span></td>
+      <td class="num" style="background:#F7F6F2;">$70.000</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573054455944&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(3)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573054455944&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>VINILO BLANCO BRILLANTE</strong> <small style="color:var(--gris-texto);">(BLANCO)</small>
+        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">59,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$336.300</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573084436820&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(4)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573084436820&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>VINILO BLANCO MATTE</strong> <small style="color:var(--gris-texto);">(BLANCO)</small>
+        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">6,97 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$39.746</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573103020179&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(5)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573103020179&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>VINILO LAMINADO MATTE</strong> <small style="color:var(--gris-texto);">(CLEAR)</small>
+        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">0,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$17</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573128877228&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(6)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573128877228&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>VINILO LAMINADO BRILLANTE</strong> <small style="color:var(--gris-texto);">(CLEAR)</small>
+        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">152,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$5.700 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$866.400</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573151328879&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(7)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573151328879&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>PET BACKLIT</strong> <small style="color:var(--gris-texto);">(BLANCO)</small>
+        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 106 cm de ancho</span>
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">51,95 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$10.200 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$529.890</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i178757316798644&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(8)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i178757316798644&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>BANNER RESPALDO GRIS</strong> <small style="color:var(--gris-texto);">(BLANCO-GRIS)</small>
+        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 180 cm de ancho</span>
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">0,00 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$4.933 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
+      <td class="num" style="background:#F7F6F2;color:#B23B3B;">$0</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1787573190609199&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(9)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1787573190609199&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr><tr>
+      <td>
+        <strong>VINILO BLOCKOUT 1.52 X 50 MTS</strong> <small style="color:var(--gris-texto);">(BLANCO)</small>
+        <br><span style="display:inline-block;margin-top:3px;padding:2px 8px;background:var(--mostaza);color:var(--negro);border-radius:10px;font-size:12px;font-weight:700;">📏 152 cm de ancho</span>
+      </td>
+      <td class="num" style="font-weight:700;font-size:15px;">71,70 <span style="font-weight:400;font-size:12px;color:var(--gris-texto);">m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$7.200 <span style="font-size:11px;color:var(--gris-texto);">/m²</span></td>
+      <td class="num" style="background:#F7F6F2;">$516.240</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="verKardex(&#39;i1788007491973130&#39;)">Ver kárdex</button>
+        <button class="btn btn-sm" onclick="editarInsumo(10)">✏️</button>
+        <button class="btn btn-sm" onclick="abrirAjusteInventario(&#39;i1788007491973130&#39;)" title="Corregir el saldo del sistema contra lo que realmente contaste">⚖️</button>
+        <button class="btn btn-sm" disabled="" title="Ya tiene movimientos en el kárdex — no se puede eliminar" style="opacity:.4;cursor:not-allowed;">✕</button>
+      </td>
+    </tr></tbody>
+    </table>
+    <p class="helptext" style="margin-top:8px;">Las dos últimas columnas (con fondo gris) son valores en <strong>pesos</strong>, no medidas — el ancho del material siempre aparece junto al nombre, en la etiqueta amarilla 📏. El botón "✕" solo se activa si el material todavía no tiene ninguna compra o consumo registrado. El botón "⚖️" corrige el saldo contra un conteo físico real — útil sobre todo para tintas, cuyo consumo por color es un estimado.</p>
+    <div id="kardex-detalle" style="margin-top:20px;"></div></div>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn" onclick="exportarInventarioExcel()">📊 Exportar inventario y kárdex</button>
         <button class="btn" onclick="exportarConsumosExcel()">📊 Exportar consumos por proyecto</button>
@@ -731,13 +1368,69 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>Rentabilidad por proyecto</h2>
       <p class="helptext">Ingreso = total de la cotización aprobada. Costo = material consumido (kárdex) + gastos con ese código de proyecto. Utilidad = ingreso − costo.</p>
-      <div id="rent-proyectos"></div>
+      <div id="rent-proyectos">
+      <table>
+        <thead><tr><th>Código (OP · proyecto)</th><th>Nombre proyecto</th><th class="num">Costos</th><th class="num">Rentabilidad</th></tr></thead>
+        <tbody><tr>
+            <td>SV12451-01 · SV12451</td>
+            <td>PDG E ISLAS BITACO</td>
+            <td class="num">$1.281.429</td>
+            <td class="num" style="color:#2E7D4F;font-weight:700;">$1.723.837</td>
+          </tr><tr>
+            <td>SV12399-01 · SV12399</td>
+            <td>PLANTILLAS SMINRMOFF BATERIA EVENTOS</td>
+            <td class="num">$198.800</td>
+            <td class="num" style="color:#2E7D4F;font-weight:700;">$179.200</td>
+          </tr><tr>
+            <td>SV12192-01 · SV12192</td>
+            <td>IMAGENES MUEBLE LUXURY CAVA DIAGE CARULLA COUNTRY</td>
+            <td class="num">$42.979</td>
+            <td class="num" style="color:#2E7D4F;font-weight:700;">$48.893</td>
+          </tr><tr>
+            <td>KHL001-01 · KHL001</td>
+            <td>SV12346-PDG SMIRNOFF SAN JERONIMO</td>
+            <td class="num">$27.415</td>
+            <td class="num" style="color:#2E7D4F;font-weight:700;">$42.785</td>
+          </tr><tr>
+            <td>SV12542-01 · SV12542</td>
+            <td>VISITA DIAGEO 2026</td>
+            <td class="num">$22.237</td>
+            <td class="num" style="color:#2E7D4F;font-weight:700;">$40.066</td>
+          </tr></tbody>
+        <tfoot><tr style="background:#F7F6F2;font-weight:700;">
+          <td colspan="2">TOTAL</td>
+          <td class="num">$1.572.860</td>
+          <td class="num" style="color:#2E7D4F;">$2.034.781</td>
+        </tr></tfoot>
+      </table></div>
     </div>
 
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>Rentabilidad por mes</h2>
       <p class="helptext">Agrupado por el mes en que se produjo (fecha de la orden de producción). Si un proyecto se produjo en varios meses, se reparte proporcionalmente.</p>
-      <div id="rent-meses"></div>
+      <div id="rent-meses">
+      <table>
+        <thead><tr><th>Mes</th><th class="num">Proyectos</th><th class="num">Ingreso</th><th class="num">Costo material</th><th class="num">Gastos</th><th class="num">Costo total</th><th class="num">Utilidad</th><th class="num">Margen</th></tr></thead>
+        <tbody><tr>
+            <td style="text-transform:capitalize;">agosto 2026</td>
+            <td class="num">4</td>
+            <td class="num">$602.375</td>
+            <td class="num">$147.672</td>
+            <td class="num">$0</td>
+            <td class="num">$291.431</td>
+            <td class="num" style="color:#2E7D4F;font-weight:700;">$310.944</td>
+            <td class="num" style="color:#2E7D4F;">51,6%</td>
+          </tr><tr>
+            <td style="text-transform:capitalize;">septiembre 2026</td>
+            <td class="num">1</td>
+            <td class="num">$3.005.266</td>
+            <td class="num">$907.335</td>
+            <td class="num">$0</td>
+            <td class="num">$1.281.429</td>
+            <td class="num" style="color:#2E7D4F;font-weight:700;">$1.723.837</td>
+            <td class="num" style="color:#2E7D4F;">57,4%</td>
+          </tr></tbody>
+      </table></div>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn" onclick="renderRentabilidad()">↻ Actualizar</button>
         <button class="btn btn-mostaza" onclick="exportarRentabilidadExcel()">📊 Exportar rentabilidad a Excel</button>
@@ -750,34 +1443,111 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--azul)"></span>Resumen contable</h2>
       <p class="helptext">Control gerencial interno de KHLEE. No reemplaza la contabilidad formal — el reporte exportable es para revisión de tu contador.</p>
-      <div id="cont-resumen"></div>
+      <div id="cont-resumen">
+    <div class="grid grid-4" style="gap:12px;">
+      <div class="kpi"><div class="kpi-label">Saldo en caja</div><div class="kpi-val" style="color:#B23B3B">$-51.012.658</div></div>
+      <div class="kpi"><div class="kpi-label">Total ingresos</div><div class="kpi-val">$3.428.486</div></div>
+      <div class="kpi"><div class="kpi-label">Por cobrar</div><div class="kpi-val" style="color:#33468F">$0</div></div>
+      <div class="kpi"><div class="kpi-label">Por pagar</div><div class="kpi-val" style="color:#A8611F">$0</div></div>
+    </div></div>
     </div>
 
     <div class="card">
       <h2><span class="dot" style="background:var(--verde)"></span>Estado de resultados (P&amp;G) por mes</h2>
       <p class="helptext">Ingresos = cobros reales. Costos por categoría: materiales/insumos consumidos, mano de obra, mantenimientos, transportes, servicios públicos, arriendo, oficina, depreciación de equipos y otros.</p>
-      <div style="overflow-x:auto;"><div id="cont-pyg"></div></div>
+      <div style="overflow-x:auto;"><div id="cont-pyg">
+      <table>
+        <thead><tr><th>Mes</th><th class="num">Ingresos</th><th class="num">Materiales</th><th class="num">Mano obra</th><th class="num">Tinta</th><th class="num">Equipos</th><th class="num">Cabezal</th><th class="num">Energía</th><th class="num">Mant. prod.</th><th class="num">Producción (manual)</th><th class="num">Mantenim. (gasto)</th><th class="num">Transporte</th><th class="num">Serv. públ.</th><th class="num">Arriendo</th><th class="num">Oficina</th><th class="num">Depreciación</th><th class="num">Otros</th><th class="num">Costo total</th><th class="num">Utilidad</th></tr></thead>
+        <tbody><tr><td style="text-transform:capitalize;">agosto 2026</td><td class="num">$425.943</td><td class="num">$147.672</td><td class="num">$8.510</td><td class="num">$9.210</td><td class="num">$14.736</td><td class="num">$964</td><td class="num">$1.535</td><td class="num">$804</td><td class="num">$108.000</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$74.899</td><td class="num">$696.380</td><td class="num">$0</td><td class="num">$1.062.710</td><td class="num" style="color:#B23B3B;font-weight:700;">$-636.767</td></tr><tr><td style="text-transform:capitalize;">septiembre 2026</td><td class="num">$3.002.543</td><td class="num">$907.335</td><td class="num">$94.500</td><td class="num">$94.500</td><td class="num">$151.200</td><td class="num">$9.891</td><td class="num">$15.750</td><td class="num">$8.253</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$439.097</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$2.420.430</td><td class="num" style="color:#2E7D4F;font-weight:700;">$582.113</td></tr><tr><td style="text-transform:capitalize;">octubre 2026</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">noviembre 2026</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">diciembre 2026</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">enero 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">febrero 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">marzo 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">abril 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">mayo 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">junio 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">julio 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">agosto 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">septiembre 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">octubre 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">noviembre 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">diciembre 2027</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">enero 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">febrero 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">marzo 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">abril 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">mayo 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">junio 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">julio 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">agosto 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">septiembre 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">octubre 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">noviembre 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">diciembre 2028</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">enero 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">febrero 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">marzo 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">abril 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">mayo 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">junio 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">julio 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">agosto 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">septiembre 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">octubre 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">noviembre 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">diciembre 2029</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">enero 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">febrero 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">marzo 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">abril 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">mayo 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">junio 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">julio 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">agosto 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">septiembre 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">octubre 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">noviembre 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">diciembre 2030</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">enero 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">febrero 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">marzo 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">abril 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">mayo 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">junio 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">julio 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$699.904</td><td class="num">$0</td><td class="num">$699.904</td><td class="num" style="color:#B23B3B;font-weight:700;">$-699.904</td></tr><tr><td style="text-transform:capitalize;">agosto 2031</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$3.525</td><td class="num">$0</td><td class="num">$3.525</td><td class="num" style="color:#B23B3B;font-weight:700;">$-3.524</td></tr></tbody>
+        <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL</td><td class="num">$3.428.486</td><td class="num">$1.055.007</td><td class="num">$103.010</td><td class="num">$103.710</td><td class="num">$165.936</td><td class="num">$10.855</td><td class="num">$17.285</td><td class="num">$9.057</td><td class="num">$108.000</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$513.996</td><td class="num">$41.994.243</td><td class="num">$0</td><td class="num">$44.081.099</td><td class="num" style="color:#B23B3B;">$-40.652.613</td></tr></tfoot>
+      </table>
+      <p class="helptext" style="margin-top:8px;">Tinta/Equipos/Cabezal/Energía/Mant. prod. son costeo interno de "⚡ Cargar impresión" (no generan pago en caja). Mantenim. (gasto) y Serv. públ. son las facturas reales que registras en Compras.</p></div></div>
     </div>
 
     <div class="card">
       <h2><span class="dot" style="background:var(--marron)"></span>📉 Activos fijos y depreciación</h2>
       <p class="helptext">Cuando registras una compra de "Compra de equipos" en Compras → Oficina, se crea aquí como activo fijo. En vez de cargarse todo de una vez como gasto, su valor se reconoce poco a poco (depreciación en línea recta) y ya alimenta el estado de resultados mes a mes. La vida útil es editable — confírmala con tu contador.</p>
-      <div id="cont-activos"></div>
+      <div id="cont-activos">
+    <table>
+      <thead><tr><th>Activo</th><th>Fecha compra</th><th class="num">Valor (sin IVA)</th><th class="num">Vida útil</th><th class="num">Depreciación mensual</th><th class="num">Acumulada</th><th class="num">Valor en libros</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>descuentos por 4x1000 <small style="color:var(--gris-texto);">(KHLEE-OC-2026-034)</small></td>
+          <td>2026-09-08</td>
+          <td class="num">$211.470</td>
+          <td class="num"><input type="number" step="0.5" min="1" value="5" style="width:60px;text-align:right;" onchange="editarVidaUtilActivo(0, this.value)"> años</td>
+          <td class="num">$3.525</td>
+          <td class="num">$3.525</td>
+          <td class="num" style="font-weight:700;">$207.946</td>
+          <td><button class="btn btn-sm" onclick="eliminarActivoFijo(0)">✕</button></td>
+        </tr>
+        <tr>
+          <td>UPS BIFASICA NETION 3KV 3000 AMP <small style="color:var(--gris-texto);">(KHLEE-OC-2026-027)</small></td>
+          <td>2026-08-27</td>
+          <td class="num">$1.850.000</td>
+          <td class="num"><input type="number" step="0.5" min="1" value="5" style="width:60px;text-align:right;" onchange="editarVidaUtilActivo(1, this.value)"> años</td>
+          <td class="num">$30.833</td>
+          <td class="num">$61.667</td>
+          <td class="num" style="font-weight:700;">$1.788.333</td>
+          <td><button class="btn btn-sm" onclick="eliminarActivoFijo(1)">✕</button></td>
+        </tr>
+        <tr>
+          <td>Computador Portátil HP 8040 16 gb memoria 1 tera disco duro Procesador Icore7 <small style="color:var(--gris-texto);">(KHLEE-OC-2026-004)</small></td>
+          <td>2026-08-20</td>
+          <td class="num">$1.500.000</td>
+          <td class="num"><input type="number" step="0.5" min="1" value="5" style="width:60px;text-align:right;" onchange="editarVidaUtilActivo(2, this.value)"> años</td>
+          <td class="num">$25.000</td>
+          <td class="num">$50.000</td>
+          <td class="num" style="font-weight:700;">$1.450.000</td>
+          <td><button class="btn btn-sm" onclick="eliminarActivoFijo(2)">✕</button></td>
+        </tr>
+        <tr>
+          <td>Laminadora Neumática 1700-T1 <small style="color:var(--gris-texto);">(KHLEE-OC-2026-002)</small></td>
+          <td>2026-08-20</td>
+          <td class="num">$6.500.000</td>
+          <td class="num"><input type="number" step="0.5" min="1" value="5" style="width:60px;text-align:right;" onchange="editarVidaUtilActivo(3, this.value)"> años</td>
+          <td class="num">$108.333</td>
+          <td class="num">$216.667</td>
+          <td class="num" style="font-weight:700;">$6.283.333</td>
+          <td><button class="btn btn-sm" onclick="eliminarActivoFijo(3)">✕</button></td>
+        </tr>
+        <tr>
+          <td>PLOTTER DE IMPRESION 180 CM ECOSOLVENTE SKY COLORS <small style="color:var(--gris-texto);">(KHLEE-OC-2026-001)</small></td>
+          <td>2026-08-15</td>
+          <td class="num">$31.932.773</td>
+          <td class="num"><input type="number" step="0.5" min="1" value="5" style="width:60px;text-align:right;" onchange="editarVidaUtilActivo(4, this.value)"> años</td>
+          <td class="num">$532.213</td>
+          <td class="num">$1.064.426</td>
+          <td class="num" style="font-weight:700;">$30.868.347</td>
+          <td><button class="btn btn-sm" onclick="eliminarActivoFijo(4)">✕</button></td>
+        </tr></tbody>
+      <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td colspan="2">TOTAL</td><td class="num">$41.994.243</td><td></td><td></td><td class="num">$1.396.284</td><td class="num">$40.597.959</td><td></td></tr></tfoot>
+    </table></div>
     </div>
 
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>Cuentas por cobrar</h2>
-      <div id="cont-cxc"></div>
+      <div id="cont-cxc"><p class="helptext">No hay cuentas por cobrar pendientes.</p></div>
     </div>
 
     <div class="card">
       <h2><span class="dot" style="background:var(--marron)"></span>Retenciones que te han practicado</h2>
-      <div id="cont-retenciones"></div>
+      <div id="cont-retenciones">
+        <table>
+          <thead><tr><th>Tipo de retención</th><th class="num">Total acumulado</th></tr></thead>
+          <tbody><tr><td>ReteICA</td><td class="num">$34.850</td></tr><tr><td>Retención en la fuente (servicios)</td><td class="num">$144.306</td></tr></tbody>
+          <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL RETENIDO A TU FAVOR</td><td class="num">$179.155</td></tr></tfoot>
+        </table>
+        <p class="helptext" style="margin-top:8px;">Este valor no se perdió — es plata que ya pagaste de impuestos por anticipado, y se descuenta de lo que debas declarar/pagar más adelante. Detalle por cuenta de cobro:</p>
+        <table style="margin-top:8px;font-size:12px;">
+          <thead><tr><th>Fecha</th><th>Cta. cobro</th><th>Cliente</th><th>Tipo</th><th class="num">%</th><th class="num">Valor</th></tr></thead>
+          <tbody><tr><td>2026-09-04</td><td>KHLEE-CC-2026-011</td><td>STRAZA SAS</td><td>ReteICA</td><td class="num">0,966%</td><td class="num">$29.031</td></tr><tr><td>2026-09-04</td><td>KHLEE-CC-2026-011</td><td>STRAZA SAS</td><td>Retención en la fuente (servicios)</td><td class="num">4,000%</td><td class="num">$120.211</td></tr><tr><td>2026-09-01</td><td>KHLEE-CC-2026-009</td><td>STRAZA SAS</td><td>ReteICA</td><td class="num">0,966%</td><td class="num">$887</td></tr><tr><td>2026-09-01</td><td>KHLEE-CC-2026-009</td><td>STRAZA SAS</td><td>Retención en la fuente (servicios)</td><td class="num">4,000%</td><td class="num">$3.675</td></tr><tr><td>2026-09-01</td><td>KHLEE-CC-2026-010</td><td>STRAZA SAS</td><td>ReteICA</td><td class="num">0,966%</td><td class="num">$602</td></tr><tr><td>2026-09-01</td><td>KHLEE-CC-2026-010</td><td>STRAZA SAS</td><td>Retención en la fuente (servicios)</td><td class="num">4,000%</td><td class="num">$2.492</td></tr><tr><td>2026-08-27</td><td>KHLEE-CC-2026-004</td><td>STRAZA SAS</td><td>ReteICA</td><td class="num">0,966%</td><td class="num">$3.651</td></tr><tr><td>2026-08-27</td><td>KHLEE-CC-2026-004</td><td>STRAZA SAS</td><td>Retención en la fuente (servicios)</td><td class="num">4,000%</td><td class="num">$15.120</td></tr><tr><td>2026-08-27</td><td>KHLEE-CC-2026-008</td><td>STRAZA SAS</td><td>ReteICA</td><td class="num">0,966%</td><td class="num">$678</td></tr><tr><td>2026-08-27</td><td>KHLEE-CC-2026-008</td><td>STRAZA SAS</td><td>Retención en la fuente (servicios)</td><td class="num">4,000%</td><td class="num">$2.808</td></tr></tbody>
+        </table></div>
     </div>
 
     <div class="card">
       <h2><span class="dot" style="background:var(--naranja)"></span>Cuentas por pagar</h2>
-      <div id="cont-cxp"></div>
+      <div id="cont-cxp"><p class="helptext">No hay cuentas por pagar pendientes.</p></div>
     </div>
 
     <div class="card">
@@ -788,7 +1558,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div class="field"><label>Valor</label><input type="number" id="caja-monto" step="1000"></div>
       </div>
       <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-marron" onclick="registrarMovimientoCaja()">+ Registrar movimiento manual</button></div>
-      <div id="cont-caja"></div>
+      <div id="cont-caja">
+      <table>
+        <thead><tr><th>Fecha</th><th>Concepto</th><th class="num">Entrada</th><th class="num">Salida</th></tr></thead>
+        <tbody><tr><td>2026-09-10</td><td>PAGO CREDITO 1 EQUIUPOS ANGIE</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$688.078</td></tr><tr><td>2026-09-08</td><td>Oficina KHLEE-OC-2026-034 · Compra de equipos — descuentos por 4x1000</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$211.470</td></tr><tr><td>2026-09-08</td><td>Oficina KHLEE-OC-2026-033 · Otros de operación — Transporte en cama baja para entrega laminadora</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$360.000</td></tr><tr><td>2026-09-08</td><td>Oficina KHLEE-OC-2026-032 · Otros de operación — Parqueaderos varios</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$30.000</td></tr><tr><td>2026-09-08</td><td>Oficina KHLEE-OC-2026-031 · Otros de operación — PARTE 2 MATRICULA MERCANTIL KHLEE</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$49.097</td></tr><tr><td>2026-09-04</td><td>Cobro KHLEE-CC-2026-011 · ANDRES MEDINA</td><td class="num" style="color:#2E7D4F;">$2.856.024</td><td class="num" style="color:#B23B3B;"></td></tr><tr><td>2026-09-03</td><td>Compra KHLEE-OC-2026-030 · SKY COLORS COLOMBIA SAS — VINILO LAMINADO BRILLANTE</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$433.200</td></tr><tr><td>2026-09-03</td><td>Compra KHLEE-OC-2026-029 · SKY COLORS COLOMBIA SAS — TINTA AMARILLA, TINTA MAGENTA</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$200.000</td></tr><tr><td>2026-09-01</td><td>Cobro KHLEE-CC-2026-009 · andres </td><td class="num" style="color:#2E7D4F;">$87.310</td><td class="num" style="color:#B23B3B;"></td></tr><tr><td>2026-09-01</td><td>Cobro KHLEE-CC-2026-010 · andre</td><td class="num" style="color:#2E7D4F;">$59.209</td><td class="num" style="color:#B23B3B;"></td></tr><tr><td>2026-08-28</td><td>Compra KHLEE-OC-2026-028 · SKY COLORS COLOMBIA SAS — VINILO BLOCKOUT 1.52 X 50 MTS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$547.200</td></tr><tr><td>2026-08-27</td><td>Oficina KHLEE-OC-2026-027 · Compra de equipos — UPS BIFASICA NETION 3KV 3000 AMP</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$1.850.000</td></tr><tr><td>2026-08-19</td><td>Oficina KHLEE-OC-2026-026 · Otros de operación — MATRICULA MERCANTIL KHLEE</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$56.899</td></tr><tr><td>2026-08-27</td><td>Cobro KHLEE-CC-2026-004 · ANDRES MEDINA</td><td class="num" style="color:#2E7D4F;">$359.229</td><td class="num" style="color:#B23B3B;"></td></tr><tr><td>2026-08-27</td><td>Cobro KHLEE-CC-2026-008 · ANDRES MEDINA</td><td class="num" style="color:#2E7D4F;">$66.714</td><td class="num" style="color:#B23B3B;"></td></tr><tr><td>2026-08-17</td><td>Compra KHLEE-OC-2026-025 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$100.000</td></tr><tr><td>2026-08-17</td><td>Compra KHLEE-OC-2026-024 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$100.000</td></tr><tr><td>2026-08-17</td><td>Compra KHLEE-OC-2026-023 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$100.000</td></tr><tr><td>2026-08-17</td><td>Compra KHLEE-OC-2026-022 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$100.000</td></tr><tr><td>2026-08-16</td><td>Compra KHLEE-OC-2026-021 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$88.800</td></tr><tr><td>2026-08-16</td><td>Compra KHLEE-OC-2026-020 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$540.600</td></tr><tr><td>2026-08-16</td><td>Compra KHLEE-OC-2026-019 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$433.200</td></tr><tr><td>2026-08-16</td><td>Compra KHLEE-OC-2026-018 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$433.200</td></tr><tr><td>2026-08-16</td><td>Compra KHLEE-OC-2026-017 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$433.200</td></tr><tr><td>2026-08-16</td><td>Compra KHLEE-OC-2026-016 · SKYCOLORS COLOMBIA SAS</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$433.200</td></tr><tr><td>2026-08-20</td><td>Oficina KHLEE-OC-2026-004 · Compra de equipos</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$1.500.000</td></tr><tr><td>2026-08-20</td><td>Oficina KHLEE-OC-2026-003 · Insumos de oficina (bisturís, trapos, etc.)</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$18.000</td></tr><tr><td>2026-08-20</td><td>Oficina KHLEE-OC-2026-002 · Compra de equipos</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$7.735.000</td></tr><tr><td>2026-08-15</td><td>Oficina KHLEE-OC-2026-001 · Compra de equipos</td><td class="num" style="color:#2E7D4F;"></td><td class="num" style="color:#B23B3B;">$38.000.000</td></tr></tbody>
+      </table></div>
     </div>
 
     <div class="card">
@@ -818,7 +1592,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div></div>
         <div><button class="btn btn-azul" onclick="guardarRealMensual()">💾 Guardar mes real</button></div>
       </div>
-      <div id="cont-presupuesto-real"></div>
+      <div id="cont-presupuesto-real"><p class="helptext">Aún no has guardado ningún mes real.</p></div>
     </div>
 
     <div class="card">
@@ -830,7 +1604,25 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div></div>
         <div><button class="btn btn-verde" onclick="calcularReparto()">Calcular reparto</button></div>
       </div>
-      <div id="cont-socios-config" style="margin-bottom:14px;"></div>
+      <div id="cont-socios-config" style="margin-bottom:14px;"><div class="mat-row" style="font-weight:700;color:var(--gris-texto);font-size:11px;text-transform:uppercase;"><div>Socio</div><div>% de reparto</div><div></div><div></div></div>
+    <div class="mat-row">
+      <div><input type="text" value="Socio 1" onchange="editarSocio(0,&#39;nombre&#39;,this.value)"></div>
+      <div><input type="number" step="0.01" value="33.33" onchange="editarSocio(0,&#39;porcentaje&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarSocio(0)">✕</button></div>
+    </div>
+    <div class="mat-row">
+      <div><input type="text" value="Socio 2" onchange="editarSocio(1,&#39;nombre&#39;,this.value)"></div>
+      <div><input type="number" step="0.01" value="33.33" onchange="editarSocio(1,&#39;porcentaje&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarSocio(1)">✕</button></div>
+    </div>
+    <div class="mat-row">
+      <div><input type="text" value="Socio 3" onchange="editarSocio(2,&#39;nombre&#39;,this.value)"></div>
+      <div><input type="number" step="0.01" value="33.34" onchange="editarSocio(2,&#39;porcentaje&#39;,this.value)"></div>
+      <div></div>
+      <div><button class="btn btn-sm" onclick="eliminarSocio(2)">✕</button></div>
+    </div><div class="btn-row"><button class="btn btn-sm" onclick="agregarSocio()">+ Agregar socio</button></div></div>
       <div id="cont-reparto"></div>
     </div>
   </div>
@@ -6388,6 +7180,12 @@ function restaurarBackup(ev){
       poblarSelectsCompra();
       renderMateriales();
       renderHistorial();
+      renderOrdenes();
+      renderCompras();
+      renderInventario();
+      renderContabilidad();
+      renderRentabilidad();
+      renderDatalistClientes();
       renderConfig();
       renderEstadoBackup();
       renderRecordatorioBackupGlobal();
