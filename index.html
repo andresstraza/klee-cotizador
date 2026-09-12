@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_57.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_58.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -235,6 +235,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 </style>
 </head>
 <body>
+
+<div id="banner-guardado-fallido" style="display:none;position:sticky;top:0;left:0;right:0;z-index:9999;background:#B23B3B;color:#fff;padding:14px 20px;text-align:center;font-weight:700;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.3);">
+  ⚠ ESTE NAVEGADOR NO ESTÁ GUARDANDO TUS CAMBIOS. Descarga una copia de seguridad AHORA (Configuración → Copia de seguridad) antes de cerrar o recargar esta página, o vas a perder lo que hagas.
+  <button onclick="document.getElementById(&#39;banner-guardado-fallido&#39;).style.display=&#39;none&#39;;" style="margin-left:14px;background:#fff;color:#B23B3B;border:none;border-radius:4px;padding:4px 10px;font-weight:700;cursor:pointer;">Entendido</button>
+</div>
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -1397,9 +1402,23 @@ function cargarEstado(){
 
 function guardarEstado(){
   try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const json = JSON.stringify(state);
+    localStorage.setItem(STORAGE_KEY, json);
+    // verificación real: releer inmediatamente para confirmar que SÍ quedó escrito — en algunos
+    // navegadores/condiciones (ej. modo privado, extensiones que bloquean almacenamiento, disco
+    // lleno) el guardado puede fallar EN SILENCIO sin lanzar ningún error de JavaScript
+    const releido = localStorage.getItem(STORAGE_KEY);
+    if(releido !== json){
+      throw new Error('La relectura de localStorage no coincide con lo que se acaba de guardar.');
+    }
+    // si había fallado antes y ahora sí funcionó (ej. liberó espacio), ocultar la alerta
+    const banner = document.getElementById('banner-guardado-fallido');
+    if(banner) banner.style.display = 'none';
   }catch(e){
-    mostrarToast('No se pudo guardar en este navegador. Descarga una copia de seguridad desde Configuración.');
+    console.error('Fallo real al guardar en localStorage:', e);
+    mostrarToast('⚠ No se pudo guardar en este navegador — descarga una copia de seguridad ya.');
+    const banner = document.getElementById('banner-guardado-fallido');
+    if(banner) banner.style.display = 'block';
   }
 }
 
