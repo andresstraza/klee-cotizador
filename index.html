@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_55.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_57.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -277,8 +277,8 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div class="field"><label>Fecha</label><input type="date" id="q-fecha"></div>
       </div>
       <div class="grid grid-4" style="margin-top:16px;">
-        <div class="field"><label>Cliente (contacto)</label><input type="text" id="q-cliente" placeholder="Nombre del contacto"></div>
-        <div class="field"><label>Empresa del cliente</label><input type="text" id="q-empresa" placeholder="Razón social"></div>
+        <div class="field"><label>Cliente (contacto)</label><input type="text" id="q-cliente" list="dl-clientes" placeholder="Nombre del contacto" onchange="alCambiarNombreCliente()"></div>
+        <div class="field"><label>Empresa del cliente</label><input type="text" id="q-empresa" list="dl-empresas" placeholder="Razón social" onchange="alCambiarNombreCliente()"></div>
         <div class="field"><label>NIT del cliente</label><input type="text" id="q-cliente-nit" placeholder="NIT / cédula"></div>
         <div class="field"><label>Teléfono del cliente</label><input type="text" id="q-cliente-telefono" placeholder="Teléfono"></div>
       </div>
@@ -913,6 +913,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
         <div class="field"><label>Tinta Amarillo</label><select id="cfg-receta-tinta-amarillo"></select></div>
         <div class="field"><label>Tinta Negro</label><select id="cfg-receta-tinta-negro"></select></div>
       </div>
+      <p class="helptext" id="cfg-tinta-aviso-roto" style="display:none;margin-top:8px;color:#B23B3B;font-weight:700;"></p>
       <div class="grid grid-4" style="margin-top:10px;">
         <div class="field"><label>% Cyan</label><input type="number" id="cfg-reparto-cyan" step="1" min="0" max="100" oninput="calcularSumaReparto()"></div>
         <div class="field"><label>% Magenta</label><input type="number" id="cfg-reparto-magenta" step="1" min="0" max="100" oninput="calcularSumaReparto()"></div>
@@ -1181,6 +1182,8 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
   </div>
 </div>
 
+<datalist id="dl-clientes"></datalist>
+<datalist id="dl-empresas"></datalist>
 <datalist id="anchos-comunes">
   <option value="106"></option>
   <option value="122"></option>
@@ -1313,6 +1316,7 @@ function estadoPorDefecto(){
     compras:[],
     comprasOficina:[],
     proveedores:[],
+    clientes:[],
     movimientos:[],
     consumos:[],
     manoObra:[],
@@ -1361,6 +1365,7 @@ function fusionarConEstadoBase(parsed){
     compras: parsed.compras || [],
     comprasOficina: parsed.comprasOficina || [],
     proveedores: parsed.proveedores || [],
+    clientes: parsed.clientes || [],
     movimientos: parsed.movimientos || [],
     consumos: parsed.consumos || [],
     manoObra: parsed.manoObra || [],
@@ -2020,6 +2025,42 @@ function leerFormularioCliente(){
   cotizacionActual.proyecto = document.getElementById('q-proyecto').value;
   guardarBorrador();
 }
+// Directorio de clientes — igual patrón que ya existe para proveedores en Compras: al guardar una
+// cotización, el cliente (y todos sus datos) queda recordado, para no tener que volver a
+// digitarlo en la siguiente cotización aunque ya se le haya cotizado antes.
+function alCambiarNombreCliente(){
+  const nombreContacto = document.getElementById('q-cliente').value.trim();
+  const empresa = document.getElementById('q-empresa').value.trim();
+  // busca por cualquiera de los dos campos — el que se acabe de escribir/elegir
+  const cli = (state.clientes||[]).find(c=>
+    (empresa && (c.empresaCliente||'').toLowerCase()===empresa.toLowerCase()) ||
+    (nombreContacto && (c.cliente||'').toLowerCase()===nombreContacto.toLowerCase())
+  );
+  if(cli){
+    if(!document.getElementById('q-cliente').value) document.getElementById('q-cliente').value = cli.cliente||'';
+    if(!document.getElementById('q-empresa').value) document.getElementById('q-empresa').value = cli.empresaCliente||'';
+    document.getElementById('q-cliente-nit').value = cli.clienteNit||'';
+    document.getElementById('q-cliente-direccion').value = cli.clienteDireccion||'';
+    document.getElementById('q-cliente-telefono').value = cli.clienteTelefono||'';
+    document.getElementById('q-cliente-email').value = cli.clienteEmail||'';
+  }
+}
+function guardarOActualizarCliente(datos){
+  // la empresa es la llave principal (así queda uno solo por compañía aunque cambie el contacto);
+  // si es persona natural sin empresa, se guarda por el nombre del contacto
+  const llave = (datos.empresaCliente||'').trim() || (datos.cliente||'').trim();
+  if(!llave) return;
+  const idx = (state.clientes||[]).findIndex(c=>((c.empresaCliente||'').trim()||(c.cliente||'').trim()).toLowerCase()===llave.toLowerCase());
+  if(idx>=0) state.clientes[idx] = Object.assign(state.clientes[idx], datos);
+  else state.clientes.push(Object.assign({id:'cli'+Date.now()}, datos));
+  renderDatalistClientes();
+}
+function renderDatalistClientes(){
+  const dlC = document.getElementById('dl-clientes');
+  const dlE = document.getElementById('dl-empresas');
+  if(dlC) dlC.innerHTML = (state.clientes||[]).filter(c=>c.cliente).map(c=>`<option value="${c.cliente.replace(/"/g,'&quot;')}">`).join('');
+  if(dlE) dlE.innerHTML = (state.clientes||[]).filter(c=>c.empresaCliente).map(c=>`<option value="${c.empresaCliente.replace(/"/g,'&quot;')}">`).join('');
+}
 // Guarda un borrador de la cotización que se está armando (aunque no se haya pulsado "Guardar cotización"),
 // para que si la página se recarga por accidente no se pierda lo ya digitado o los ítems ya agregados.
 function guardarBorrador(){
@@ -2079,6 +2120,13 @@ function guardarCotizacion(){
   const idxExistente = state.cotizaciones.findIndex(c=>c.codigo===snapshot.codigo);
   if(idxExistente>=0) state.cotizaciones[idxExistente] = snapshot;
   else state.cotizaciones.unshift(snapshot);
+
+  // queda recordado en el directorio de clientes, para no volver a digitarlo la próxima vez
+  guardarOActualizarCliente({
+    cliente: snapshot.cliente, empresaCliente: snapshot.empresaCliente||'',
+    clienteNit: snapshot.clienteNit||'', clienteDireccion: snapshot.clienteDireccion||'',
+    clienteTelefono: snapshot.clienteTelefono||'', clienteEmail: snapshot.clienteEmail||''
+  });
 
   // ya quedó guardada de forma segura en el historial: el borrador de "trabajo sin guardar" ya no aplica
   state.borrador = null;
@@ -3014,13 +3062,29 @@ function renderRecetaImpresion(){
   setVal('cfg-reparto-amarillo', r.repartoTintaAmarillo, 25);
   setVal('cfg-reparto-negro', r.repartoTintaNegro, 25);
   const opciones = '<option value="">— Selecciona un insumo —</option>' + state.insumos.map(i=>`<option value="${i.id}">${etiquetaInsumo(i)} — saldo: ${numFmt(saldoInsumo(i.id),2)} ${i.unidad}</option>`).join('');
+  const coloresRotos = [];
   ['cyan','magenta','amarillo','negro'].forEach(color=>{
     const sel = document.getElementById('cfg-receta-tinta-'+color);
     if(!sel) return;
     sel.innerHTML = opciones;
     const campo = 'tinta'+color.charAt(0).toUpperCase()+color.slice(1)+'Id';
-    sel.value = r[campo] || '';
+    const idGuardado = r[campo] || '';
+    sel.value = idGuardado;
+    // si había un ID guardado pero el <select> no lo pudo seleccionar (quedó en blanco), es
+    // porque ese insumo ya no existe — se borró y probablemente se volvió a crear con otro ID
+    if(idGuardado && sel.value!==idGuardado){
+      coloresRotos.push(color.charAt(0).toUpperCase()+color.slice(1));
+    }
   });
+  const avisoRoto = document.getElementById('cfg-tinta-aviso-roto');
+  if(avisoRoto){
+    if(coloresRotos.length>0){
+      avisoRoto.style.display = 'block';
+      avisoRoto.textContent = '⚠ El insumo guardado para '+coloresRotos.join(', ')+' ya no existe en tu inventario (seguramente se borró y se volvió a crear) — vuelve a elegirlo arriba y pulsa "Guardar receta".';
+    }else{
+      avisoRoto.style.display = 'none';
+    }
+  }
   calcularSumaReparto();
 }
 // Muestra en vivo si el reparto de los 4 colores suma 100% — no bloquea, solo avisa, para que
@@ -3063,6 +3127,7 @@ function guardarRecetaImpresion(){
     tintaNegroId: document.getElementById('cfg-receta-tinta-negro').value
   };
   guardarEstado();
+  renderRecetaImpresion(); // refresca de inmediato el aviso de referencia rota, si ya se corrigió
   mostrarToast('Receta de impresión guardada.');
 }
 /* ---- Retenciones ---- */
@@ -6338,6 +6403,7 @@ function init(){
   initListenersBorrador();
   poblarSelectsMaterial();
   pintarFormularioCliente();
+  renderDatalistClientes();
   renderItems();
   renderRecordatorioBackupGlobal();
   autoBackupAlIngresar();
