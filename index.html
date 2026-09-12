@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_44.html -->
+<!-- saved from url=(0048)file:///C:/Users/Usuario/Downloads/index_54.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,7 +243,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
     <div class="topbar-meta">
       COTIZADOR INTERNO<br>
-      <span id="fechaHoy">4 de septiembre de 2026</span>
+      <span id="fechaHoy">12 de septiembre de 2026</span>
       <br><span style="font-size:10px;opacity:.55;">v2026-08-23-1</span>
     </div>
   </div>
@@ -934,7 +934,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="border:2px solid var(--negro);">
       <h2><span class="dot" style="background:var(--negro)"></span>💾 Copia de seguridad — muy importante</h2>
       <p class="helptext">Toda la información de KHLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>únicamente en la memoria de este navegador</strong> (localStorage). No se guarda en internet ni en ningún servidor. Si subes el archivo a GitHub, ahí solo queda guardado el <strong>programa</strong> — tus datos del día a día siguen viviendo en el navegador donde lo uses, y cada navegador/computador tiene su propia copia independiente. <strong>Por eso, cada vez que alguien abre la herramienta, se descarga sola una copia de seguridad automática</strong> (verás un aviso abajo a la derecha). Aun así, mueve de vez en cuando esos archivos descargados a un lugar aparte como Google Drive, un USB o el correo — así nunca dependes de un solo navegador ni de la carpeta de Descargas.</p>
-      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>4 de septiembre de 2026</strong> (hace hoy).</p></div>
+      <div id="estado-backup" style="margin-bottom:14px;"><p class="helptext" style="color:#2E7D4F;">✓ Última copia de seguridad: <strong>12 de septiembre de 2026</strong> (hace hoy).</p></div>
       <div class="btn-row">
         <button class="btn btn-negro" onclick="exportarBackup()">⬇ Descargar copia de seguridad ahora</button>
         <label class="btn" style="cursor:pointer;">⬆ Restaurar copia
@@ -1042,6 +1042,21 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <p class="helptext" style="margin-top:0;">Saldo por cobrar (sobre el neto): <strong id="cobro-saldo"></strong></p>
     <div class="field" style="margin:14px 0;"><label>Valor realmente recibido</label><input type="number" id="cobro-monto" step="1000"></div>
     <div class="btn-row"><button class="btn btn-verde" onclick="registrarCobro()">+ Registrar cobro</button></div>
+  </div>
+</div>
+
+<div id="modal-pago-compra" class="modal-overlay">
+  <div class="modal-box" style="max-width:480px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">Registrar pago a proveedor</h2>
+      <button class="btn btn-sm" onclick="cerrarPagoCompra()">✕ Cerrar</button>
+    </div>
+    <p class="helptext" style="margin-top:0;">Orden: <strong id="pago-compra-codigo"></strong></p>
+    <p class="helptext" style="margin-top:0;" id="pago-compra-detalle"></p>
+    <p class="helptext" id="pago-compra-desglose" style="margin:8px 0 14px;padding:10px 12px;background:#F4F5FA;border-radius:6px;"></p>
+    <div class="field" style="margin:14px 0;"><label>Valor a pagar ahora</label><input type="number" id="pago-compra-monto" step="1000"></div>
+    <p class="helptext" style="margin-top:0;">No tiene que ser el saldo completo — si vas a ir abonando este crédito por partes, escribe solo lo que estás pagando ahora. El saldo pendiente se recalcula solo con la suma de todos los pagos.</p>
+    <div class="btn-row"><button class="btn btn-verde" onclick="registrarPagoCompra()">+ Registrar pago</button></div>
   </div>
 </div>
 
@@ -2137,7 +2152,7 @@ function _armarCuentaCobro(datos, items){
   const neto = base - totalRetenciones;
   const cc = Object.assign({
     codigo, fecha: new Date().toISOString().slice(0,10),
-    items: items.map(it=>({detalle:it.detalle, subtotal:it.subtotal||0})),
+    items: items.map(it=>({categoria:it.categoria||'', detalle:it.detalle, cantidadTexto:it.cantidadTexto||'', precioUnitario:it.precioUnitario, subtotal:it.subtotal||0})),
     valorBruto: base, retenciones, totalRetenciones, neto
   }, datos);
   state.cuentasCobro.unshift(cc);
@@ -2254,9 +2269,18 @@ function imprimirCuentaCobro(cc){
       <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px;">
         <thead><tr style="background:#33468F;color:#fff;">
           <th style="border:1px solid #33468F;padding:8px;text-align:left;">Ítem</th>
-          <th style="border:1px solid #33468F;padding:8px;text-align:right;">Valor</th>
+          <th style="border:1px solid #33468F;padding:8px;text-align:left;">Descripción</th>
+          <th style="border:1px solid #33468F;padding:8px;text-align:right;">Cant. / Área</th>
+          <th style="border:1px solid #33468F;padding:8px;text-align:right;">Valor x m² / unidad</th>
+          <th style="border:1px solid #33468F;padding:8px;text-align:right;">Valor total</th>
         </tr></thead>
-        <tbody>${cc.items.map(it=>`<tr><td style="border:1px solid #ccc;padding:8px;">${it.detalle}</td><td style="border:1px solid #ccc;padding:8px;text-align:right;">${moneda(it.subtotal)}</td></tr>`).join('')}</tbody>
+        <tbody>${cc.items.map((it,i)=>`<tr>
+          <td style="border:1px solid #ccc;padding:8px;">${i+1}</td>
+          <td style="border:1px solid #ccc;padding:8px;">${it.detalle}</td>
+          <td style="border:1px solid #ccc;padding:8px;text-align:right;">${it.cantidadTexto||'—'}</td>
+          <td style="border:1px solid #ccc;padding:8px;text-align:right;">${it.precioUnitario!==undefined? moneda(it.precioUnitario) : '—'}</td>
+          <td style="border:1px solid #ccc;padding:8px;text-align:right;">${moneda(it.subtotal)}</td>
+        </tr>`).join('')}</tbody>
       </table>` : ''}
       <div style="display:flex;justify-content:flex-end;margin-bottom:24px;">
         <table style="font-size:13px;width:300px;">
@@ -3336,9 +3360,12 @@ function registrarCarritoOC(){
       detalleCompra: it.detalleCompra
     };
     state.compras.unshift(compra);
+    // El kárdex se valora incluyendo el IVA cuando la compra lo tuvo — KHLEE no es responsable de
+    // IVA, así que ese IVA pagado es un costo real que no se puede descontar de ningún lado; si
+    // la compra no llevó IVA (ivaValor=0), el costo del kárdex queda igual que antes.
     state.movimientos.unshift({
       fecha, insumoId: it.insumoId, insumoNombre: it.insumoNombre, unidad: it.unidad,
-      tipo:'entrada', cantidad: it.cantidad, precioUnit: it.precioUnit, referencia: codigoOC,
+      tipo:'entrada', cantidad: it.cantidad, precioUnit: total/it.cantidad, referencia: codigoOC,
       nota:'Compra'+(proveedor?' · '+proveedor:'')+' ('+it.detalleCompra+')'
     });
   });
@@ -3450,10 +3477,12 @@ function registrarCompra(){
       detalleCompra: r.equivaleTxt
     };
     state.compras.unshift(compra);
-    // el kárdex se valora sin IVA (el costo del inventario no incluye el IVA pagado)
+    // El kárdex se valora incluyendo el IVA cuando la compra lo tuvo — KHLEE no es responsable de
+    // IVA, así que ese IVA pagado es un costo real que no se puede descontar de ningún lado; si
+    // la compra no llevó IVA (ivaValor=0), el costo del kárdex queda igual que antes.
     state.movimientos.unshift({
       fecha, insumoId: insumo.id, insumoNombre: insumo.nombre, unidad: r.unidadKardex,
-      tipo:'entrada', cantidad: r.cantidadKardex, precioUnit: r.costoUnit, referencia: codigoOC, nota:'Compra'+(proveedor?' · '+proveedor:'')+' ('+r.equivaleTxt+')'
+      tipo:'entrada', cantidad: r.cantidadKardex, precioUnit: (r.total+ivaValor)/r.cantidadKardex, referencia: codigoOC, nota:'Compra'+(proveedor?' · '+proveedor:'')+' ('+r.equivaleTxt+')'
     });
     document.getElementById('oc-cantidad').value='';
     document.getElementById('oc-precio-unit').value='';
@@ -3575,7 +3604,7 @@ function renderCompras(){
         rows += `<td rowspan="${grupo.length}">${c.proveedor||''}</td>`;
         rows += `<td rowspan="${grupo.length}">${fp}${(c.anticipo? ' · anticipo '+moneda(c.anticipo):'')}<br>${pagoTag}</td>`;
         rows += `<td rowspan="${grupo.length}" class="num">${moneda(totalGrupo)}${ivaGrupo>0? '<br><small style="color:#6B6A63;">incl. IVA '+moneda(ivaGrupo)+'</small>':''}</td>`;
-        rows += `<td rowspan="${grupo.length}">${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor(\''+c._origen+'\',\''+c.codigo+'\')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${!todasPagadas? '<button class="btn btn-sm btn-verde" onclick="marcarCompraPagadaGrupo(\''+c.codigo+'\')">Pagar</button>':''}</td>`;
+        rows += `<td rowspan="${grupo.length}">${c.proveedor? '<button class="btn btn-sm" onclick="generarOCProveedor(\''+c._origen+'\',\''+c.codigo+'\')" title="Exportar orden de compra a PDF">📄 PDF</button>':''}${!todasPagadas? '<button class="btn btn-sm btn-verde" onclick="abrirPagoCompra(\''+c.codigo+'\')">Pagar</button>':''}</td>`;
       }
       rows += `<td><button class="btn btn-sm" onclick="abrirEditarCompra(${origenArg})" title="Editar IVA/retención de este ítem">✏️</button> <button class="btn btn-sm" onclick="eliminarCompra(${origenArg})" title="Elimina solo este ítem">✕</button></td>`;
       rows += `</tr>`;
@@ -3625,31 +3654,54 @@ function marcarCompraPagada(origen, idx){
   if(typeof renderContabilidad==='function') renderContabilidad();
   mostrarToast('Compra '+c.codigo+' marcada como pagada.');
 }
-// Paga de una sola vez TODOS los insumos que comparten el mismo código de orden de compra
-// (una orden con varios insumos se paga como una sola factura, no una por una).
-// Busca tanto en compras normales (insumo/gasto) como en compras de oficina, para que
-// el botón "Pagar" de Contabilidad funcione sin importar de qué tipo sea la cuenta por pagar.
-function marcarCompraPagadaGrupo(codigo){
-  let items = state.compras.filter(c=>c.codigo===codigo && !c.pagada);
-  let esOficina = false;
-  if(items.length===0){
-    items = (state.comprasOficina||[]).filter(c=>c.codigo===codigo && !c.pagada);
-    esOficina = true;
-  }
+// Registrar pago de una compra/orden a proveedor — permite abonar CUALQUIER valor, no solo el
+// saldo completo, para poder ir pagando un crédito grande en varios meses. Cada pago se suma a
+// los que ya existan contra ese código (de contado al registrar, anticipo inicial, o abonos
+// anteriores) — el saldo pendiente siempre se recalcula desde la suma real de lo pagado.
+let pagoCompraActual = null;
+function abrirPagoCompra(codigo){
+  const items = cuentasPorPagar().filter(c=>c.codigo===codigo);
   if(items.length===0) return;
-  const saldoTotal = items.reduce((s,c)=>s+((c.total||0)-(c.anticipo||0)),0);
+  pagoCompraActual = codigo;
+  const saldoTotal = items.reduce((s,c)=>s+c.saldo,0);
+  const totalTotal = items.reduce((s,c)=>s+c.total,0);
+  const yaPagado = totalTotal - saldoTotal;
   const proveedor = items[0].proveedor;
-  const detalles = items.map(it=> it.tipo==='insumo'? it.insumoNombre : (it.categoriaNombre+(it.descripcion? ' — '+it.descripcion:''))).join(', ');
-  const mensaje = items.length>1
-    ? 'Marcar la orden '+codigo+' ('+items.length+' ítems) como pagada registra un egreso de caja de '+moneda(saldoTotal)+'. ¿Continuar?'
-    : 'Marcar la compra '+codigo+' como pagada registra un egreso de caja de '+moneda(saldoTotal)+'. ¿Continuar?';
-  if(!confirm(mensaje)) return;
-  items.forEach(c=>{ c.pagada = true; });
-  state.pagos.unshift({tipo:'egreso', fecha:new Date().toISOString().slice(0,10), concepto:'Pago orden '+codigo+(proveedor?' · '+proveedor:'')+' — '+detalles, referencia:codigo, monto:saldoTotal});
+  const detalles = items.map(c=>c.detalle).join(', ');
+  document.getElementById('pago-compra-codigo').textContent = codigo + (proveedor? ' · '+proveedor : '');
+  document.getElementById('pago-compra-detalle').textContent = detalles;
+  document.getElementById('pago-compra-desglose').innerHTML = 'Total de la orden: <strong>'+moneda(totalTotal)+'</strong> · Ya pagado: <strong>'+moneda(yaPagado)+'</strong> · Saldo pendiente: <strong>'+moneda(saldoTotal)+'</strong>';
+  document.getElementById('pago-compra-monto').value = saldoTotal>0? Math.round(saldoTotal) : '';
+  document.getElementById('modal-pago-compra').style.display='flex';
+}
+function cerrarPagoCompra(){
+  document.getElementById('modal-pago-compra').style.display='none';
+  pagoCompraActual = null;
+}
+function registrarPagoCompra(){
+  if(!pagoCompraActual) return;
+  const codigo = pagoCompraActual;
+  const monto = parseFloat(document.getElementById('pago-compra-monto').value)||0;
+  if(monto<=0){ mostrarToast('Ingresa el valor a pagar.'); return; }
+  const items = cuentasPorPagar().filter(c=>c.codigo===codigo);
+  if(items.length===0) return;
+  const saldoAntes = items.reduce((s,c)=>s+c.saldo,0);
+  const proveedor = items[0].proveedor;
+  const detalles = items.map(c=>c.detalle).join(', ');
+  const fecha = new Date().toISOString().slice(0,10);
+  const esAbono = monto < saldoAntes-0.5;
+  state.pagos.unshift({tipo:'egreso', fecha, concepto:(esAbono?'Abono a ':'Pago ')+codigo+(proveedor?' · '+proveedor:'')+' — '+detalles, referencia:codigo, monto});
+  // si con este pago quedó completamente saldado, se marca la compra/grupo como pagada
+  if(monto>=saldoAntes-0.5){
+    let lista = state.compras.filter(c=>c.codigo===codigo);
+    if(lista.length===0) lista = (state.comprasOficina||[]).filter(c=>c.codigo===codigo);
+    lista.forEach(c=>{ c.pagada = true; });
+  }
   guardarEstado();
+  cerrarPagoCompra();
   renderCompras();
   if(typeof renderContabilidad==='function') renderContabilidad();
-  mostrarToast('Orden '+codigo+' marcada como pagada.');
+  mostrarToast((esAbono?'Abono de ':'Pago de ')+moneda(monto)+' registrado para '+codigo+'.');
 }
 // Permite corregir el IVA y la retención de una compra YA registrada — por ejemplo, si se marcó
 // retención por error, o si una compra vieja necesita el ajuste que hoy sí se puede elegir.
@@ -3677,6 +3729,7 @@ function guardarEdicionCompra(){
   const c = lista[editarCompraIdx];
   if(!c) return;
   const base = c.baseGravable!==undefined? c.baseGravable : (c.total||0);
+  const totalAntes = c.total||0;
   const aplicaIva = document.getElementById('ecompra-aplica-iva').checked;
   const ivaPct = parseFloat(document.getElementById('ecompra-iva-pct').value)||0;
   const aplicaRetencion = document.getElementById('ecompra-aplica-retencion').checked;
@@ -3688,6 +3741,22 @@ function guardarEdicionCompra(){
   c.aplicaRetencion = aplicaRetencion;
   c.retencionPct = aplicaRetencion? retencionPct : 0;
   c.retencionValor = aplicaRetencion? base*retencionPct/100 : 0;
+  // Si el IVA corregido cambió el total y esta compra ya tenía algo pagado en Caja, ese pago
+  // debe ajustarse por la misma diferencia — si no, el saldo en caja se queda reflejando el
+  // valor viejo (sin o con el IVA equivocado), desfasado de lo que la compra dice ahora.
+  const delta = c.total - totalAntes;
+  if(Math.abs(delta)>0.01){
+    const pagoExistente = state.pagos.find(p=>p.tipo==='egreso' && p.referencia===c.codigo);
+    if(pagoExistente){
+      pagoExistente.monto = Math.max(0, pagoExistente.monto+delta);
+    }
+  }
+  // si es un insumo, el kárdex también debe reflejar la corrección del IVA (KHLEE no es
+  // responsable de IVA, así que el IVA pagado sí es parte del costo real del material)
+  if(c.tipo==='insumo' && c.cantidad>0){
+    const mov = state.movimientos.find(m=>m.referencia===c.codigo && m.tipo==='entrada' && m.insumoId===c.insumoId);
+    if(mov) mov.precioUnit = c.total/c.cantidad;
+  }
   guardarEstado();
   cerrarEditarCompra();
   renderCompras();
@@ -3745,28 +3814,22 @@ function registrarAjusteInventario(){
   renderInventario();
   mostrarToast('Ajuste aplicado a '+c.ins.nombre+': '+(c.diferencia>0?'+':'')+numFmt(c.diferencia,2)+' '+c.ins.unidad+'.');
 }
-// Cuando se elimina una compra que YA estaba pagada (de contado al registrarla, con anticipo, o
-// marcada como pagada después), el pago correspondiente en Caja debe revertirse también — si no,
-// queda como una salida de dinero "fantasma" que ya no respalda ningún material ni inventario real.
-// Reduce (o elimina si llega a $0) los pagos de egreso ligados al código de esta compra, en
-// proporción al valor de ESTE ítem específico (una orden puede tener varios ítems compartiendo
-// el mismo pago agrupado).
+// Cuando se elimina una compra que YA tenía algún pago registrado contra su código (de contado
+// al registrarla, con anticipo, o con abonos posteriores), ese pago debe revertirse también en
+// Caja — si no, queda como una salida de dinero "fantasma" que ya no respalda ningún material ni
+// inventario real. Se revierte en PROPORCIÓN al valor de ESTE ítem específico dentro de todo lo
+// que se ha pagado para su código de OC (una orden puede tener varios ítems compartiendo el mismo
+// pago, y puede tener varios abonos parciales acumulados, no solo uno).
 function _revertirPagoDeCompra(c){
-  let restante = 0;
-  let filtroConcepto = null;
-  if(c.pagada){
-    restante = c.total||0;
-  }else if(c.anticipo>0){
-    restante = c.anticipo;
-    filtroConcepto = /anticipo/i; // el anticipo es un pago aparte del de contado, no mezclar
-  }else{
-    return; // nunca se pagó nada de este ítem — no hay ningún egreso que revertir
-  }
+  const grupo = (c.tipo==='oficina'? (state.comprasOficina||[]) : state.compras).filter(x=>x.codigo===c.codigo);
+  const totalGrupo = grupo.reduce((s,x)=>s+(x.total||0),0);
+  const pagadoGrupo = state.pagos.filter(p=>p.tipo==='egreso' && p.referencia===c.codigo).reduce((s,p)=>s+p.monto,0);
+  if(pagadoGrupo<=0 || totalGrupo<=0) return; // nunca se pagó nada de este código — no hay nada que revertir
+  const proporcion = (c.total||0) / totalGrupo;
+  let restante = pagadoGrupo * proporcion;
   for(let i=state.pagos.length-1; i>=0 && restante>0.01; i--){
     const p = state.pagos[i];
     if(p.tipo!=='egreso' || p.referencia!==c.codigo) continue;
-    if(filtroConcepto && !filtroConcepto.test(p.concepto||'')) continue;
-    if(!filtroConcepto && /anticipo/i.test(p.concepto||'')) continue; // no tocar el pago de anticipo al revertir uno de contado
     if(p.monto<=restante+0.01){
       restante -= p.monto;
       state.pagos.splice(i,1);
@@ -5174,17 +5237,27 @@ function cuentasPorCobrar(){
   });
 }
 // --- Cuentas por pagar: compras no pagadas (insumos, gastos y oficina) ---
+// Cuentas por pagar: el saldo de cada ítem se calcula sumando TODOS los pagos de Caja ya
+// registrados contra su código de OC (de contado al registrar, anticipo, o abonos posteriores) —
+// una sola fuente de verdad, en vez de depender de un "pagada" fijo todo-o-nada. Esto permite ir
+// abonando un crédito mes a mes sin tener que pagarlo completo de una sola vez.
 function cuentasPorPagar(){
-  const normales = state.compras.filter(c=>!c.pagada).map(c=>{
-    const saldo = (c.total||0) - (c.anticipo||0);
-    const detalle = c.tipo==='insumo'? c.insumoNombre : c.categoriaNombre;
-    return {codigo:c.codigo, proveedor:c.proveedor||'', detalle, formaPago:c.formaPago||'Contado', vencimiento:c.vencimiento||'', total:c.total||0, anticipo:c.anticipo||0, saldo, fecha:c.fecha};
+  const pagadoPorCodigo = {};
+  state.pagos.forEach(p=>{
+    if(p.tipo==='egreso' && p.referencia) pagadoPorCodigo[p.referencia] = (pagadoPorCodigo[p.referencia]||0) + p.monto;
   });
-  const oficina = (state.comprasOficina||[]).filter(c=>!c.pagada).map(c=>{
-    const saldo = (c.total||0) - (c.anticipo||0);
-    return {codigo:c.codigo, proveedor:c.proveedor||'', detalle:'Oficina · '+c.categoriaNombre, formaPago:c.formaPago||'Contado', vencimiento:c.vencimiento||'', total:c.total||0, anticipo:c.anticipo||0, saldo, fecha:c.fecha};
-  });
-  return normales.concat(oficina);
+  function items(lista, esOficina){
+    return lista.map(c=>{
+      const totalGrupo = lista.filter(x=>x.codigo===c.codigo).reduce((s,x)=>s+(x.total||0),0);
+      const pagadoGrupo = pagadoPorCodigo[c.codigo]||0;
+      const proporcion = totalGrupo>0? (c.total||0)/totalGrupo : 0;
+      const pagadoItem = pagadoGrupo*proporcion;
+      const saldo = (c.total||0) - pagadoItem;
+      const detalle = c.tipo==='insumo'? c.insumoNombre : (esOficina? 'Oficina · '+c.categoriaNombre : c.categoriaNombre);
+      return {codigo:c.codigo, proveedor:c.proveedor||'', detalle, formaPago:c.formaPago||'Contado', vencimiento:c.vencimiento||'', total:c.total||0, pagado:pagadoItem, saldo, fecha:c.fecha};
+    }).filter(x=>x.saldo>0.5); // ya saldado por completo no aparece más
+  }
+  return items(state.compras, false).concat(items(state.comprasOficina||[], true));
 }
 // --- Saldo de caja ---
 function saldoCaja(){
@@ -5547,7 +5620,7 @@ function renderContabilidad(){
             filasCxp += `<td rowspan="${grupo.length}">${c.formaPago}</td>`;
             filasCxp += `<td rowspan="${grupo.length}">${c.vencimiento||'—'}</td>`;
             filasCxp += `<td rowspan="${grupo.length}" class="num" style="font-weight:700;color:#A8611F;">${moneda(saldoGrupo)}</td>`;
-            filasCxp += `<td rowspan="${grupo.length}"><button class="btn btn-sm btn-verde" onclick="marcarCompraPagadaPorCodigo('${c.codigo}')">Pagar ${esGrupo? 'toda la orden':''}</button></td>`;
+            filasCxp += `<td rowspan="${grupo.length}"><button class="btn btn-sm btn-verde" onclick="abrirPagoCompra('${c.codigo}')">Registrar pago</button></td>`;
           }
           filasCxp += `</tr>`;
         });
@@ -5718,10 +5791,6 @@ function calcularReparto(){
     <p class="helptext" style="margin-top:8px;">Los socios reciben el ${numFmt(100-empresaPct,1)}% restante (${moneda(paraSocios)}) repartido según sus porcentajes. Este es un control de referencia; los movimientos reales de dinero regístralos en Caja.</p>`;
 }
 
-function marcarCompraPagadaPorCodigo(codigo){
-  marcarCompraPagadaGrupo(codigo);
-}
-
 function exportarContabilidadExcel(){
   if(typeof XLSX==='undefined'){ mostrarToast('No se pudo cargar el generador de Excel.'); return; }
   const pyg = ordenarMeses(calcularPyG(),'mes');
@@ -5890,8 +5959,8 @@ function exportarContabilidadExcel(){
   XLSX.utils.book_append_sheet(wb, wsRetenciones, 'Retenciones');
 
   // ---------- Hoja CUENTAS POR PAGAR ----------
-  const cxpAoa = [['OC','Proveedor','Detalle','Forma pago','Vence','Total','Anticipo','Saldo por pagar']];
-  cxp.forEach(c=>cxpAoa.push([c.codigo, c.proveedor||'', c.detalle||'', c.formaPago||'', c.vencimiento||'', c.total, c.anticipo, c.saldo]));
+  const cxpAoa = [['OC','Proveedor','Detalle','Forma pago','Vence','Total','Pagado','Saldo por pagar']];
+  cxp.forEach(c=>cxpAoa.push([c.codigo, c.proveedor||'', c.detalle||'', c.formaPago||'', c.vencimiento||'', c.total, c.pagado, c.saldo]));
   cxpAoa.push(['','','','','TOTAL POR PAGAR','','',cxp.reduce((s,c)=>s+c.saldo,0)]);
   const wsCxp = XLSX.utils.aoa_to_sheet(cxpAoa);
   wsCxp['!cols'] = [{wch:15},{wch:22},{wch:22},{wch:12},{wch:13},{wch:15},{wch:15},{wch:16}];
