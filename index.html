@@ -1522,6 +1522,7 @@ async function sincronizarConRemotoAlIniciar(){
   if(!APPS_SCRIPT_URL) return;
   try{
     const remoto = await _cargarEstadoRemotoJSONP();
+    _remotoUltimoIntentoOk = true; // la lectura respondió: la conexión sí funciona
     const puntajeRemoto = _puntajeRiqueza(remoto);
     const puntajeLocal = _puntajeRiqueza(state);
     const bannerRemoto = document.getElementById('banner-remoto-fallido');
@@ -1541,6 +1542,7 @@ async function sincronizarConRemotoAlIniciar(){
     }
   }catch(e){
     console.error('No se pudo sincronizar con el backend remoto al iniciar:', e);
+    _remotoUltimoIntentoOk = false; // BUG corregido: antes se quedaba en "verificando..." para siempre
     const bannerRemoto = document.getElementById('banner-remoto-fallido');
     if(bannerRemoto) bannerRemoto.style.display = 'block';
   }
