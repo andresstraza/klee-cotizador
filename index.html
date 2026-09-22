@@ -952,7 +952,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card" style="border:2px solid var(--negro);">
       <h2><span class="dot" style="background:var(--negro)"></span>💾 Copia de seguridad — muy importante</h2>
-      <p class="helptext">Toda la información de KHLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>en la memoria de este navegador</strong> (localStorage) y además se respalda automáticamente en tu Google Drive cada vez que guardas algo — así, aunque este navegador se llene, se borre, o cambies de computador, la información sigue seguro en un lugar aparte. Aun así, descarga de vez en cuando una copia a un lugar aparte (Google Drive, un USB o el correo) como respaldo extra.</p>
+      <p class="helptext">Toda la información de KHLEE (cotizaciones, órdenes, compras, inventario, contabilidad, configuración) vive <strong>únicamente en la memoria de este navegador</strong> (localStorage). No se guarda en internet ni en ningún servidor. Si subes el archivo a GitHub, ahí solo queda guardado el <strong>programa</strong> — tus datos del día a día siguen viviendo en el navegador donde lo uses, y cada navegador/computador tiene su propia copia independiente. <strong>Por eso, cada vez que alguien abre la herramienta, se descarga sola una copia de seguridad automática</strong> (verás un aviso abajo a la derecha). Aun así, mueve de vez en cuando esos archivos descargados a un lugar aparte como Google Drive, un USB o el correo — así nunca dependes de un solo navegador ni de la carpeta de Descargas.</p>
       <div id="estado-backup" style="margin-bottom:14px;"></div>
       <div class="btn-row">
         <button class="btn btn-negro" onclick="exportarBackup()">⬇ Descargar copia de seguridad ahora</button>
@@ -960,20 +960,6 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
           <input type="file" id="input-restaurar" accept=".json" style="display:none;" onchange="restaurarBackup(event)">
         </label>
       </div>
-    </div>
-
-    <div class="card" style="border:2px solid var(--negro);">
-      <h2><span class="dot" style="background:var(--negro)"></span>📦 Espacio de este navegador</h2>
-      <p class="helptext">El navegador tiene un límite de espacio (típicamente 5 MB) para guardar todos tus datos. Con el tiempo, entre más cotizaciones, órdenes y compras acumules, más se va llenando. Aquí puedes ver cuánto llevas usado, y mover a un archivo aparte (en tu Google Drive, no se borra) los registros más viejos para liberar espacio sin perder nada.</p>
-      <div id="espacio-usado-info" style="margin-bottom:14px;"></div>
-      <div class="btn-row" style="align-items:center;gap:10px;flex-wrap:wrap;">
-        <label class="helptext" style="margin:0;">Archivar todo lo anterior a:
-          <input type="date" id="archivar-fecha-corte" style="margin-left:6px;">
-        </label>
-        <button class="btn btn-negro" onclick="archivarDatosAntiguos()">📦 Archivar datos antiguos</button>
-        <button class="btn" onclick="verArchivosHistoricos()">📂 Ver archivos ya guardados</button>
-      </div>
-      <div id="archivos-historicos-lista" style="margin-top:12px;"></div>
     </div>
   </div>
 
@@ -1536,7 +1522,6 @@ async function sincronizarConRemotoAlIniciar(){
   if(!APPS_SCRIPT_URL) return;
   try{
     const remoto = await _cargarEstadoRemotoJSONP();
-    _remotoUltimoIntentoOk = true; // la lectura respondió: la conexión sí funciona
     const puntajeRemoto = _puntajeRiqueza(remoto);
     const puntajeLocal = _puntajeRiqueza(state);
     const bannerRemoto = document.getElementById('banner-remoto-fallido');
@@ -1556,169 +1541,8 @@ async function sincronizarConRemotoAlIniciar(){
     }
   }catch(e){
     console.error('No se pudo sincronizar con el backend remoto al iniciar:', e);
-    _remotoUltimoIntentoOk = false; // BUG corregido: antes se quedaba en "verificando..." para siempre
     const bannerRemoto = document.getElementById('banner-remoto-fallido');
     if(bannerRemoto) bannerRemoto.style.display = 'block';
-  }
-}
-
-/* ============ ESPACIO USADO Y ARCHIVADO DE DATOS ANTIGUOS ============ */
-// El navegador tiene un límite de espacio (típicamente 5 MB) para TODO lo que
-// guarda una página web. Esto muestra cuánto se lleva usado, y avisa solo si
-// se está acercando al límite — sin esperar a que el usuario entre a revisar.
-function _bytesUsadosLocalStorage(){
-  let bytes = 0;
-  for(let i=0;i<localStorage.length;i++){
-    const k = localStorage.key(i);
-    bytes += (k.length + (localStorage.getItem(k)||'').length) * 2;
-  }
-  return bytes;
-}
-function mostrarEspacioUsadoKhlee(){
-  const cont = document.getElementById('espacio-usado-info');
-  if(!cont) return;
-  const bytes = _bytesUsadosLocalStorage();
-  const mb = (bytes/1024/1024).toFixed(2);
-  const limite = 5; // MB — límite típico y conservador de la mayoría de navegadores
-  const pct = Math.min(100, Math.round((bytes/1024/1024/limite)*100));
-  const color = pct<60 ? '#2E7D4F' : (pct<80 ? '#A8611F' : '#B23B3B');
-  cont.innerHTML = `<p class="helptext">Usando aproximadamente <strong style="color:${color}">${mb} MB</strong> de un límite típico de ${limite} MB (${pct}%).</p>`+
-    (pct>=80 ? `<p class="helptext" style="color:#B23B3B;font-weight:700;">⚠ Espacio casi lleno — usa "Archivar datos antiguos" para liberar espacio antes de que se corten los guardados.</p>` : '');
-}
-// Aviso apenas se abre la herramienta, sin esperar a que alguien entre a Configuración.
-function _avisarSiEspacioCritico(){
-  try{
-    const bytes = _bytesUsadosLocalStorage();
-    const pct = Math.round((bytes/1024/1024/5)*100);
-    if(pct>=80) mostrarToast('⚠ El navegador está casi lleno ('+pct+'%). Ve a Configuración → Archivar datos antiguos.');
-  }catch(e){}
-}
-
-// Envía un bulto de datos viejos al backend como un archivo APARTE (no toca el
-// archivo principal). Devuelve true/false según si se pudo guardar.
-async function _subirArchivoHistoricoRemoto(nombre, datos){
-  if(!APPS_SCRIPT_URL) return false;
-  try{
-    const resp = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'text/plain;charset=utf-8'},
-      body: JSON.stringify({ _accionArchivo:'guardarArchivo', nombre, datos })
-    });
-    const data = await resp.json();
-    return !!(data && data.ok);
-  }catch(e){
-    console.error('No se pudo subir el archivo histórico:', e);
-    return false;
-  }
-}
-
-// Las colecciones que crecen con el tiempo (una fila por transacción) y que
-// tiene sentido archivar. Los catálogos (materiales, clientes, proveedores,
-// configuración) NUNCA se tocan — son livianos y no crecen sin límite.
-const _COLECCIONES_ARCHIVABLES = [
-  'cotizaciones','ordenes','compras','comprasOficina','consumos','manoObra',
-  'produccionOP','ingresos','pagos','movimientos','cuentasCobro','remisiones',
-  'activosFijos','costosProduccionOP','retencionesRecibidas'
-];
-
-async function archivarDatosAntiguos(){
-  const fechaCorte = document.getElementById('archivar-fecha-corte').value;
-  if(!fechaCorte){ mostrarToast('Elige primero una fecha de corte.'); return; }
-  if(!APPS_SCRIPT_URL){ mostrarToast('Necesitas la conexión a la nube activa para archivar (revisa Configuración).'); return; }
-  if(!confirm(`Se van a mover a un archivo aparte en tu Drive todos los registros con fecha anterior a ${fechaCorte}. No se borran — se pueden traer de vuelta cuando quieras. ¿Continuar?`)) return;
-
-  const bulto = {};
-  const restante = {};
-  let totalArchivados = 0;
-  _COLECCIONES_ARCHIVABLES.forEach(function(col){
-    const lista = state[col]||[];
-    const viejos = lista.filter(function(r){ return (r.fecha||'') && r.fecha < fechaCorte; });
-    const recientes = lista.filter(function(r){ return !((r.fecha||'') && r.fecha < fechaCorte); });
-    if(viejos.length){ bulto[col]=viejos; totalArchivados+=viejos.length; }
-    restante[col]=recientes;
-  });
-
-  if(!totalArchivados){ mostrarToast('No hay registros anteriores a esa fecha para archivar.'); return; }
-
-  mostrarToast('Archivando '+totalArchivados+' registro(s)...');
-  const nombreArchivo = 'archivo_hasta_'+fechaCorte;
-  const ok = await _subirArchivoHistoricoRemoto(nombreArchivo, bulto);
-  if(!ok){
-    alert('No se pudo guardar el archivo en la nube. No se quitó nada de aquí, para no arriesgar perder información. Revisa tu conexión e inténtalo de nuevo.');
-    return;
-  }
-
-  // Ya está seguro en la nube: ahora sí se quita de lo local
-  _COLECCIONES_ARCHIVABLES.forEach(function(col){ state[col]=restante[col]; });
-  guardarEstado();
-  poblarSelectsMaterial(); poblarSelectsCompra(); renderMateriales();
-  renderHistorial(); renderOrdenes(); renderCompras(); renderInventario();
-  renderContabilidad(); renderRentabilidad();
-  mostrarEspacioUsadoKhlee();
-  mostrarToast(totalArchivados+' registro(s) archivados — este navegador ya está más liviano ✓');
-}
-
-async function verArchivosHistoricos(){
-  if(!APPS_SCRIPT_URL){ mostrarToast('Necesitas la conexión a la nube activa.'); return; }
-  const cont = document.getElementById('archivos-historicos-lista');
-  cont.innerHTML = '<p class="helptext">Buscando archivos...</p>';
-  try{
-    const data = await new Promise((resolve,reject)=>{
-      const cb = '_khlee_list_'+Date.now();
-      const script = document.createElement('script');
-      window[cb] = (d)=>{ delete window[cb]; try{document.body.removeChild(script);}catch(e){} resolve(d); };
-      script.src = APPS_SCRIPT_URL+'?accion=listarArchivos&callback='+cb;
-      script.onerror = ()=>{ delete window[cb]; reject(new Error('No se pudo conectar')); };
-      document.body.appendChild(script);
-      setTimeout(()=>reject(new Error('Tardó demasiado')), 15000);
-    });
-    if(!(data && data.ok && Array.isArray(data.archivos)) || !data.archivos.length){
-      cont.innerHTML = '<p class="helptext">Todavía no hay archivos históricos guardados.</p>';
-      return;
-    }
-    cont.innerHTML = '<p class="helptext"><strong>Archivos guardados:</strong></p>'+
-      data.archivos.map(function(a){
-        return '<div class="btn-row" style="margin-top:6px;"><span class="helptext" style="margin:0;">'+a.nombre+'</span>'+
-          '<button class="btn" onclick="restaurarArchivoHistorico(\''+a.nombre+'\')">↑ Traer de vuelta</button></div>';
-      }).join('');
-  }catch(e){
-    cont.innerHTML = '<p class="helptext" style="color:#B23B3B;">No se pudo conectar con la nube para ver los archivos.</p>';
-  }
-}
-
-async function restaurarArchivoHistorico(nombre){
-  if(!confirm('Esto trae de vuelta los registros de "'+nombre+'" y los suma a lo que ya tienes aquí. ¿Continuar?')) return;
-  mostrarToast('Trayendo archivo...');
-  try{
-    const data = await new Promise((resolve,reject)=>{
-      const cb = '_khlee_read_'+Date.now();
-      const script = document.createElement('script');
-      window[cb] = (d)=>{ delete window[cb]; try{document.body.removeChild(script);}catch(e){} resolve(d); };
-      script.src = APPS_SCRIPT_URL+'?accion=leerArchivo&nombre='+encodeURIComponent(nombre)+'&callback='+cb;
-      script.onerror = ()=>{ delete window[cb]; reject(new Error('No se pudo conectar')); };
-      document.body.appendChild(script);
-      setTimeout(()=>reject(new Error('Tardó demasiado')), 20000);
-    });
-    if(!data || data.ok===false){ mostrarToast('No se pudo traer ese archivo.'); return; }
-    let total=0;
-    _COLECCIONES_ARCHIVABLES.forEach(function(col){
-      const traidos = data[col]||[];
-      if(traidos.length){
-        // Evita duplicar si algo ya se había restaurado antes: compara por código cuando existe
-        const yaExisten = new Set((state[col]||[]).map(function(r){ return r.codigo||JSON.stringify(r); }));
-        const nuevos = traidos.filter(function(r){ return !yaExisten.has(r.codigo||JSON.stringify(r)); });
-        state[col] = (state[col]||[]).concat(nuevos);
-        total += nuevos.length;
-      }
-    });
-    guardarEstado();
-    poblarSelectsMaterial(); poblarSelectsCompra(); renderMateriales();
-    renderHistorial(); renderOrdenes(); renderCompras(); renderInventario();
-    renderContabilidad(); renderRentabilidad();
-    mostrarEspacioUsadoKhlee();
-    mostrarToast(total+' registro(s) traídos de vuelta ✓');
-  }catch(e){
-    mostrarToast('No se pudo traer el archivo (revisa tu conexión).');
   }
 }
 
@@ -1802,7 +1626,7 @@ function activarTab(nombre){
   if(nombre==='inventario') renderInventario();
   if(nombre==='rentabilidad') renderRentabilidad();
   if(nombre==='contabilidad') renderContabilidad();
-  if(nombre==='config'){ renderConfig(); renderEstadoBackup(); mostrarEspacioUsadoKhlee(); }
+  if(nombre==='config'){ renderConfig(); renderEstadoBackup(); }
 }
 function initTabs(){
   document.querySelectorAll('.tab-btn').forEach(btn=>{
@@ -2627,6 +2451,11 @@ function imprimirCuentaCobro(cc){
       <div style="display:flex;height:6px;margin-bottom:18px;">
         <span style="flex:1;background:#2E7D4F;"></span><span style="flex:1;background:#C97B29;"></span><span style="flex:1;background:#E6B325;"></span><span style="flex:1;background:#33468F;"></span><span style="flex:1;background:#A8611F;"></span>
       </div>
+      ${(cc.codProyecto || cc.nomProyecto) ? `
+      <div style="background:#F4F5FA;border-left:5px solid #33468F;padding:12px 16px;margin-bottom:18px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:#33468F;font-weight:700;margin-bottom:4px;">Referencia del trabajo</div>
+        <div style="font-size:14px;font-weight:700;">${cc.codProyecto||''}${cc.codProyecto && cc.nomProyecto? ' — ' : ''}${cc.nomProyecto||''}</div>
+      </div>` : ''}
       <table style="width:100%;font-size:12px;margin-bottom:18px;">
         <tr><td style="width:50%;vertical-align:top;padding-right:12px;">
           <strong style="font-family:'Archivo Black',sans-serif;font-size:11px;text-transform:uppercase;">Cobra</strong><br>
@@ -6759,7 +6588,6 @@ function init(){
   renderRecordatorioBackupGlobal();
   autoBackupAlIngresar();
   sincronizarConRemotoAlIniciar();
-  _avisarSiEspacioCritico();
 }
 document.addEventListener('DOMContentLoaded', init);
 
