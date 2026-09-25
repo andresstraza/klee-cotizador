@@ -766,6 +766,12 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
 
     <div class="card">
+      <h2><span class="dot" style="background:var(--mostaza)"></span>💵 Flujo de caja — de dónde sale y entra la plata</h2>
+      <p class="helptext">Esto es efectivo real (lo que entra y sale de Caja), no costos repartidos por proyecto — para eso está Rentabilidad. Acumulado de todo el histórico.</p>
+      <div id="cont-flujo-caja"></div>
+    </div>
+
+    <div class="card">
       <h2><span class="dot" style="background:var(--verde)"></span>Estado de resultados (P&amp;G) por mes</h2>
       <p class="helptext">Ingresos = cobros reales. Costos por categoría: materiales/insumos consumidos, mano de obra, mantenimientos, transportes, servicios públicos, arriendo, oficina, depreciación de equipos y otros.</p>
       <div style="overflow-x:auto;"><div id="cont-pyg"></div></div>
@@ -5723,6 +5729,75 @@ function ordenarMeses(arr, campo){
   });
 }
 
+/* ============ DASHBOARD DE FLUJO DE CAJA (efectivo real, no costos por proyecto) ============ */
+// Determina a qué categoría(s) pertenece UNA compra puntual (insumo/gasto/oficina) — un gasto
+// con la categoría exacta "4x1000" se separa aparte, para poder seguirle la pista al 4x1000 que
+// ya se viene registrando manualmente como gasto.
+function _categoriaDeCompra(c){
+  if(c._esOficina) return 'Compra de oficina/equipos';
+  if(c.tipo==='insumo') return 'Compra de materiales';
+  if((c.categoriaNombre||'').trim().toLowerCase()==='4x1000') return '4x1000';
+  return 'Gastos generales';
+}
+// Categoriza UN egreso real de Caja. Los abonos/pagos posteriores a un crédito (vía "Registrar
+// pago" en Cuentas por Pagar) siempre van aparte como "Pago de créditos a proveedores" — sin
+// importar para qué era la compra original — porque lo que se quiere ver ahí es cuánta plata
+// está saliendo específicamente a pagar deudas ya adquiridas, no a comprar de contado hoy.
+// Si un mismo egreso agrupado mezcla varias categorías (ej. una OC con insumos Y un gasto juntos),
+// se reparte proporcionalmente entre ellas según el valor real de cada una — nunca se adivina.
+function _categorizarEgreso(p){
+  if(/^(Abono a |Pago )KHLEE-/.test(p.concepto||'')){
+    return [{categoria:'Pago de créditos a proveedores', monto:p.monto}];
+  }
+  const compras = state.compras.filter(c=>c.codigo===p.referencia).map(c=>Object.assign({},c,{_esOficina:false}));
+  const oficina = (state.comprasOficina||[]).filter(c=>c.codigo===p.referencia).map(c=>Object.assign({},c,{_esOficina:true}));
+  const grupo = compras.concat(oficina);
+  if(grupo.length===0) return [{categoria:'Otro', monto:p.monto}];
+  const totalGrupo = grupo.reduce((s,c)=>s+(c.total||0),0);
+  if(totalGrupo<=0) return [{categoria:'Otro', monto:p.monto}];
+  const porCategoria = {};
+  grupo.forEach(c=>{
+    const cat = _categoriaDeCompra(c);
+    porCategoria[cat] = (porCategoria[cat]||0) + (c.total||0);
+  });
+  return Object.keys(porCategoria).map(cat=>({categoria:cat, monto: p.monto*(porCategoria[cat]/totalGrupo)}));
+}
+function calcularDashboardCaja(){
+  const ingresos = state.pagos.filter(p=>p.tipo==='ingreso');
+  const egresos = state.pagos.filter(p=>p.tipo==='egreso');
+  const totalIngresos = ingresos.reduce((s,p)=>s+p.monto,0);
+  const porCategoria = {};
+  egresos.forEach(p=>{
+    _categorizarEgreso(p).forEach(({categoria,monto})=>{ porCategoria[categoria] = (porCategoria[categoria]||0)+monto; });
+  });
+  const totalEgresos = Object.values(porCategoria).reduce((s,v)=>s+v,0);
+  return {totalIngresos, totalEgresos, saldo: totalIngresos-totalEgresos, porCategoria};
+}
+function renderFlujoCaja(){
+  const cont = document.getElementById('cont-flujo-caja');
+  if(!cont) return;
+  const d = calcularDashboardCaja();
+  // orden fijo pedido: créditos, 4x1000, materiales, luego el resto — el 4x1000 siempre se
+  // muestra aunque esté en $0, para confirmar de un vistazo que no falta nada por registrar
+  const ordenCategorias = ['Pago de créditos a proveedores','4x1000','Compra de materiales','Gastos generales','Compra de oficina/equipos','Otro'];
+  const categorias = ordenCategorias.filter(c=>c!=='Otro' || (d.porCategoria['Otro']||0)>0.5);
+  const filas = categorias.map(cat=>{
+    const monto = d.porCategoria[cat]||0;
+    const pct = d.totalEgresos>0? (monto/d.totalEgresos*100) : 0;
+    return `<tr><td>${cat}</td><td class="num">${moneda(monto)}</td><td class="num" style="color:var(--gris-texto);">${numFmt(pct,1)}%</td></tr>`;
+  }).join('');
+  cont.innerHTML = `
+    <div class="grid grid-3" style="gap:12px;margin-bottom:16px;">
+      <div class="kpi"><div class="kpi-label">Total ingresos (cobros)</div><div class="kpi-val" style="color:#2E7D4F;">${moneda(d.totalIngresos)}</div></div>
+      <div class="kpi"><div class="kpi-label">Total egresos</div><div class="kpi-val" style="color:#B23B3B;">${moneda(d.totalEgresos)}</div></div>
+      <div class="kpi"><div class="kpi-label">Saldo neto</div><div class="kpi-val" style="color:${d.saldo<0?'#B23B3B':'#2E7D4F'};">${moneda(d.saldo)}</div></div>
+    </div>
+    <table>
+      <thead><tr><th>Salidas de dinero por categoría</th><th class="num">Valor</th><th class="num">% del total</th></tr></thead>
+      <tbody>${filas}</tbody>
+      <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>Total egresos</td><td class="num">${moneda(d.totalEgresos)}</td><td class="num">100%</td></tr></tfoot>
+    </table>`;
+}
 function renderContabilidad(){
   renderPresupuestoReal();
   renderSociosConfig();
@@ -5744,6 +5819,8 @@ function renderContabilidad(){
       <div class="kpi"><div class="kpi-label">Por cobrar</div><div class="kpi-val" style="color:#33468F">${moneda(totalCxc)}</div></div>
       <div class="kpi"><div class="kpi-label">Por pagar</div><div class="kpi-val" style="color:#A8611F">${moneda(totalCxp)}</div></div>
     </div>`;
+
+  renderFlujoCaja();
 
   // --- P&G por mes ---
   const pyg = ordenarMeses(calcularPyG(), 'mes');
