@@ -801,12 +801,48 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--marron)"></span>Caja</h2>
       <div class="grid grid-4" style="margin-bottom:14px;align-items:end;">
-        <div class="field"><label>Tipo</label><select id="caja-tipo"><option value="ingreso">Entrada</option><option value="egreso">Salida</option></select></div>
+        <div class="field"><label>Tipo</label><select id="caja-tipo" onchange="alCambiarTipoMovimientoCaja()"><option value="ingreso">Entrada</option><option value="egreso">Salida</option></select></div>
         <div class="field" style="grid-column:span 2;"><label>Concepto</label><input type="text" id="caja-concepto" placeholder="Ej: Aporte socio, retiro, ajuste"></div>
         <div class="field"><label>Valor</label><input type="number" id="caja-monto" step="1000"></div>
       </div>
+      <div class="grid grid-4" id="caja-categoria-wrap" style="display:none;margin-bottom:14px;align-items:end;">
+        <div class="field" style="grid-column:span 4;">
+          <label>Categoría (para que salga bien en el Flujo de caja)</label>
+          <select id="caja-categoria">
+            <option value="Compra de materiales">Compra de materiales</option>
+            <option value="Pago de créditos a proveedores">Pago de créditos a proveedores</option>
+            <option value="4x1000">4x1000</option>
+            <option value="Gastos generales">Gastos generales</option>
+            <option value="Compra de oficina/equipos">Compra de oficina/equipos</option>
+            <option value="Deuda de equipos">Deuda de equipos (crédito/compra de un equipo — se excluye del flujo operativo)</option>
+          </select>
+        </div>
+      </div>
       <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-marron" onclick="registrarMovimientoCaja()">+ Registrar movimiento manual</button></div>
       <div id="cont-caja"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot" style="background:var(--marron)"></span>🏦 Financiación inicial — préstamos y aportes de capital</h2>
+      <p class="helptext">Base del negocio, aparte de compras/proveedores. La diferencia entre las dos es si <strong>se devuelve o no</strong> — no si tiene intereses: un <strong>préstamo</strong> se devuelve (con cuotas/abonos), tenga o no intereses — ej. un crédito bancario, o un préstamo de un socio sin intereses. Un <strong>aporte de capital</strong> es plata que un socio/inversionista pone y NO se le devuelve como deuda. Ambos, al registrarse, quedan como ingreso histórico en Caja — para que el saldo refleje la realidad completa del negocio desde el inicio.</p>
+
+      <h3 style="margin-top:18px;font-size:13px;text-transform:uppercase;color:var(--marron);">Préstamos (deuda)</h3>
+      <div class="grid grid-4" style="align-items:end;margin-bottom:10px;">
+        <div class="field" style="grid-column:span 2;"><label>Nombre / quién lo tomó</label><input type="text" id="prestamo-nombre" placeholder="Ej: Crédito bancario Angie Robles"></div>
+        <div class="field"><label>Monto original</label><input type="number" id="prestamo-monto" step="10000"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="prestamo-fecha"></div>
+      </div>
+      <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-marron" onclick="registrarPrestamo()">+ Registrar préstamo</button></div>
+      <div id="cont-prestamos"></div>
+
+      <h3 style="margin-top:22px;font-size:13px;text-transform:uppercase;color:var(--marron);">Aportes de capital (socios/inversionistas)</h3>
+      <div class="grid grid-3" style="align-items:end;margin-bottom:10px;">
+        <div class="field"><label>Nombre del socio/inversionista</label><input type="text" id="aporte-nombre" placeholder="Ej: Henry Medina"></div>
+        <div class="field"><label>Monto aportado</label><input type="number" id="aporte-monto" step="10000"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="aporte-fecha"></div>
+      </div>
+      <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-marron" onclick="registrarAporteCapital()">+ Registrar aporte de capital</button></div>
+      <div id="cont-aportes"></div>
     </div>
 
     <div class="card">
@@ -1085,6 +1121,20 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
   </div>
 </div>
 
+<div id="modal-abono-prestamo" class="modal-overlay">
+  <div class="modal-box" style="max-width:480px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0;font-family:var(--font-display);font-size:15px;text-transform:uppercase;">Registrar cuota / abono a préstamo</h2>
+      <button class="btn btn-sm" onclick="cerrarAbonoPrestamo()">✕ Cerrar</button>
+    </div>
+    <p class="helptext" style="margin-top:0;">Préstamo: <strong id="abono-prestamo-nombre"></strong></p>
+    <p class="helptext" id="abono-prestamo-desglose" style="margin:8px 0 14px;padding:10px 12px;background:#F4F5FA;border-radius:6px;"></p>
+    <div class="field" style="margin:14px 0;"><label>Valor de esta cuota/abono</label><input type="number" id="abono-prestamo-monto" step="1000"></div>
+    <p class="helptext" style="margin-top:0;">No tiene que ser el saldo completo — puede ir registrando cada cuota mensual por separado. Esto sale de Caja pero NO cuenta como gasto operativo (es pago de deuda financiera).</p>
+    <div class="btn-row"><button class="btn btn-verde" onclick="registrarAbonoPrestamo()">+ Registrar cuota/abono</button></div>
+  </div>
+</div>
+
 <div id="modal-remision" class="modal-overlay">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
@@ -1344,6 +1394,11 @@ function estadoPorDefecto(){
     comprasOficina:[],
     proveedores:[],
     clientes:[],
+    // Financiación de base del negocio — separado de compras/proveedores porque es capital
+    // estructural, no gasto operativo. Préstamos = deuda real (se devuelve, con cuotas/abonos).
+    // Aportes de capital = plata de socios/inversionistas que NO se devuelve como deuda.
+    prestamos:[],
+    aportesCapital:[],
     movimientos:[],
     consumos:[],
     manoObra:[],
@@ -1393,6 +1448,8 @@ function fusionarConEstadoBase(parsed){
     comprasOficina: parsed.comprasOficina || [],
     proveedores: parsed.proveedores || [],
     clientes: parsed.clientes || [],
+    prestamos: parsed.prestamos || [],
+    aportesCapital: parsed.aportesCapital || [],
     movimientos: parsed.movimientos || [],
     consumos: parsed.consumos || [],
     manoObra: parsed.manoObra || [],
@@ -5555,17 +5612,163 @@ function registrarCobro(){
 }
 
 // --- Registrar movimiento manual de caja ---
+function alCambiarTipoMovimientoCaja(){
+  const wrap = document.getElementById('caja-categoria-wrap');
+  if(wrap) wrap.style.display = document.getElementById('caja-tipo').value==='egreso'? 'grid' : 'none';
+}
 function registrarMovimientoCaja(){
   const tipo = document.getElementById('caja-tipo').value;
   const concepto = document.getElementById('caja-concepto').value.trim();
   const monto = parseFloat(document.getElementById('caja-monto').value)||0;
   if(!concepto || monto<=0){ mostrarToast('Escribe el concepto y el valor.'); return; }
-  state.pagos.unshift({tipo, fecha:new Date().toISOString().slice(0,10), concepto, referencia:'manual', monto});
+  const mov = {tipo, fecha:new Date().toISOString().slice(0,10), concepto, referencia:'manual', monto};
+  if(tipo==='egreso'){ mov.categoria = document.getElementById('caja-categoria').value; }
+  state.pagos.unshift(mov);
   document.getElementById('caja-concepto').value='';
   document.getElementById('caja-monto').value='';
   guardarEstado();
   renderContabilidad();
   mostrarToast('Movimiento de caja registrado.');
+}
+
+/* ============ FINANCIACIÓN INICIAL: PRÉSTAMOS (deuda) Y APORTES DE CAPITAL (no se devuelven) ==== */
+function registrarPrestamo(){
+  const nombre = document.getElementById('prestamo-nombre').value.trim();
+  const monto = parseFloat(document.getElementById('prestamo-monto').value)||0;
+  const fecha = document.getElementById('prestamo-fecha').value || new Date().toISOString().slice(0,10);
+  if(!nombre){ mostrarToast('Escribe el nombre del préstamo.'); return; }
+  if(monto<=0){ mostrarToast('Ingresa el monto original del préstamo.'); return; }
+  const id = 'prest'+Date.now();
+  state.prestamos.unshift({id, nombre, montoOriginal:monto, fecha});
+  // el préstamo entra como ingreso histórico — para que el saldo de Caja refleje la realidad
+  // completa del negocio, no solo lo que se ha registrado desde que se usa esta herramienta
+  state.pagos.unshift({tipo:'ingreso', fecha, concepto:'Préstamo — '+nombre, referencia:'prestamo:'+id, monto});
+  document.getElementById('prestamo-nombre').value='';
+  document.getElementById('prestamo-monto').value='';
+  document.getElementById('prestamo-fecha').value='';
+  guardarEstado();
+  renderContabilidad();
+  mostrarToast('Préstamo registrado, incluido como ingreso histórico en Caja.');
+}
+function registrarAporteCapital(){
+  const nombre = document.getElementById('aporte-nombre').value.trim();
+  const monto = parseFloat(document.getElementById('aporte-monto').value)||0;
+  const fecha = document.getElementById('aporte-fecha').value || new Date().toISOString().slice(0,10);
+  if(!nombre){ mostrarToast('Escribe el nombre del socio/inversionista.'); return; }
+  if(monto<=0){ mostrarToast('Ingresa el monto aportado.'); return; }
+  const id = 'aporte'+Date.now();
+  state.aportesCapital.unshift({id, nombre, monto, fecha});
+  state.pagos.unshift({tipo:'ingreso', fecha, concepto:'Aporte de capital — '+nombre, referencia:'aporte:'+id, monto});
+  document.getElementById('aporte-nombre').value='';
+  document.getElementById('aporte-monto').value='';
+  document.getElementById('aporte-fecha').value='';
+  guardarEstado();
+  renderContabilidad();
+  mostrarToast('Aporte de capital registrado, incluido como ingreso histórico en Caja.');
+}
+function _saldoPrestamo(id){
+  const p = state.prestamos.find(x=>x.id===id);
+  if(!p) return {montoOriginal:0, abonado:0, saldo:0};
+  const abonado = state.pagos.filter(x=>x.tipo==='egreso' && x.referencia==='prestamo:'+id).reduce((s,x)=>s+x.monto,0);
+  return {montoOriginal:p.montoOriginal, abonado, saldo:p.montoOriginal-abonado};
+}
+function renderPrestamos(){
+  const contP = document.getElementById('cont-prestamos');
+  if(contP){
+    if(state.prestamos.length===0){
+      contP.innerHTML = '<p class="helptext">Ningún préstamo registrado todavía.</p>';
+    }else{
+      contP.innerHTML = `<table>
+        <thead><tr><th>Préstamo</th><th>Fecha</th><th class="num">Monto original</th><th class="num">Abonado</th><th class="num">Saldo</th><th></th></tr></thead>
+        <tbody>${state.prestamos.map(p=>{
+          const s = _saldoPrestamo(p.id);
+          return `<tr>
+            <td>${p.nombre}</td><td>${p.fecha}</td>
+            <td class="num">${moneda(s.montoOriginal)}</td>
+            <td class="num">${moneda(s.abonado)}</td>
+            <td class="num" style="font-weight:700;${s.saldo<=0.5?'color:#2E7D4F;':''}">${s.saldo<=0.5?'Saldado':moneda(s.saldo)}</td>
+            <td style="white-space:nowrap;">${s.saldo>0.5?`<button class="btn btn-sm btn-verde" onclick="abrirAbonoPrestamo('${p.id}')">Registrar cuota</button>`:''} <button class="btn btn-sm" onclick="eliminarPrestamo('${p.id}')">✕</button></td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>`;
+    }
+  }
+  const contA = document.getElementById('cont-aportes');
+  if(contA){
+    if(state.aportesCapital.length===0){
+      contA.innerHTML = '<p class="helptext">Ningún aporte de capital registrado todavía.</p>';
+    }else{
+      contA.innerHTML = `<table>
+        <thead><tr><th>Socio/inversionista</th><th>Fecha</th><th class="num">Monto aportado</th><th></th></tr></thead>
+        <tbody>${state.aportesCapital.map(a=>`<tr>
+            <td>${a.nombre}</td><td>${a.fecha}</td><td class="num">${moneda(a.monto)}</td>
+            <td><button class="btn btn-sm" onclick="eliminarAporteCapital('${a.id}')">✕</button></td>
+          </tr>`).join('')}</tbody>
+      </table>`;
+    }
+  }
+}
+function eliminarPrestamo(id){
+  const p = state.prestamos.find(x=>x.id===id);
+  if(!p) return;
+  if(!confirm('¿Eliminar el préstamo "'+p.nombre+'"? Esto también revierte el ingreso histórico y cualquier cuota/abono ya registrada contra él.')) return;
+  state.pagos = state.pagos.filter(x=>x.referencia!=='prestamo:'+id);
+  state.prestamos = state.prestamos.filter(x=>x.id!==id);
+  guardarEstado();
+  renderContabilidad();
+  mostrarToast('Préstamo eliminado.');
+}
+function eliminarAporteCapital(id){
+  const a = state.aportesCapital.find(x=>x.id===id);
+  if(!a) return;
+  if(!confirm('¿Eliminar el aporte de capital de "'+a.nombre+'"? Esto también revierte el ingreso histórico asociado.')) return;
+  state.pagos = state.pagos.filter(x=>x.referencia!=='aporte:'+id);
+  state.aportesCapital = state.aportesCapital.filter(x=>x.id!==id);
+  guardarEstado();
+  renderContabilidad();
+  mostrarToast('Aporte de capital eliminado.');
+}
+let prestamoAbonoActual = null;
+function abrirAbonoPrestamo(id){
+  const p = state.prestamos.find(x=>x.id===id);
+  if(!p) return;
+  prestamoAbonoActual = id;
+  const s = _saldoPrestamo(id);
+  document.getElementById('abono-prestamo-nombre').textContent = p.nombre;
+  document.getElementById('abono-prestamo-desglose').innerHTML = 'Monto original: <strong>'+moneda(s.montoOriginal)+'</strong> · Ya abonado: <strong>'+moneda(s.abonado)+'</strong> · Saldo pendiente: <strong>'+moneda(s.saldo)+'</strong>';
+  document.getElementById('abono-prestamo-monto').value = s.saldo>0? Math.round(s.saldo) : '';
+  document.getElementById('modal-abono-prestamo').style.display='flex';
+}
+function cerrarAbonoPrestamo(){
+  document.getElementById('modal-abono-prestamo').style.display='none';
+  prestamoAbonoActual = null;
+}
+function registrarAbonoPrestamo(){
+  if(!prestamoAbonoActual) return;
+  const id = prestamoAbonoActual;
+  const p = state.prestamos.find(x=>x.id===id);
+  if(!p) return;
+  const monto = parseFloat(document.getElementById('abono-prestamo-monto').value)||0;
+  if(monto<=0){ mostrarToast('Ingresa el valor de la cuota/abono.'); return; }
+  const fecha = new Date().toISOString().slice(0,10);
+  state.pagos.unshift({tipo:'egreso', fecha, concepto:'Cuota/abono préstamo — '+p.nombre, referencia:'prestamo:'+id, monto});
+  guardarEstado();
+  cerrarAbonoPrestamo();
+  renderContabilidad();
+  mostrarToast('Cuota de '+moneda(monto)+' registrada para "'+p.nombre+'".');
+}
+// Permite vincular un movimiento manual de Caja YA registrado (ej. una cuota que se había anotado
+// antes de que existiera este módulo de préstamos) a un préstamo específico — así queda
+// correctamente excluido del flujo operativo, sin tener que borrarlo y volver a digitarlo.
+function reclasificarComoAbonoPrestamo(idxPago, prestamoId){
+  const p = state.pagos[idxPago];
+  const prest = state.prestamos.find(x=>x.id===prestamoId);
+  if(!p || !prest) return;
+  p.referencia = 'prestamo:'+prestamoId;
+  delete p.categoria;
+  guardarEstado();
+  renderContabilidad();
+  mostrarToast('Movimiento vinculado al préstamo "'+prest.nombre+'".');
 }
 
 // --- P&G: ingresos y costos por categoría, por mes y total ---
@@ -5745,40 +5948,58 @@ function _categoriaDeCompra(c){
   if((c.categoriaNombre||'').trim().toLowerCase()==='4x1000') return '4x1000';
   return 'Gastos generales';
 }
-// Categoriza UN egreso real de Caja — sea el pago de contado/anticipo al comprar, o un abono
-// posterior a un crédito ya adquirido. Si el grupo de compras detrás de este egreso mezcla varias
-// categorías (ej. insumos y un gasto en el mismo carrito), se reparte proporcionalmente entre
-// ellas según el valor real de cada una — nunca se adivina.
+// Categoriza UN egreso real de Caja. Orden de prioridad: (0) cuota/abono a un préstamo, siempre
+// aparte como deuda financiera; (1) categoría explícita, si el movimiento manual de Caja la trae
+// guardada; (2) el grupo de compras real detrás del código (contado/anticipo/abono), repartiendo
+// proporcionalmente si mezcla varias categorías; (3) como último recurso, palabras clave en el
+// concepto — para movimientos manuales viejos, de antes de que existiera el selector.
 function _categorizarEgreso(p){
+  if(/^prestamo:/.test(p.referencia||'')) return [{categoria:'Deuda financiera (préstamos)', monto:p.monto}];
+  if(p.categoria) return [{categoria:p.categoria, monto:p.monto}];
   const compras = state.compras.filter(c=>c.codigo===p.referencia).map(c=>Object.assign({},c,{_esOficina:false}));
   const oficina = (state.comprasOficina||[]).filter(c=>c.codigo===p.referencia).map(c=>Object.assign({},c,{_esOficina:true}));
   const grupo = compras.concat(oficina);
-  if(grupo.length===0) return [{categoria:'Otro', monto:p.monto}];
-  const totalGrupo = grupo.reduce((s,c)=>s+(c.total||0),0);
-  if(totalGrupo<=0) return [{categoria:'Otro', monto:p.monto}];
-  const esAbonoOPago = /^(Abono a |Pago )KHLEE-/.test(p.concepto||''); // pago posterior a un crédito, no de contado
-  const porCategoria = {};
-  grupo.forEach(c=>{
-    let cat;
-    if(_esEquipoOficina(c)) cat = 'Deuda de equipos';
-    else if(esAbonoOPago) cat = 'Pago de créditos a proveedores';
-    else cat = _categoriaDeCompra(c);
-    porCategoria[cat] = (porCategoria[cat]||0) + (c.total||0);
-  });
-  return Object.keys(porCategoria).map(cat=>({categoria:cat, monto: p.monto*(porCategoria[cat]/totalGrupo)}));
+  if(grupo.length>0){
+    const totalGrupo = grupo.reduce((s,c)=>s+(c.total||0),0);
+    if(totalGrupo>0){
+      const esAbonoOPago = /^(Abono a |Pago )KHLEE-/.test(p.concepto||''); // pago posterior a un crédito, no de contado
+      const porCategoria = {};
+      grupo.forEach(c=>{
+        let cat;
+        if(_esEquipoOficina(c)) cat = 'Deuda de equipos';
+        else if(esAbonoOPago) cat = 'Pago de créditos a proveedores';
+        else cat = _categoriaDeCompra(c);
+        porCategoria[cat] = (porCategoria[cat]||0) + (c.total||0);
+      });
+      return Object.keys(porCategoria).map(cat=>({categoria:cat, monto: p.monto*(porCategoria[cat]/totalGrupo)}));
+    }
+  }
+  const texto = (p.concepto||'').toLowerCase();
+  if(/4\s*x\s*1000/.test(texto)) return [{categoria:'4x1000', monto:p.monto}];
+  if(/cr[eé]dito/.test(texto) && /equipo/.test(texto)) return [{categoria:'Deuda de equipos', monto:p.monto}];
+  if(/cr[eé]dito/.test(texto)) return [{categoria:'Pago de créditos a proveedores', monto:p.monto}];
+  return [{categoria:'Gastos generales', monto:p.monto}];
 }
 function calcularDashboardCaja(){
-  const ingresos = state.pagos.filter(p=>p.tipo==='ingreso');
+  const ingresosTodos = state.pagos.filter(p=>p.tipo==='ingreso');
+  // los ingresos de préstamos/aportes son financiación de base, NO plata que entra por trabajos —
+  // se excluyen del total operativo para no inflar la lectura de "cuánto está entrando por ventas"
+  const ingresosFinanciacion = ingresosTodos.filter(p=>/^(prestamo|aporte):/.test(p.referencia||''));
+  const ingresosOperativos = ingresosTodos.filter(p=>!/^(prestamo|aporte):/.test(p.referencia||''));
+  const totalIngresos = ingresosOperativos.reduce((s,p)=>s+p.monto,0);
+  const totalFinanciacionRecibida = ingresosFinanciacion.reduce((s,p)=>s+p.monto,0);
+
   const egresos = state.pagos.filter(p=>p.tipo==='egreso');
-  const totalIngresos = ingresos.reduce((s,p)=>s+p.monto,0);
   const porCategoria = {};
   egresos.forEach(p=>{
     _categorizarEgreso(p).forEach(({categoria,monto})=>{ porCategoria[categoria] = (porCategoria[categoria]||0)+monto; });
   });
   const deudaEquipos = porCategoria['Deuda de equipos']||0;
   delete porCategoria['Deuda de equipos']; // se muestra aparte, no en el flujo operativo
+  const deudaPrestamos = porCategoria['Deuda financiera (préstamos)']||0;
+  delete porCategoria['Deuda financiera (préstamos)']; // se muestra aparte también
   const totalEgresosOperativos = Object.values(porCategoria).reduce((s,v)=>s+v,0);
-  return {totalIngresos, totalEgresosOperativos, saldoOperativo: totalIngresos-totalEgresosOperativos, porCategoria, deudaEquipos};
+  return {totalIngresos, totalEgresosOperativos, saldoOperativo: totalIngresos-totalEgresosOperativos, porCategoria, deudaEquipos, deudaPrestamos, totalFinanciacionRecibida};
 }
 function renderFlujoCaja(){
   const cont = document.getElementById('cont-flujo-caja');
@@ -5793,6 +6014,10 @@ function renderFlujoCaja(){
     const pct = d.totalEgresosOperativos>0? (monto/d.totalEgresosOperativos*100) : 0;
     return `<tr><td>${cat}</td><td class="num">${moneda(monto)}</td><td class="num" style="color:var(--gris-texto);">${numFmt(pct,1)}%</td></tr>`;
   }).join('');
+  const notasAparte = [];
+  if(d.deudaEquipos>0.5) notasAparte.push('<strong>'+moneda(d.deudaEquipos)+'</strong> pagados en compra/crédito de equipos');
+  if(d.deudaPrestamos>0.5) notasAparte.push('<strong>'+moneda(d.deudaPrestamos)+'</strong> pagados en cuotas de préstamos');
+  if(d.totalFinanciacionRecibida>0.5) notasAparte.push('<strong>'+moneda(d.totalFinanciacionRecibida)+'</strong> recibidos como préstamos/aportes de capital (financiación inicial del negocio)');
   cont.innerHTML = `
     <div class="grid grid-3" style="gap:12px;margin-bottom:16px;">
       <div class="kpi"><div class="kpi-label">Pagos que nos hacen por los trabajos</div><div class="kpi-val" style="color:#2E7D4F;">${moneda(d.totalIngresos)}</div></div>
@@ -5804,7 +6029,7 @@ function renderFlujoCaja(){
       <tbody>${filas}</tbody>
       <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>Total salidas operativas</td><td class="num">${moneda(d.totalEgresosOperativos)}</td><td class="num">100%</td></tr></tfoot>
     </table>
-    ${d.deudaEquipos>0.5 ? `<p class="helptext" style="margin-top:12px;">Aparte, no incluido arriba: <strong>${moneda(d.deudaEquipos)}</strong> pagados en compra/crédito de equipos — es financiación de un activo, no gasto operativo del día a día.</p>` : ''}`;
+    ${notasAparte.length>0? `<p class="helptext" style="margin-top:12px;">Aparte, no incluido arriba (financiación, no operación del día a día): ${notasAparte.join(' · ')}.</p>` : ''}`;
 }
 function renderContabilidad(){
   renderPresupuestoReal();
@@ -5829,6 +6054,7 @@ function renderContabilidad(){
     </div>`;
 
   renderFlujoCaja();
+  renderPrestamos();
 
   // --- P&G por mes ---
   const pyg = ordenarMeses(calcularPyG(), 'mes');
@@ -5953,10 +6179,15 @@ function renderContabilidad(){
   // --- Movimientos de caja ---
   const contCaja = document.getElementById('cont-caja');
   if(contCaja){
+    const opcionesPrestamo = state.prestamos.map(p=>`<option value="${p.id}">${p.nombre}</option>`).join('');
     contCaja.innerHTML = state.pagos.length===0? '<p class="helptext">No hay movimientos de caja.</p>' : `
       <table>
-        <thead><tr><th>Fecha</th><th>Concepto</th><th class="num">Entrada</th><th class="num">Salida</th></tr></thead>
-        <tbody>${state.pagos.slice(0,50).map(p=>`<tr><td>${p.fecha}</td><td>${p.concepto}</td><td class="num" style="color:#2E7D4F;">${p.tipo==='ingreso'?moneda(p.monto):''}</td><td class="num" style="color:#B23B3B;">${p.tipo==='egreso'?moneda(p.monto):''}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>Fecha</th><th>Concepto</th><th class="num">Entrada</th><th class="num">Salida</th><th></th></tr></thead>
+        <tbody>${state.pagos.slice(0,50).map((p,idx)=>{
+          const puedeVincular = p.tipo==='egreso' && p.referencia==='manual' && state.prestamos.length>0;
+          return `<tr><td>${p.fecha}</td><td>${p.concepto}</td><td class="num" style="color:#2E7D4F;">${p.tipo==='ingreso'?moneda(p.monto):''}</td><td class="num" style="color:#B23B3B;">${p.tipo==='egreso'?moneda(p.monto):''}</td>
+          <td style="white-space:nowrap;">${puedeVincular? `<select id="vinc-prest-${idx}" style="font-size:11px;padding:2px;"><option value="">Vincular a préstamo…</option>${opcionesPrestamo}</select> <button class="btn btn-sm" onclick="reclasificarComoAbonoPrestamo(${idx}, document.getElementById('vinc-prest-${idx}').value)">✓</button>` : ''}</td></tr>`;
+        }).join('')}</tbody>
       </table>${state.pagos.length>50? '<p class="helptext">Mostrando los 50 movimientos más recientes. El Excel exporta todos.</p>':''}`;
   }
 }
