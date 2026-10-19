@@ -309,7 +309,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card">
       <h2><span class="dot" style="background:var(--naranja)"></span>Agregar ítem a la cotización</h2>
       <div class="cat-selector">
-        <button class="cat-btn active" data-cat="digital"><strong>Impresión digital</strong><small>Gran formato · por m²</small></button>
+        <button class="cat-btn active" data-cat="digital"><strong>Impresión digital</strong><small>Gran formato · por m² o por unidad</small></button>
         <button class="cat-btn" data-cat="3d"><strong>Impresión 3D</strong><small>Por gramo / hora</small></button>
         <button class="cat-btn" data-cat="personalizado"><strong>Ítem personalizado</strong><small>Diseño / objeto / otro</small></button>
       </div>
@@ -328,6 +328,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
           <div class="field"><label>Logística (manual)</label><input type="number" id="d-logistica" step="1000" value="0"></div>
         </div>
         <p class="helptext" style="margin-top:6px;">El área de arriba se usa para el costo de producción (tinta) y como cantidad sugerida al agregar un material — pero <strong>cada material que agregues abajo tiene su propia cantidad editable</strong>, por si no todos usan la misma cantidad (ej. vinilo 5 m² + laminado solo 3 m²).</p>
+        <p class="helptext" id="d-aviso-modo-unidad" style="display:none;margin-top:6px;padding:8px 12px;background:#F4F5FA;border-left:4px solid var(--azul);color:#17171C;"><strong>Este ítem se cotiza por unidad</strong> (solo tiene materiales que se cobran por unidad, como láminas). El área y el costo de producción por m² no aplican aquí — el precio se arma con las unidades que pongas abajo, más la logística y el margen.</p>
 
         <div class="field" style="margin-top:14px;">
           <label>Materiales y consumos del ítem <span style="font-weight:400;text-transform:none;color:var(--gris-texto);">(agrega los que necesites, cada uno con su cantidad)</span></label>
@@ -342,11 +343,11 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
           <div class="field"><label>Margen (%)</label><input type="number" id="d-margen" step="1"></div>
           <div class="field"><label>Costo material (total consumido)</label><input type="text" id="d-costo-material-total" readonly style="background:#F7F6F2;"></div>
           <div class="field"><label>Costo producción (área)</label><input type="text" id="d-costo-produccion" readonly style="background:#F7F6F2;"></div>
-          <div class="field"><label>Costo total ÷ área <span style="font-weight:400;text-transform:none;">(referencia)</span></label><input type="text" id="d-costo-referencia-m2" readonly style="background:#F7F6F2;"></div>
+          <div class="field"><label><span id="lbl-costo-referencia">Costo total ÷ área</span> <span style="font-weight:400;text-transform:none;">(referencia)</span></label><input type="text" id="d-costo-referencia-m2" readonly style="background:#F7F6F2;"></div>
         </div>
         <div class="grid grid-3" style="margin-top:14px;">
           <div class="field"><label>Costo total del trabajo</label><input type="text" id="d-costo-total" readonly style="background:#F7F6F2;font-weight:700;"></div>
-          <div class="field"><label>Valor de venta por m² <span style="font-weight:400;text-transform:none;">(con margen)</span></label><input type="text" id="d-valor-venta-m2" readonly style="background:#E6B325;color:#17171C;font-weight:700;"></div>
+          <div class="field"><label><span id="lbl-valor-venta">Valor de venta por m²</span> <span style="font-weight:400;text-transform:none;">(con margen)</span></label><input type="text" id="d-valor-venta-m2" readonly style="background:#E6B325;color:#17171C;font-weight:700;"></div>
           <div class="field"><label>Precio de venta total</label><input type="text" id="d-precio-venta" readonly style="background:#F4F5FA;font-weight:700;"></div>
         </div>
         <p class="helptext">El <strong>costo de producción por m²</strong> arranca en $8.000 pero lo puedes bajar o subir en cada cotización según el trabajo (por ejemplo, menos carga de color = más económico) — se calcula solo sobre el área a imprimir. El <strong>costo de material</strong> es la suma de lo que cargues en la tabla de arriba, cada uno con su propia cantidad. La logística la escribes tú a mano. El margen se aplica sobre el costo total para obtener el precio de venta. El campo destacado <strong>"Valor de venta por m²"</strong> te muestra de una vez a cuánto le estás cotizando el m² con todo incluido (materiales elegidos + producción + margen).</p>
@@ -443,21 +444,21 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     <div class="card" style="background:#F4F5FA;border-color:#C7CBE8;">
       <p class="helptext" style="margin:0;color:#17171C;">
         <strong>Esta pestaña tiene dos catálogos independientes, que no se cruzan entre sí:</strong><br>
-        📋 <strong>Materiales, producción y actividades</strong> (abajo) — es el catálogo de precios para <strong>armar cotizaciones</strong>. Solo define cuánto cobras por m²; no tiene saldo ni se mueve con nada.<br>
+        📋 <strong>Materiales, producción y actividades</strong> (abajo) — es el catálogo de precios para <strong>armar cotizaciones</strong>. Solo define cuánto cobras por m² o por unidad; no tiene saldo ni se mueve con nada.<br>
         📦 <strong>Insumos de inventario / kárdex</strong> (al final de esta página) — es el catálogo del <strong>inventario real</strong>: entra con cada compra que registras en la pestaña Compras, y sale con cada consumo que cargas en una orden de producción.
       </p>
     </div>
 
     <div class="card">
-      <h2><span class="dot" style="background:var(--azul)"></span>Impresión digital · materiales (precio por m²)</h2>
+      <h2><span class="dot" style="background:var(--azul)"></span>Impresión digital · materiales (precio por m² o por unidad)</h2>
       <div id="mat-digital-list"></div>
       <div class="mat-row">
-        <div><label>Nuevo material</label><input type="text" id="nuevo-mat-digital-nombre" placeholder="Ej: Lona, Adhesivo, Backlight"></div>
-        <div><label>Precio / m²</label><input type="number" id="nuevo-mat-digital-precio" step="100"></div>
-        <div></div>
+        <div><label>Nuevo material</label><input type="text" id="nuevo-mat-digital-nombre" placeholder="Ej: Lona, Lámina de acrílico, Poliestireno"></div>
+        <div><label>Precio</label><input type="number" id="nuevo-mat-digital-precio" step="100"></div>
+        <div><label>Se cobra por</label><select id="nuevo-mat-digital-unidad"><option value="m²">m²</option><option value="unidad">unidad (ej. lámina)</option></select></div>
         <div><button class="btn btn-azul btn-sm" onclick="agregarMaterialDigital()">+ Agregar</button></div>
       </div>
-      <p class="helptext">Estos son los sustratos que puedes elegir al armar una cotización (vinilo, lona, adhesivo, etc.), cada uno con su propio precio por m². <strong>Este catálogo es solo para cotizar</strong> — no tiene relación con el inventario ni con el kárdex.</p>
+      <p class="helptext">Estos son los materiales que puedes elegir al armar una cotización. Los que se venden por metro cuadrado (vinilo, lona, adhesivo…) se cobran <strong>por m²</strong>; los que se compran y venden completos (láminas de poliestireno, acrílico…) se cobran <strong>por unidad</strong>. <strong>Este catálogo es solo para cotizar</strong> — no tiene relación con el inventario ni con el kárdex.</p>
     </div>
 
     <div class="card">
@@ -767,7 +768,7 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
 
     <div class="card">
       <h2><span class="dot" style="background:var(--mostaza)"></span>💵 Flujo de caja — de dónde sale y entra la plata</h2>
-      <p class="helptext">Efectivo real del día a día (lo que entra y sale de Caja), no costos repartidos por proyecto — para eso está Rentabilidad. La compra/crédito de equipos se muestra aparte, sin mezclarse aquí, para no distorsionar si el negocio del día a día da o no da. Acumulado de todo el histórico.</p>
+      <p class="helptext">Efectivo real del día a día (lo que entra y sale de Caja), no costos repartidos por proyecto — para eso está Rentabilidad. Haz clic en cualquier línea para ver el detalle, movimiento por movimiento. La compra/crédito de equipos y los préstamos se muestran aparte, sin mezclarse en lo operativo, para no distorsionar si el negocio del día a día da o no da. Acumulado de todo el histórico.</p>
       <div id="cont-flujo-caja"></div>
     </div>
 
@@ -846,46 +847,18 @@ td.num, th.num{text-align:right;font-family:var(--font-mono);}
     </div>
 
     <div class="card">
-      <h2><span class="dot" style="background:var(--azul)"></span>Presupuestado vs. Real (mensual)</h2>
-      <p class="helptext">Una vez cargadas las OP ejecutadas del mes, ingresa aquí los valores <strong>reales</strong> que se pagaron. La herramienta compara contra lo presupuestado (lo estimado en las OP) y calcula la rentabilidad real según los m² impresos del mes.</p>
-      <div class="grid grid-4" style="align-items:end;margin-bottom:14px;">
-        <div class="field"><label>Mes</label><input type="text" id="real-mes" placeholder="Ej: agosto 2026"></div>
-        <div class="field"><label>m² impresos en el mes</label><input type="number" id="real-m2" step="0.01" min="0"></div>
-        <div class="field"><label>Ingresos reales del mes</label><input type="number" id="real-ingresos" step="1000"></div>
-        <div></div>
-      </div>
-      <div class="grid grid-4" style="align-items:end;margin-bottom:14px;">
-        <div class="field"><label>Mano de obra real</label><input type="number" id="real-manoobra" step="1000"></div>
-        <div class="field"><label>Logística real</label><input type="number" id="real-logistica" step="1000"></div>
-        <div class="field"><label>Materiales reales</label><input type="number" id="real-materiales" step="1000"></div>
-        <div class="field"><label>Tintas reales</label><input type="number" id="real-tintas" step="1000"></div>
-      </div>
-      <div class="grid grid-4" style="align-items:end;margin-bottom:14px;">
-        <div class="field"><label>Mantenimiento real</label><input type="number" id="real-mantenimiento" step="1000"></div>
-        <div class="field"><label>Pago crédito equipos</label><input type="number" id="real-credito" step="1000"></div>
-        <div class="field"><label>Arriendo equipo / local</label><input type="number" id="real-arriendo" step="1000"></div>
-        <div class="field"><label>Servicios públicos</label><input type="number" id="real-servicios" step="1000"></div>
-      </div>
-      <div class="grid grid-4" style="align-items:end;margin-bottom:14px;">
-        <div class="field"><label>Ahorro para cabezal</label><input type="number" id="real-ahorro-cabezal" step="1000"></div>
-        <div class="field"><label>Otros reales</label><input type="number" id="real-otros" step="1000"></div>
-        <div></div>
-        <div><button class="btn btn-azul" onclick="guardarRealMensual()">💾 Guardar mes real</button></div>
-      </div>
-      <div id="cont-presupuesto-real"></div>
-    </div>
-
-    <div class="card">
       <h2><span class="dot" style="background:var(--verde)"></span>Asignación de recursos y reparto entre socios</h2>
-      <p class="helptext">Cuando los socios lo definan, muestra cómo se asignó el recurso del mes: primero cubrir gastos, créditos y ahorros; y lo que sobra (utilidad real) se reparte entre la empresa y los socios según los porcentajes que definas.</p>
+      <p class="helptext">Escribe el mes y la utilidad real de ese mes (la que ya tengas calculada aparte), y la herramienta reparte entre la empresa y los socios según los porcentajes definidos. Cada reparto que registres queda guardado abajo, como historial para la contabilidad, con su consolidado.</p>
       <div class="grid grid-4" style="align-items:end;margin-bottom:14px;">
         <div class="field"><label>Mes a repartir</label><input type="text" id="rep-mes" placeholder="Ej: agosto 2026"></div>
+        <div class="field"><label>Utilidad real del mes</label><input type="number" id="rep-utilidad" step="1000"></div>
         <div class="field"><label>% que retiene la empresa</label><input type="number" id="rep-empresa-pct" step="1" value="30"></div>
-        <div></div>
-        <div><button class="btn btn-verde" onclick="calcularReparto()">Calcular reparto</button></div>
+        <div><button class="btn btn-verde" onclick="calcularReparto()">Calcular y registrar reparto</button></div>
       </div>
       <div id="cont-socios-config" style="margin-bottom:14px;"></div>
       <div id="cont-reparto"></div>
+      <h3 style="margin-top:22px;font-size:13px;text-transform:uppercase;color:var(--verde);">Historial y consolidado de repartos</h3>
+      <div id="cont-repartos-historial"></div>
     </div>
   </div>
 
@@ -1405,7 +1378,8 @@ function estadoPorDefecto(){
     produccionOP:[],
     ingresos:[],
     pagos:[],
-    realesMensuales:[],
+    realesMensuales:[], // ya no se usa activamente — se deja solo para no romper backups viejos al restaurar
+    repartosSocios:[], // historial y consolidado de repartos entre socios, autosuficiente (ya no depende de realesMensuales)
     asignaciones:[],
     cuentasCobro:[],
     remisiones:[],
@@ -1457,6 +1431,7 @@ function fusionarConEstadoBase(parsed){
     ingresos: parsed.ingresos || [],
     pagos: parsed.pagos || [],
     realesMensuales: parsed.realesMensuales || [],
+    repartosSocios: parsed.repartosSocios || [],
     asignaciones: parsed.asignaciones || [],
     cuentasCobro: parsed.cuentasCobro || [],
     remisiones: parsed.remisiones || [],
@@ -1711,7 +1686,7 @@ function initTabs(){
 /* ============ SELECTS DE MATERIAL / INICIALIZACION ============ */
 function poblarSelectsMaterial(){
   const selD = document.getElementById('d-material');
-  const optsMat = state.materialesDigital.map(m=>`<option value="mat:${m.id}">${m.nombre} — ${moneda(m.precio)}/m²</option>`).join('');
+  const optsMat = state.materialesDigital.map(m=>`<option value="mat:${m.id}">${m.nombre} — ${moneda(m.precio)}/${m.unidad||'m²'}</option>`).join('');
   const optsAct = (state.actividades||[]).map(a=>`<option value="act:${a.id}">${a.nombre} — ${moneda(a.precio)}/${a.unidad||'m²'}</option>`).join('');
   selD.innerHTML = `<optgroup label="Materiales">${optsMat}</optgroup>` + (optsAct? `<optgroup label="Actividades">${optsAct}</optgroup>`:'');
   const selT = document.getElementById('t-material');
@@ -1749,7 +1724,7 @@ function agregarMaterialAlItem(){
   }else{
     const id = val.startsWith('mat:')? val.slice(4) : val;
     const m = state.materialesDigital.find(x=>x.id===id);
-    if(m) item = {id:'mat:'+m.id, nombre:m.nombre, precio:m.precio, tipo:'material', unidad:'m²'};
+    if(m) item = {id:'mat:'+m.id, nombre:m.nombre, precio:m.precio, tipo:'material', unidad:m.unidad||'m²'};
   }
   if(!item){ mostrarToast('Selecciona un material o actividad.'); return; }
   if(materialesItem.some(m=>m.id===item.id)){ mostrarToast('Ese ítem ya está agregado. Ajusta su cantidad en la lista de abajo.'); return; }
@@ -1799,25 +1774,50 @@ function renderMaterialesItem(){
     </table>`;
 }
 
+// Un ítem "por unidad" es el que solo tiene materiales que se cobran por unidad (láminas de
+// poliestireno, acrílico…) y ninguno por m² — ahí el área a imprimir y la producción por m² no
+// aplican, y el precio se arma con las unidades. Si el ítem mezcla (ej. vinilo por m² + una lámina
+// por unidad), sigue funcionando como siempre: el área manda y la lámina solo suma al costo.
+function _modoPorUnidad(){
+  const hayPorUnidad = materialesItem.some(m=>m.tipo==='material' && (m.unidad||'m²')!=='m²');
+  const hayPorM2 = materialesItem.some(m=>(m.unidad||'m²')==='m²');
+  return hayPorUnidad && !hayPorM2;
+}
+function _textoUnidades(n){
+  return numFmt(n, Number.isInteger(n)? 0 : 2)+(n===1? ' unidad' : ' unidades');
+}
 function calcularDigital(){
-  const area = parseFloat(document.getElementById('d-area-input').value)||0;
+  const areaInput = parseFloat(document.getElementById('d-area-input').value)||0;
   const logistica = parseFloat(document.getElementById('d-logistica').value)||0;
   const margen = parseFloat(document.getElementById('d-margen').value)||0;
   const precioProdM2 = parseFloat(document.getElementById('d-produccion-m2').value)||0;
+  const modoUnidades = _modoPorUnidad();
+  const area = modoUnidades ? 0 : areaInput;
+  const unidades = modoUnidades
+    ? materialesItem.filter(m=>m.tipo==='material' && (m.unidad||'m²')!=='m²').reduce((s,m)=>s+(m.cantidad||0),0)
+    : 0;
   // costo material = suma de (precio × cantidad propia) de cada material/actividad agregado
   const costoMaterial = materialesItem.reduce((s,m)=>s+(m.precio||0)*(m.cantidad||0),0);
   const costoProduccion = area*precioProdM2;
   const costoTotal = costoMaterial+costoProduccion+logistica;
   const precioVenta = costoTotal*(1+margen/100);
-  const costoReferenciaM2 = area>0 ? (costoMaterial+costoProduccion)/area : 0;
-  const valorVentaM2 = area>0 ? precioVenta/area : 0;
+  const base = modoUnidades ? unidades : area; // lo que se divide para sacar el valor "por m²" o "por unidad"
+  const costoReferencia = base>0 ? (costoMaterial+costoProduccion)/base : 0;
+  const valorVentaBase = base>0 ? precioVenta/base : 0;
+  const sufijo = modoUnidades ? ' /unidad' : ' /m²';
   document.getElementById('d-costo-material-total').value = moneda(costoMaterial);
   document.getElementById('d-costo-produccion').value = moneda(costoProduccion);
-  document.getElementById('d-costo-referencia-m2').value = moneda(costoReferenciaM2)+' /m²';
+  document.getElementById('d-costo-referencia-m2').value = moneda(costoReferencia)+sufijo;
   document.getElementById('d-costo-total').value = moneda(costoTotal);
-  document.getElementById('d-valor-venta-m2').value = moneda(valorVentaM2)+' /m²';
+  document.getElementById('d-valor-venta-m2').value = moneda(valorVentaBase)+sufijo;
   document.getElementById('d-precio-venta').value = moneda(precioVenta);
-  return {area, costoMaterial, costoProduccion, precioProdM2, logistica, costoTotal, margen, precioVenta, valorVentaM2, materiales:materialesItem.map(m=>Object.assign({},m))};
+  const lblRef = document.getElementById('lbl-costo-referencia');
+  if(lblRef) lblRef.textContent = modoUnidades? 'Costo total ÷ unidades' : 'Costo total ÷ área';
+  const lblVenta = document.getElementById('lbl-valor-venta');
+  if(lblVenta) lblVenta.textContent = modoUnidades? 'Valor de venta por unidad' : 'Valor de venta por m²';
+  const aviso = document.getElementById('d-aviso-modo-unidad');
+  if(aviso) aviso.style.display = modoUnidades? 'block' : 'none';
+  return {area, modoUnidades, unidades, costoMaterial, costoProduccion, precioProdM2, logistica, costoTotal, margen, precioVenta, valorVentaM2: valorVentaBase, materiales:materialesItem.map(m=>Object.assign({},m))};
 }
 function calcular3D(){
   const gramos = parseFloat(document.getElementById('t-gramos').value)||0;
@@ -1905,8 +1905,9 @@ let itemEditandoIdx = null;
 function agregarItemDigital(){
   try{
     const c = calcularDigital();
-    if(c.area<=0){ mostrarToast('Ingresa el área a imprimir antes de agregar.'); return; }
+    if(!c.modoUnidades && c.area<=0){ mostrarToast('Ingresa el área a imprimir antes de agregar.'); return; }
     if(c.materiales.length===0){ mostrarToast('Agrega al menos un material al ítem.'); return; }
+    if(c.modoUnidades && c.unidades<=0){ mostrarToast('Ingresa cuántas unidades vas a cotizar antes de agregar.'); return; }
     const nombreMat = c.materiales.map(m=>`${m.nombre} (${numFmt(m.cantidad,2)} ${m.unidad||'m²'})`).join(' + ');
     const desc = document.getElementById('d-desc').value;
     const nuevoItem = {
@@ -1916,7 +1917,8 @@ function agregarItemDigital(){
       // si se deja vacío, usamos los materiales como respaldo para que la fila no quede en blanco.
       detalle: (desc && desc.trim()) ? desc.trim() : nombreMat,
       area: c.area, // guardado crudo para poder re-editar el ítem después
-      cantidadTexto: numFmt(c.area,2)+' m²',
+      cantidadTexto: c.modoUnidades ? _textoUnidades(c.unidades) : numFmt(c.area,2)+' m²',
+      porUnidad: c.modoUnidades, // ítem cotizado por unidad (láminas, etc.), no por m²
       materiales: c.materiales,
       costoVinilo: c.costoMaterial,
       costoProduccion: c.costoProduccion,
@@ -1924,7 +1926,7 @@ function agregarItemDigital(){
       logistica: c.logistica,
       costoTotal: c.costoTotal,
       margen: c.margen,
-      precioUnitario: c.area>0 ? c.precioVenta/c.area : 0,
+      precioUnitario: c.modoUnidades ? (c.unidades>0 ? c.precioVenta/c.unidades : 0) : (c.area>0 ? c.precioVenta/c.area : 0),
       subtotal: c.precioVenta,
       foto: fotoTemp.d
     };
@@ -2964,8 +2966,8 @@ function renderMateriales(){
   document.getElementById('mat-digital-list').innerHTML = state.materialesDigital.map((m,idx)=>`
     <div class="mat-row">
       <div><label>Material</label><input type="text" value="${m.nombre}" onchange="editarMaterialDigital(${idx},'nombre',this.value)"></div>
-      <div><label>Precio / m²</label><input type="number" value="${m.precio}" onchange="editarMaterialDigital(${idx},'precio',this.value)"></div>
-      <div></div>
+      <div><label>Precio / ${m.unidad||'m²'}</label><input type="number" value="${m.precio}" onchange="editarMaterialDigital(${idx},'precio',this.value)"></div>
+      <div><label>Se cobra por</label><select onchange="editarMaterialDigital(${idx},'unidad',this.value)"><option value="m²" ${(m.unidad||'m²')==='m²'?'selected':''}>m²</option><option value="unidad" ${m.unidad==='unidad'?'selected':''}>unidad</option></select></div>
       <div><button class="btn btn-sm" onclick="eliminarMaterialDigital(${idx})">✕ Eliminar</button></div>
     </div>
   `).join('');
@@ -2989,6 +2991,7 @@ function renderMateriales(){
 function editarMaterialDigital(idx,campo,valor){
   state.materialesDigital[idx][campo] = campo==='precio'? parseFloat(valor)||0 : valor;
   guardarEstado(); poblarSelectsMaterial();
+  if(campo==='unidad') renderMateriales(); // para que la etiqueta "Precio / m²" o "Precio / unidad" se actualice
 }
 function eliminarMaterialDigital(idx){
   if(!confirm('¿Eliminar este material?')) return;
@@ -2997,10 +3000,12 @@ function eliminarMaterialDigital(idx){
 function agregarMaterialDigital(){
   const nombre = document.getElementById('nuevo-mat-digital-nombre').value.trim();
   const precio = parseFloat(document.getElementById('nuevo-mat-digital-precio').value)||0;
+  const unidad = document.getElementById('nuevo-mat-digital-unidad').value || 'm²';
   if(!nombre){ mostrarToast('Escribe un nombre para el material.'); return; }
-  state.materialesDigital.push({id:'d'+Date.now(), nombre, precio});
+  state.materialesDigital.push({id:'d'+Date.now(), nombre, precio, unidad});
   document.getElementById('nuevo-mat-digital-nombre').value='';
   document.getElementById('nuevo-mat-digital-precio').value='';
+  document.getElementById('nuevo-mat-digital-unidad').value='m²'; // no heredar la unidad del material anterior
   guardarEstado(); renderMateriales(); poblarSelectsMaterial();
 }
 function guardarProduccionDefault(){
@@ -5990,16 +5995,43 @@ function calcularDashboardCaja(){
   const totalFinanciacionRecibida = ingresosFinanciacion.reduce((s,p)=>s+p.monto,0);
 
   const egresos = state.pagos.filter(p=>p.tipo==='egreso');
-  const porCategoria = {};
+  const porCategoria = {}; // {categoria: {total, items:[{fecha,concepto,monto}]}}
   egresos.forEach(p=>{
-    _categorizarEgreso(p).forEach(({categoria,monto})=>{ porCategoria[categoria] = (porCategoria[categoria]||0)+monto; });
+    _categorizarEgreso(p).forEach(({categoria,monto})=>{
+      if(!porCategoria[categoria]) porCategoria[categoria] = {total:0, items:[]};
+      porCategoria[categoria].total += monto;
+      porCategoria[categoria].items.push({fecha:p.fecha, concepto:p.concepto, monto});
+    });
   });
-  const deudaEquipos = porCategoria['Deuda de equipos']||0;
+  const deudaEquipos = porCategoria['Deuda de equipos'] || {total:0, items:[]};
   delete porCategoria['Deuda de equipos']; // se muestra aparte, no en el flujo operativo
-  const deudaPrestamos = porCategoria['Deuda financiera (préstamos)']||0;
+  const deudaPrestamos = porCategoria['Deuda financiera (préstamos)'] || {total:0, items:[]};
   delete porCategoria['Deuda financiera (préstamos)']; // se muestra aparte también
-  const totalEgresosOperativos = Object.values(porCategoria).reduce((s,v)=>s+v,0);
-  return {totalIngresos, totalEgresosOperativos, saldoOperativo: totalIngresos-totalEgresosOperativos, porCategoria, deudaEquipos, deudaPrestamos, totalFinanciacionRecibida};
+  const totalEgresosOperativos = Object.values(porCategoria).reduce((s,v)=>s+v.total,0);
+  return {
+    totalIngresos, totalEgresosOperativos, saldoOperativo: totalIngresos-totalEgresosOperativos,
+    porCategoria, deudaEquipos, deudaPrestamos, totalFinanciacionRecibida,
+    ingresosOperativosItems: ingresosOperativos.map(p=>({fecha:p.fecha, concepto:p.concepto, monto:p.monto})),
+    ingresosFinanciacionItems: ingresosFinanciacion.map(p=>({fecha:p.fecha, concepto:p.concepto, monto:p.monto}))
+  };
+}
+// Bloque desplegable reutilizable: una línea resumen (nombre, valor, % opcional) que al hacer
+// clic despliega cada movimiento individual detrás de ese número — para que ningún total se
+// sienta como una caja negra.
+function _bloqueDesplegable(nombre, monto, items, pct, colorMonto){
+  const itemsHtml = (!items || items.length===0)
+    ? '<p class="helptext" style="margin:6px 0 8px 18px;">Sin movimientos.</p>'
+    : `<table style="margin:4px 0 10px 18px;width:calc(100% - 18px);">
+        <thead><tr><th style="font-size:11px;">Fecha</th><th style="font-size:11px;">Concepto</th><th class="num" style="font-size:11px;">Valor</th></tr></thead>
+        <tbody>${items.map(it=>`<tr><td style="font-size:12px;">${it.fecha}</td><td style="font-size:12px;">${it.concepto}</td><td class="num" style="font-size:12px;">${moneda(it.monto)}</td></tr>`).join('')}</tbody>
+      </table>`;
+  return `<details style="border-bottom:1px solid var(--gris-borde);">
+    <summary style="cursor:pointer;padding:9px 2px;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+      <span>${nombre} <span style="color:var(--gris-texto);font-size:11px;">(clic para ver el detalle)</span></span>
+      <span style="white-space:nowrap;"><strong style="color:${colorMonto||'inherit'};">${moneda(monto)}</strong>${pct!==undefined? ` <span class="num" style="color:var(--gris-texto);font-size:11.5px;">${numFmt(pct,1)}%</span>`:''}</span>
+    </summary>
+    ${itemsHtml}
+  </details>`;
 }
 function renderFlujoCaja(){
   const cont = document.getElementById('cont-flujo-caja');
@@ -6008,31 +6040,40 @@ function renderFlujoCaja(){
   // orden fijo pedido: créditos, 4x1000, materiales, luego el resto — el 4x1000 siempre se
   // muestra aunque esté en $0, para confirmar de un vistazo que no falta nada por registrar
   const ordenCategorias = ['Pago de créditos a proveedores','4x1000','Compra de materiales','Gastos generales','Compra de oficina/equipos','Otro'];
-  const categorias = ordenCategorias.filter(c=>c!=='Otro' || (d.porCategoria['Otro']||0)>0.5);
-  const filas = categorias.map(cat=>{
-    const monto = d.porCategoria[cat]||0;
-    const pct = d.totalEgresosOperativos>0? (monto/d.totalEgresosOperativos*100) : 0;
-    return `<tr><td>${cat}</td><td class="num">${moneda(monto)}</td><td class="num" style="color:var(--gris-texto);">${numFmt(pct,1)}%</td></tr>`;
+  const categorias = ordenCategorias.filter(c=>c!=='Otro' || (d.porCategoria['Otro']&&d.porCategoria['Otro'].total>0.5));
+  const filasEgresos = categorias.map(cat=>{
+    const bucket = d.porCategoria[cat] || {total:0, items:[]};
+    const pct = d.totalEgresosOperativos>0? (bucket.total/d.totalEgresosOperativos*100) : 0;
+    return _bloqueDesplegable(cat, bucket.total, bucket.items, pct);
   }).join('');
-  const notasAparte = [];
-  if(d.deudaEquipos>0.5) notasAparte.push('<strong>'+moneda(d.deudaEquipos)+'</strong> pagados en compra/crédito de equipos');
-  if(d.deudaPrestamos>0.5) notasAparte.push('<strong>'+moneda(d.deudaPrestamos)+'</strong> pagados en cuotas de préstamos');
-  if(d.totalFinanciacionRecibida>0.5) notasAparte.push('<strong>'+moneda(d.totalFinanciacionRecibida)+'</strong> recibidos como préstamos/aportes de capital (financiación inicial del negocio)');
+
+  const bloquesAparte = [];
+  if(d.deudaEquipos.total>0.5) bloquesAparte.push(_bloqueDesplegable('Compra/crédito de equipos', d.deudaEquipos.total, d.deudaEquipos.items));
+  if(d.deudaPrestamos.total>0.5) bloquesAparte.push(_bloqueDesplegable('Cuotas de préstamos', d.deudaPrestamos.total, d.deudaPrestamos.items));
+  if(d.totalFinanciacionRecibida>0.5) bloquesAparte.push(_bloqueDesplegable('Préstamos/aportes de capital recibidos', d.totalFinanciacionRecibida, d.ingresosFinanciacionItems));
+
   cont.innerHTML = `
     <div class="grid grid-3" style="gap:12px;margin-bottom:16px;">
       <div class="kpi"><div class="kpi-label">Pagos que nos hacen por los trabajos</div><div class="kpi-val" style="color:#2E7D4F;">${moneda(d.totalIngresos)}</div></div>
       <div class="kpi"><div class="kpi-label">Salidas operativas (materiales, créditos, 4x1000...)</div><div class="kpi-val" style="color:#B23B3B;">${moneda(d.totalEgresosOperativos)}</div></div>
       <div class="kpi"><div class="kpi-label">Saldo operativo</div><div class="kpi-val" style="color:${d.saldoOperativo<0?'#B23B3B':'#2E7D4F'};">${moneda(d.saldoOperativo)}</div></div>
     </div>
-    <table>
-      <thead><tr><th>Salidas operativas por categoría</th><th class="num">Valor</th><th class="num">% del total</th></tr></thead>
-      <tbody>${filas}</tbody>
-      <tfoot><tr style="background:#F7F6F2;font-weight:700;"><td>Total salidas operativas</td><td class="num">${moneda(d.totalEgresosOperativos)}</td><td class="num">100%</td></tr></tfoot>
-    </table>
-    ${notasAparte.length>0? `<p class="helptext" style="margin-top:12px;">Aparte, no incluido arriba (financiación, no operación del día a día): ${notasAparte.join(' · ')}.</p>` : ''}`;
+
+    <p class="helptext" style="margin:4px 0 4px;font-weight:700;">Pagos que nos hacen por los trabajos — clic para ver cada uno</p>
+    ${_bloqueDesplegable('Total cobrado por trabajos', d.totalIngresos, d.ingresosOperativosItems, undefined, '#2E7D4F')}
+
+    <p class="helptext" style="margin:16px 0 4px;font-weight:700;">Salidas operativas por categoría — clic en cada una para ver el detalle</p>
+    ${filasEgresos}
+    <div style="display:flex;justify-content:space-between;padding:10px 2px;font-weight:700;background:#F7F6F2;margin-top:4px;">
+      <span>Total salidas operativas</span><span>${moneda(d.totalEgresosOperativos)}</span>
+    </div>
+
+    ${bloquesAparte.length>0? `
+    <p class="helptext" style="margin:16px 0 4px;font-weight:700;">Aparte — financiación, no operación del día a día</p>
+    ${bloquesAparte.join('')}` : ''}`;
 }
 function renderContabilidad(){
-  renderPresupuestoReal();
+  renderRepartosHistorial();
   renderSociosConfig();
   renderActivosFijos();
   // --- Resumen de caja ---
@@ -6191,90 +6232,6 @@ function renderContabilidad(){
       </table>${state.pagos.length>50? '<p class="helptext">Mostrando los 50 movimientos más recientes. El Excel exporta todos.</p>':''}`;
   }
 }
-/* ============ PRESUPUESTADO VS REAL ============ */
-// Presupuestado del mes = lo estimado en la herramienta para las OP de ese mes
-function presupuestoDelMes(mes){
-  let manoObra=0, materiales=0, produccion=0, gastos=0, m2=0, ingresos=0;
-  // OP producidas ese mes
-  const ordenesMes = state.ordenes.filter(o=> o.fecha && mesDeFecha(o.fecha)===mes);
-  const codigosOP = ordenesMes.map(o=>o.codigo);
-  state.manoObra.filter(mo=>codigosOP.includes(mo.ordenCodigo)).forEach(mo=>manoObra+=mo.costoTotal||0);
-  state.consumos.filter(c=>codigosOP.includes(c.ordenCodigo)).forEach(c=>materiales+=c.costoTotal||0);
-  (state.produccionOP||[]).filter(p=>codigosOP.includes(p.ordenCodigo)).forEach(p=>{ produccion+=p.costoTotal||0; m2+=p.m2||0; });
-  state.compras.filter(c=>c.tipo==='gasto' && c.fecha && mesDeFecha(c.fecha)===mes).forEach(g=>gastos+=g.total||0);
-  // ingresos presupuestados = cotizaciones aprobadas de proyectos con OP ese mes
-  const codProy = [...new Set(ordenesMes.map(o=>o.codProyecto))];
-  state.cotizaciones.filter(c=>c.aprobada && codProy.includes(c.codProyecto)).forEach(c=>ingresos+=c.total||0);
-  const costoTotal = manoObra+materiales+produccion+gastos;
-  return {manoObra, materiales, produccion, gastos, costoTotal, m2, ingresos, utilidad:ingresos-costoTotal};
-}
-
-function guardarRealMensual(){
-  const mes = document.getElementById('real-mes').value.trim();
-  if(!mes){ mostrarToast('Escribe el mes (ej: agosto 2026).'); return; }
-  const real = {
-    mes,
-    m2: parseFloat(document.getElementById('real-m2').value)||0,
-    ingresos: parseFloat(document.getElementById('real-ingresos').value)||0,
-    manoObra: parseFloat(document.getElementById('real-manoobra').value)||0,
-    logistica: parseFloat(document.getElementById('real-logistica').value)||0,
-    materiales: parseFloat(document.getElementById('real-materiales').value)||0,
-    tintas: parseFloat(document.getElementById('real-tintas').value)||0,
-    mantenimiento: parseFloat(document.getElementById('real-mantenimiento').value)||0,
-    credito: parseFloat(document.getElementById('real-credito').value)||0,
-    arriendo: parseFloat(document.getElementById('real-arriendo').value)||0,
-    servicios: parseFloat(document.getElementById('real-servicios').value)||0,
-    ahorroCabezal: parseFloat(document.getElementById('real-ahorro-cabezal').value)||0,
-    otros: parseFloat(document.getElementById('real-otros').value)||0
-  };
-  // reemplazar si ya existe ese mes
-  const idx = state.realesMensuales.findIndex(r=>r.mes===mes);
-  if(idx>=0) state.realesMensuales[idx]=real; else state.realesMensuales.unshift(real);
-  guardarEstado();
-  renderPresupuestoReal();
-  mostrarToast('Mes real guardado.');
-}
-
-function costoRealTotal(r){
-  return (r.manoObra||0)+(r.logistica||0)+(r.materiales||0)+(r.tintas||0)+(r.mantenimiento||0)+(r.credito||0)+(r.arriendo||0)+(r.servicios||0)+(r.ahorroCabezal||0)+(r.otros||0);
-}
-
-function renderPresupuestoReal(){
-  const cont = document.getElementById('cont-presupuesto-real');
-  if(!cont) return;
-  if(state.realesMensuales.length===0){ cont.innerHTML='<p class="helptext">Aún no has guardado ningún mes real.</p>'; return; }
-  cont.innerHTML = ordenarMeses(state.realesMensuales.slice(),'mes').map(r=>{
-    const pres = presupuestoDelMes(r.mes);
-    const realCosto = costoRealTotal(r);
-    const realUtil = (r.ingresos||0) - realCosto;
-    const rentM2 = r.m2>0? realUtil/r.m2 : 0;
-    const difUtil = realUtil - pres.utilidad;
-    const fila = (lbl,pv,rv)=>`<tr><td>${lbl}</td><td class="num">${moneda(pv)}</td><td class="num">${moneda(rv)}</td><td class="num" style="${(rv-pv)>0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(rv-pv)}</td></tr>`;
-    return `<div style="margin-bottom:24px;">
-      <h3 style="font-family:var(--font-display);font-size:13px;text-transform:uppercase;margin-bottom:8px;">${r.mes} · ${numFmt(r.m2,0)} m² impresos</h3>
-      <table>
-        <thead><tr><th>Concepto</th><th class="num">Presupuestado</th><th class="num">Real</th><th class="num">Diferencia</th></tr></thead>
-        <tbody>
-          <tr style="background:#F7F6F2;font-weight:700;"><td>Ingresos</td><td class="num">${moneda(pres.ingresos)}</td><td class="num">${moneda(r.ingresos)}</td><td class="num">${moneda(r.ingresos-pres.ingresos)}</td></tr>
-          ${fila('Mano de obra', pres.manoObra, r.manoObra)}
-          ${fila('Materiales', pres.materiales, r.materiales)}
-          ${fila('Producción/Tintas', pres.produccion, r.tintas)}
-          ${fila('Logística', 0, r.logistica)}
-          ${fila('Mantenimiento', 0, r.mantenimiento)}
-          ${fila('Pago crédito equipos', 0, r.credito)}
-          ${fila('Arriendo', 0, r.arriendo)}
-          ${fila('Servicios públicos', 0, r.servicios)}
-          ${fila('Ahorro cabezal', 0, r.ahorroCabezal)}
-          ${fila('Otros', pres.gastos, r.otros)}
-          <tr style="font-weight:700;"><td>Costo total</td><td class="num">${moneda(pres.costoTotal)}</td><td class="num">${moneda(realCosto)}</td><td class="num" style="${(realCosto-pres.costoTotal)>0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(realCosto-pres.costoTotal)}</td></tr>
-          <tr style="background:#F4F5FA;font-weight:700;"><td>UTILIDAD</td><td class="num">${moneda(pres.utilidad)}</td><td class="num" style="${realUtil<0?'color:#B23B3B;':'color:#2E7D4F;'}">${moneda(realUtil)}</td><td class="num">${moneda(difUtil)}</td></tr>
-        </tbody>
-      </table>
-      <p class="helptext" style="margin-top:6px;">Rentabilidad real por m² impreso: <strong>${moneda(rentM2)}/m²</strong></p>
-    </div>`;
-  }).join('');
-}
-
 /* ============ REPARTO ENTRE SOCIOS ============ */
 function renderSociosConfig(){
   const cont = document.getElementById('cont-socios-config');
@@ -6301,40 +6258,86 @@ function agregarSocio(){
   state.socios.push({id:'s'+Date.now(), nombre:'Socio '+(state.socios.length+1), porcentaje:0});
   guardarEstado(); renderSociosConfig();
 }
+// Autosuficiente: la utilidad del mes se escribe directamente (ya calculada aparte), sin
+// depender de ningún otro módulo. Cada vez que se calcula, queda guardado en el historial de
+// abajo — el registro para la contabilidad que se va acumulando solo.
 function calcularReparto(){
   const mes = document.getElementById('rep-mes').value.trim();
+  const utilidad = parseFloat(document.getElementById('rep-utilidad').value)||0;
   const empresaPct = parseFloat(document.getElementById('rep-empresa-pct').value)||0;
   const cont = document.getElementById('cont-reparto');
   if(!mes){ mostrarToast('Escribe el mes a repartir.'); return; }
-  const r = state.realesMensuales.find(x=>x.mes===mes);
-  if(!r){ cont.innerHTML='<p class="helptext">No hay datos reales guardados para ese mes. Primero guarda el mes en la sección de arriba.</p>'; return; }
-  const realCosto = costoRealTotal(r);
-  const utilidad = (r.ingresos||0) - realCosto;
-  // cascada: gastos/créditos/ahorros ya están dentro del costo real; la utilidad es lo que sobra
   if(utilidad<=0){
-    cont.innerHTML = `<div style="padding:14px;background:#FBEDED;border-radius:6px;"><strong>El mes ${mes} no dejó utilidad para repartir.</strong><br>Ingresos ${moneda(r.ingresos)} − costos ${moneda(realCosto)} = <strong style="color:#B23B3B;">${moneda(utilidad)}</strong>. Primero hay que cubrir los costos, créditos y ahorros del mes.</div>`;
+    cont.innerHTML = `<div style="padding:14px;background:#FBEDED;border-radius:6px;"><strong>El mes ${mes} no dejó utilidad para repartir</strong> (escribiste ${moneda(utilidad)}). Nada que registrar todavía.</div>`;
     return;
   }
+  const yaExiste = state.repartosSocios.find(r=>r.mes===mes);
+  if(yaExiste && !confirm('Ya hay un reparto registrado para '+mes+' ('+moneda(yaExiste.utilidad)+'). ¿Reemplazarlo con este nuevo cálculo?')) return;
+
   const paraEmpresa = utilidad*empresaPct/100;
   const paraSocios = utilidad - paraEmpresa;
   const totalPctSocios = (state.socios||[]).reduce((s,x)=>s+x.porcentaje,0) || 1;
+  const sociosMontos = (state.socios||[]).map(s=>({nombre:s.nombre, pct:s.porcentaje, monto: paraSocios*(s.porcentaje/totalPctSocios)}));
+
+  const registro = {mes, fecha:new Date().toISOString().slice(0,10), utilidad, empresaPct, paraEmpresa, socios:sociosMontos};
+  const idx = state.repartosSocios.findIndex(r=>r.mes===mes);
+  if(idx>=0) state.repartosSocios[idx]=registro; else state.repartosSocios.unshift(registro);
+  guardarEstado();
+
   cont.innerHTML = `
     <div style="padding:14px;background:#E4F3EA;border-radius:6px;margin-bottom:14px;">
-      <strong>Utilidad real de ${mes}: ${moneda(utilidad)}</strong><br>
-      <span class="helptext">Ingresos ${moneda(r.ingresos)} − costos/créditos/ahorros ${moneda(realCosto)}. Ya cubiertos gastos, crédito de equipos (${moneda(r.credito)}) y ahorro para cabezal (${moneda(r.ahorroCabezal)}).</span>
+      <strong>Utilidad de ${mes}: ${moneda(utilidad)}</strong> — reparto registrado en el historial de abajo.
     </div>
     <table>
       <thead><tr><th>Destino</th><th class="num">%</th><th class="num">Monto</th></tr></thead>
       <tbody>
         <tr style="font-weight:700;"><td>Reinversión / caja empresa</td><td class="num">${numFmt(empresaPct,1)}%</td><td class="num">${moneda(paraEmpresa)}</td></tr>
-        ${(state.socios||[]).map(s=>{
-          const monto = paraSocios*(s.porcentaje/totalPctSocios);
-          return `<tr><td>${s.nombre}</td><td class="num">${numFmt(s.porcentaje,2)}%</td><td class="num">${moneda(monto)}</td></tr>`;
-        }).join('')}
+        ${sociosMontos.map(s=>`<tr><td>${s.nombre}</td><td class="num">${numFmt(s.pct,2)}%</td><td class="num">${moneda(s.monto)}</td></tr>`).join('')}
         <tr style="background:#F7F6F2;font-weight:700;"><td>TOTAL REPARTIDO</td><td></td><td class="num">${moneda(utilidad)}</td></tr>
       </tbody>
     </table>
-    <p class="helptext" style="margin-top:8px;">Los socios reciben el ${numFmt(100-empresaPct,1)}% restante (${moneda(paraSocios)}) repartido según sus porcentajes. Este es un control de referencia; los movimientos reales de dinero regístralos en Caja.</p>`;
+    <p class="helptext" style="margin-top:8px;">Este es un control de referencia; los movimientos reales de dinero regístralos en Caja.</p>`;
+  renderRepartosHistorial();
+}
+function eliminarReparto(mes){
+  if(!confirm('¿Eliminar el reparto registrado de '+mes+'? Esto no revierte ningún movimiento de Caja, solo el registro de referencia.')) return;
+  state.repartosSocios = state.repartosSocios.filter(r=>r.mes!==mes);
+  guardarEstado();
+  renderRepartosHistorial();
+  mostrarToast('Reparto de '+mes+' eliminado del historial.');
+}
+function renderRepartosHistorial(){
+  const cont = document.getElementById('cont-repartos-historial');
+  if(!cont) return;
+  if(state.repartosSocios.length===0){
+    cont.innerHTML = '<p class="helptext">Todavía no has registrado ningún reparto.</p>';
+    return;
+  }
+  const nombresSocios = [...new Set(state.repartosSocios.flatMap(r=>r.socios.map(s=>s.nombre)))];
+  const totalUtilidad = state.repartosSocios.reduce((s,r)=>s+r.utilidad,0);
+  const totalEmpresa = state.repartosSocios.reduce((s,r)=>s+r.paraEmpresa,0);
+  const totalPorSocio = {};
+  nombresSocios.forEach(n=>{ totalPorSocio[n] = state.repartosSocios.reduce((s,r)=>s+(r.socios.find(x=>x.nombre===n)?.monto||0),0); });
+
+  const filas = ordenarMeses(state.repartosSocios.slice(),'mes').map(r=>`
+    <tr>
+      <td>${r.mes}</td>
+      <td class="num">${moneda(r.utilidad)}</td>
+      <td class="num">${moneda(r.paraEmpresa)}</td>
+      ${nombresSocios.map(n=>`<td class="num">${moneda(r.socios.find(x=>x.nombre===n)?.monto||0)}</td>`).join('')}
+      <td><button class="btn btn-sm" onclick="eliminarReparto('${r.mes}')">✕</button></td>
+    </tr>`).join('');
+
+  cont.innerHTML = `
+    <table>
+      <thead><tr><th>Mes</th><th class="num">Utilidad</th><th class="num">Empresa</th>${nombresSocios.map(n=>`<th class="num">${n}</th>`).join('')}<th></th></tr></thead>
+      <tbody>${filas}</tbody>
+      <tfoot><tr style="background:#F7F6F2;font-weight:700;">
+        <td>CONSOLIDADO</td><td class="num">${moneda(totalUtilidad)}</td><td class="num">${moneda(totalEmpresa)}</td>
+        ${nombresSocios.map(n=>`<td class="num">${moneda(totalPorSocio[n])}</td>`).join('')}
+        <td></td>
+      </tr></tfoot>
+    </table>`;
 }
 
 function exportarContabilidadExcel(){
